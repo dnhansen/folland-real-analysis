@@ -1,0 +1,713 @@
+% Document setup
+\documentclass[article, a4paper, 11pt, oneside]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[UKenglish]{babel}
+
+% Document info
+\newcommand\doctitle{Folland: \emph{Real Analysis}}
+\newcommand\docauthor{Danny Nygård Hansen}
+
+% Formatting and layout
+\usepackage[autostyle]{csquotes}
+\usepackage[final]{microtype}
+\usepackage{xcolor}
+\frenchspacing
+\usepackage{latex-sty/articlepagestyle}
+\usepackage{latex-sty/articlesectionstyle}
+
+% Fonts
+\usepackage[largesmallcaps]{kpfonts}
+\DeclareSymbolFontAlphabet{\mathrm}{operators} % https://tex.stackexchange.com/questions/40874/kpfonts-siunitx-and-math-alphabets
+\linespread{1.06}
+\let\mathfrak\undefined
+\usepackage{eufrak}
+\usepackage{inconsolata}
+\usepackage{amssymb}
+
+% Hyperlinks
+\usepackage{hyperref}
+\definecolor{linkcolor}{HTML}{4f4fa3}
+\hypersetup{%
+	pdftitle=\doctitle,
+	pdfauthor=\docauthor,
+	colorlinks,
+	linkcolor=linkcolor,
+	citecolor=linkcolor,
+	urlcolor=linkcolor,
+	bookmarksnumbered=true
+}
+
+% Equation numbering
+\numberwithin{equation}{chapter}
+
+% Footnotes
+\footmarkstyle{\textsuperscript{#1}\hspace{0.25em}}
+
+% Mathematics
+\usepackage{latex-sty/basicmathcommands}
+\usepackage{latex-sty/framedtheorems}
+\usepackage{latex-sty/topologycommands}
+\usepackage{tikz-cd}
+\usetikzlibrary{babel}
+
+% Lists
+\usepackage{enumitem}
+\setenumerate[0]{label=\normalfont(\alph*)}
+
+% Bibliography
+\usepackage[backend=biber, style=authoryear, maxcitenames=2, useprefix]{biblatex}
+\addbibresource{references.bib}
+
+% Title
+\title{\doctitle}
+\author{\docauthor}
+
+\newcommand{\setF}{\mathbb{F}}
+\newcommand{\ev}{\mathrm{ev}}
+\newcommand{\calT}{\mathcal{T}}
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calM}{\mathcal{M}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\calP}{\mathcal{P}}
+\newcommand{\calR}{\mathcal{R}}
+\newcommand{\borel}{\mathcal{B}}
+\newcommand{\measurable}{\mathcal{M}}
+\newcommand{\wto}{\Rightarrow}
+\DeclarePairedDelimiter{\net}{\langle}{\rangle}
+\newcommand{\strucS}{\mathfrak{S}}
+\DeclarePairedDelimiter{\gen}{\langle}{\rangle} % Generating set
+\newcommand{\powerset}[1]{2^{#1}}
+\newcommand{\frakL}{\mathfrak{L}}
+
+\DeclarePairedDelimiter{\card}{\lvert}{\rvert}
+
+
+% Section style -- add to section style .sty?
+\setsubsecheadstyle{\normalfont\itshape}
+
+
+% Preimage -- to be added to mathcommands .sty
+\newcommand{\preim}{^{-1}}
+
+
+%% Framed exercise environment
+
+\makeatletter
+% Fixed bug in mdtheorem
+% https://tex.stackexchange.com/questions/179790/mdframed-how-to-change-the-separator-between-the-label-and-the-title-of-a-non-n
+% I also fixed a bug in theoremtitlefont using the starred versions
+\DeclareDocumentCommand{\mdtheorem}{ O{} m o m o }%
+ {\ifcsdef{#2}%
+   {\mdf@PackageWarning{Environment #2 already exits\MessageBreak}}%
+   {%
+    \IfNoValueTF {#3}%
+     {%#3 not given -- number relationship
+      \IfNoValueTF {#5}%
+        {%#3+#5 not given
+        \@definecounter{#2}%
+        \expandafter\xdef\csname the#2\endcsname{\@thmcounter{#2}}%
+        \newenvironment{#2}[1][]{%
+          \refstepcounter{#2}%
+          \ifstrempty{##1}%
+            {\let\@temptitle\relax}%
+            {%
+             \def\@temptitle{\mdf@theoremseparator%
+                             \mdf@theoremspace%
+                             \mdf@theoremtitlefont%
+                             ##1}%
+             \mdf@thm@caption{#2}{{#4}{\csname the#2\endcsname}{##1}}%
+             }%
+          \begin{mdframed}[#1,frametitle={\strut#4\ \csname the#2\endcsname%
+                                          \@temptitle}]}%
+          {\end{mdframed}}%
+        \newenvironment{#2*}[1][]{%
+          \ifstrempty{##1}
+            {\let\@temptitle\relax}%
+            {%
+             \def\@temptitle{\mdf@theoremseparator%
+                             \mdf@theoremspace%
+                             \mdf@theoremtitlefont%
+                             ##1}}%
+          \begin{mdframed}[#1,frametitle={\strut#4\@temptitle}]}%
+          {\end{mdframed}}%
+        }%
+        {%#5 given -- reset counter
+        \@definecounter{#2}\@newctr{#2}[#5]%
+        \expandafter\xdef\csname the#2\endcsname{\@thmcounter{#2}}%
+        \expandafter\xdef\csname the#2\endcsname{%
+               \expandafter\noexpand\csname the#5\endcsname \@thmcountersep%
+                  \@thmcounter{#2}}%
+        \newenvironment{#2}[1][]{%
+          \refstepcounter{#2}%
+          \ifstrempty{##1}%
+            {\let\@temptitle\relax}%
+            {%
+             \def\@temptitle{\mdf@theoremseparator%
+                             \mdf@theoremspace%
+                             \mdf@theoremtitlefont%
+                             ##1}%
+             \mdf@thm@caption{#2}{{#4}{\csname the#2\endcsname}{##1}}%
+             }
+          \begin{mdframed}[#1,frametitle={\strut#4\ \csname the#2\endcsname%
+                                          \@temptitle}]}%
+          {\end{mdframed}}%
+        \newenvironment{#2*}[1][]{%
+          \ifstrempty{##1}%
+            {\let\@temptitle\relax}%
+            {%
+             \def\@temptitle{\mdf@theoremseparator%
+                             \mdf@theoremspace%
+                             \mdf@theoremtitlefont%
+                             ##1}%
+             \mdf@thm@caption{#2}{{#4}{\csname the#2\endcsname}{##1}}%
+             }%
+          \begin{mdframed}[#1,frametitle={\strut#4\@temptitle}]}%
+          {\end{mdframed}}%
+        }%
+     }%
+     {%#3 given -- number relationship
+        \global\@namedef{the#2}{\@nameuse{the#3}}%
+        \newenvironment{#2}[1][]{%
+          \refstepcounter{#3}%
+          \ifstrempty{##1}%
+            {\let\@temptitle\relax}%
+            {%
+             \def\@temptitle{\mdf@theoremseparator%
+                             \mdf@theoremspace%
+                             \mdf@theoremtitlefont%
+                             ##1}%
+             \mdf@thm@caption{#2}{{#4}{\csname the#2\endcsname}{##1}}%
+             }
+          \begin{mdframed}[#1,frametitle={\strut#4\ \csname the#2\endcsname%
+                                          \@temptitle}]}%
+          {\end{mdframed}}%
+        \newenvironment{#2*}[1][]{%
+          \ifstrempty{##1}{\let\@temptitle\relax}{\def\@temptitle{:\ ##1}}%
+          \begin{mdframed}[#1,frametitle={\strut#4\@temptitle}]}%
+          {\end{mdframed}}%
+     }%
+   }%
+ }
+
+\mdfdefinestyle{swannexercise}{%
+    skipabove=0.5em plus 0.4em minus 0.2em,
+	skipbelow=0.5em plus 0.4em minus 0.2em,
+	leftmargin=-5pt,
+	rightmargin=-5pt,
+	innerleftmargin=5pt,
+	innerrightmargin=5pt,
+	innertopmargin=5pt,
+	innerbottommargin=4pt,
+	linewidth=0pt,
+	splittopskip=1.2em minus 0.2em,
+	splitbottomskip=0.5em plus 0.2em minus 0.1em,
+	backgroundcolor=backgroundcolor,
+	frametitlebackgroundcolor=titlecolor,
+	frametitlefont={\scshape},
+    theoremseparator={\space\thechapter},
+    theoremspace={.},
+	frametitleaboveskip=3pt,
+	frametitlebelowskip=2pt
+}
+
+\mdtheorem[style=swannexercise]{exerciseframed}{Exercise}
+
+\let\oldexerciseframed\exerciseframed
+\renewcommand{\exerciseframed}{%
+  \crefalias{theorem}{exerciseframed}%
+  \oldexerciseframed}
+
+\makeatother
+
+\newcommand{\mylistlabelfont}[1]{{\normalfont\color{linkcolor}#1}}
+\newlist{solution}{enumerate}{1}
+\setlist[solution]{leftmargin=0pt, parsep=0pt, listparindent=\parindent, font=\mylistlabelfont, label=(\alph*), labelsep=0pt, labelwidth=20pt, itemindent=20pt, align=left, itemsep=10pt}
+
+
+\begin{document}
+
+\maketitle
+
+\chapter{Measures}
+
+\addtocounter{section}{1}
+\section[sigma-algebras][$\sigma$-algebras]{$\sigma$-algebras}
+
+\begin{exerciseframed*}[1]
+    Let $\calM$ be an infinite $\sigma$-algebra.
+    %
+    \begin{enumerate}
+        \item $\calM$ contains an infinite sequence of disjoint sets.
+        \item $\card{\calM} \geq \mathfrak{c}$.
+    \end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+	\item We show by contraposition that there exists an $A \in \calM$ such that the restriction of $\calM$ to $A^c$ is infinite. That is, assuming that no such set exists, we show that $\calM$ is finite. Pick any nonempty $A \in \calM$. Then the restriction of $\calM$ to $A$ and $A^c$ respectively are both finite. For any $B \in \calM$ we can write
+	%
+	\begin{equation*}
+		B = (B \intersect A) \union (B \intersect A^c).
+	\end{equation*}
+	%
+	But each set in the union lies in one of the restrictions, so there are finitely many decompositions like the one above, so there are finitely many sets $B \in \calM$.
+	
+	Now construct the sequence: Pick $A \in \calM$ as above, restrict $\calM$ to $A^c$, and continue recursively.
+	
+	\item Let $(A_n)$ be the sequence constructed above. There is an injection $\phi\colon 2^\naturals \to \calM$ given by $\phi(I) = \bigunion_{i \in I} A_i$ (injectivity follows since the sets in the sequence are disjoint). Hence $\card{\calM} \geq \card{\powerset\naturals} = \mathfrak{c}$.
+\end{solution}
+
+
+% \subsection{Exercise 5}
+
+
+
+\section{Measures}
+
+\begin{exerciseframed*}[14]
+    If $\mu$ is a semifinite measure and $\mu(E) = \infty$, for any $C > 0$ there exists $F \subseteq E$ with $C < \mu(F) < \infty$.
+\end{exerciseframed*}
+%
+Consider
+%
+\begin{equation*}
+	S = \sup \set{ \mu(F) }{ F \subseteq E, \mu(F) < \infty }.
+\end{equation*}
+%
+If $S = \infty$, then the result is obvious. So assume towards a contradiction that $S < \infty$. For $n \in \naturals$ choose $F_n \subseteq E$ with $\mu(F_n) < \infty$ such that
+%
+\begin{equation*}
+	S - \frac{1}{n} \leq \mu(F_n) \leq S.
+\end{equation*}
+%
+Put $G_k = \bigunion_{n=1}^k F_n$. Then $G_k \subseteq E$ and $\mu(G_k) < \infty$, so the same inequality holds with $F_n$ replaced by $G_k$. Now putting $G = \bigunion_{k \in \naturals} G_k$, continuity of $\mu$ gives
+%
+\begin{equation*}
+	S - \frac{1}{n} \leq \mu(G) \leq S
+\end{equation*}
+%
+for all $n \in \naturals$, so $\mu(G) = S$.
+
+By assumption $\mu(E \setminus G) = \infty$, so $E \setminus G$ contains a set $G' \in \calM$ such that $0 < \mu(G') < \infty$. But then
+%
+\begin{equation*}
+	\mu(G \union G') = \mu(G) + \mu(G') > S,
+\end{equation*}
+%
+a contradiction.
+
+
+
+\begin{exerciseframed*}[16]
+    Let $(X,\calM,\mu)$ be a measure space. A set $E \subseteq X$ is called \emph{locally measurable} if $E \intersect A \in \calM$ for all $A \in \calM$ such that $\mu(A) < \infty$. Let $\widetilde{\calM}$ be the collection of all locally measurable sets. Clearly $\calM \subseteq \widetilde{\calM}$; if $\calM = \widetilde{\calM}$, then $\mu$ is called \emph{saturated}.
+    %
+    \begin{enumerate}[label=(\alph*)]
+        \item If $\mu$ is $\sigma$-finite, then $\mu$ is saturated.
+        \item $\widetilde{\calM}$ is a $\sigma$-algebra.
+        \item Define $\tilde\mu$ on $\widetilde{\calM}$ by $\tilde\mu(E) = \mu(E)$ if $E \in \calM$ and $\tilde\mu(E) = \infty$ otherwise. Then $\tilde\mu$ is a saturated measure on $\widetilde{\calM}$, called the \emph{saturation} of $\mu$.
+        \item If $\mu$ is complete, so is $\tilde\mu$.
+        \item Suppose that $\mu$ is semifinite. For $E \in \widetilde{\calM}$ define
+        %
+        \begin{equation*}
+            \underline\mu(E)
+                = \sup\set{\mu(A)}{\text{$A \in \calM$ and $A \subseteq E$}}.
+        \end{equation*}
+        %
+        Then $\underline\mu$ is a saturated measure on $\widetilde{\calM}$ that extends $\mu$.
+
+        \item Let $X_1,X_2$ be disjoint uncountable sets, $X = X_1 \union X_2$, and $\calM$ the $\sigma$-algebra of countable or co-countable sets in $X$. Let $\mu_0$ be counting measure on $\powerset{X_1}$, and define $\mu$ on $\calM$ by $\mu(E) = \mu_0(E \intersect X_1)$. Then $\mu$ is a measure on $\calM$, $\widetilde\calM = \powerset{X}$, and in the notation of parts (c) and (e), $\tilde\mu \neq \underline\mu$.
+    \end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}%[label=(\alph*)]
+	\item Assume that $\mu$ is $\sigma$-finite, and let $E \subseteq X$ be locally measurable. Let $(A_n) \subseteq \calM$ be such that $X = \bigunion_{n \in \setN} A_n$ and $\mu(A_n) < \infty$. Then $E \intersect A_n \in \calM$, and so $E = \bigunion_{n \in \setN} (E \intersect A_n) \in \calM$.
+	
+	\item Clearly we have $X \in \widetilde\calM$. Then let $(E_n) \subseteq \widetilde\calM$, and let $A \in \calM$ with $\mu(A) < \infty$. Then
+	%
+	\begin{equation*}
+		A \intersect \bigunion_{n \in \setN} E_n
+			= \bigunion_{n \in \setN} (A \intersect E_n)
+			\in \calM,
+	\end{equation*}
+	%
+	so $\bigunion_{n \in \setN} E_n \in \widetilde\calM$. Finally let $E \in \widetilde\calM$ and $A \in \calM$ with $\mu(A) < \infty$. Then
+	%
+	\begin{equation*}
+		E^c \intersect A
+			= (E \intersect A)^c \intersect A
+			\in \calM
+	\end{equation*}
+	%
+	since $E \intersect A \in \calM$, so $E^c \in \widetilde\calM$.
+
+	\item We first show that $\tilde\mu$ is a measure. Clearly $\tilde\mu(\emptyset) = 0$, so let $(E_n)$ be a sequence of disjoint sets in $\widetilde\calM$, and let $E = \bigunion_{n\in\naturals} E_n$. Say that $E_m$ does not lie in $\calM$ for some $m \in \naturals$. Then we must have $\tilde\mu(E) = \infty$, since otherwise $E \in \calM$ with $\mu(E) < \infty$, and hence $E_m = E_m \intersect E \in \calM$. Thus we have
+    %
+    \begin{equation*}
+        \sum_{n=1}^\infty \tilde\mu(E_n)
+            \geq \tilde\mu(E_m)
+            = \infty
+            = \tilde\mu(E),
+    \end{equation*}
+    %
+    so $\sum_{n=1}^\infty \tilde\mu(E_n) = \tilde\mu(E)$. The same is obviously true if all $E_n$ lie in $\calM$.
+    
+    Next we show that $\tilde\mu$ is saturated, i.e. that $\widetilde{\widetilde\calM} \subseteq \widetilde\calM$, so let $E \in \widetilde{\widetilde\calM}$. For all $A \in \widetilde{\calM}$ with $\tilde\mu(A) < \infty$ we then have $E \intersect A \in \widetilde{\calM}$. By definition of $\tilde\mu$ we must have $A \in \calM$, so we also have
+	%
+	\begin{equation*}
+		E \intersect A
+			= (E \intersect A) \intersect A
+			\in \calM.
+	\end{equation*}
+	%
+	And since this is true for all $A \in \calM$ with $\mu(A) < \infty$, it follows that $E \in \widetilde{\calM}$.
+
+	\item Assume that $\mu$ is complete. Let $F \subseteq X$ be such that there is a set $E \in \widetilde{\calM}$ with $F \subseteq E$ and $\tilde\mu(E) = 0$. Then also $E \in \calM$, and since $\mu$ is complete we have $F \in \calM \subseteq \widetilde{\calM}$ as desired.
+
+	\item Assume that $\mu$ is semifinite. We first show that $\underline\mu$ is a measure. Clearly $\underline\mu(\emptyset) = 0$, so let $(E_n) \subseteq \widetilde{\calM}$ be a sequence of disjoint sets. Clearly $\underline\mu$ is increasing, so sigma-additivity is obvious if any of the sets $E_n$ have infinite measure. Assume then that $\underline\mu(E_n) < \infty$ for all $n \in \setN$. Let $\epsilon > 0$, and choose $A_n \in \calM$ such that $A_n \subseteq E_n$ and $\underline\mu(E_n) \leq \mu(A_n) + \epsilon/2^n$. Then
+	%
+	\begin{equation*}
+		\underline\mu \bigl( \bigunion_{n \in \setN} E_n \bigr)
+			\geq \mu \bigl( \bigunion_{n \in \setN} A_n \bigr)
+			= \sum_{n=1}^\infty \mu(A_n)
+			\geq \sum_{n=1}^\infty \mu(E_n) - \epsilon.
+	\end{equation*}
+	%
+	Since this holds for all $\epsilon > 0$, we obtain the first inequality. For the other inequality, let $E = \bigunion_{n \in \setN} E_n$, and first assume that $\underline\mu(E) = \infty$. Pick $A \in \calM$ with $A \subseteq E$. Since $\mu$ is semifinite, we can choose $A$ such that $C < \mu(A) < \infty$ for any given $C > 0$. Letting $A_n = A \intersect E_n \in \calM$ we get
+	%
+	\begin{equation*}
+		C
+			< \mu(A)
+			= \sum_{n=1}^\infty \mu(A_n)
+			\leq \sum_{n=1}^\infty \underline\mu(E_n),
+	\end{equation*}
+	%
+	and since $C$ is arbitrary, we get $\sum_{n=1}^\infty \underline\mu(E_n) = \infty$. If instead $\underline\mu(E) < \infty$, pick $A \subseteq E$ with $A \in \calM$ and $\underline\mu(E) \leq \mu(A) + \epsilon$. Again letting $A_n = A \intersect E_n$ we get
+	%
+	\begin{equation*}
+		\underline\mu(E) - \epsilon
+			\leq \mu(A)
+			= \sum_{n=1}^\infty \mu(A_n)
+			\leq \sum_{n=1}^\infty \underline\mu(E_n).
+	\end{equation*}
+	%
+	And since $\epsilon$ is arbitrary, we obtain the other inequality.
+
+	Next we show that $\underline\mu$ is saturated. Letting $E$ be locally $\underline\mu$-measurable, we must show that $E$ is also locally $\mu$-measurable. So let $A \in \calM$ with $\mu(A) < \infty$. Then $\underline\mu(A) < \infty$, and so $E \intersect A \in \widetilde{\calM}$. But then
+	%
+	\begin{equation*}
+		E \intersect A
+			= (E \intersect A) \intersect A
+			\in \calM,
+	\end{equation*}
+	%
+	as desired.
+
+	\item It is pretty obvious that $\mu$ is a measure on $\calM$. Then let $E \subseteq X$ and $A \in \calM$ with $\mu(A) < \infty$. Then $A \intersect X_1$ must be finite, and so $A$ is not co-countable. But then it is countable, and so is $E \intersect A$, hence $E \intersect A \in \calM$. Thus every subset of $X$ is locally measurable.
+	
+	Notice that $\mu$ is semifinite. We have $\tilde\mu(X_2) = \infty$ since $X_2 \not\in \calM$, but $\underline\mu(X_2) = 0$ since every subset of $X_2$ is disjoint from $X_1$, and so is has measure zero.
+\end{solution}
+
+
+\section{Outer Measures}
+
+\subsection{Exercise 17}
+
+The inequality $\leq$ holds by definition. For the other inequality, notice that
+%
+\begin{align*}
+	\mu^* \bigl( E \intersect \bigunion_{j \in \setN} A_j \bigr)
+		&= \mu^*(E \intersect A_1) + \mu^* \bigl( E \intersect \bigunion_{j=2}^\infty A_j \bigr) \\
+		&= \sum_{j=1}^n \mu^*(E \intersect A_j) + \mu^* \bigl( E \intersect \bigunion_{j=n+1}^\infty A_j \bigr) \\
+		&\geq \sum_{j=1}^n \mu^*(E \intersect A_j)
+\end{align*}
+%
+for all $n \in \setN$. Letting $n \to \infty$ proves the inequality.
+
+
+\begin{exerciseframed*}[18]
+    Let $\calA \subseteq \powerset{X}$ be an algebra, $\calA_\sigma$ the collection of countable unions of sets in $\calA$, and $\calA_{\sigma\delta}$ the collection of countable intersections of sets in $\calA_\sigma$. Let $\mu_0$ be a premeasure on $\calA$ and $\mu^*$ the induced outer measure.
+    %
+    \begin{enumerate}
+        \item For any $E \subseteq X$ and $\epsilon > 0$ there exists $A \in \calA_\sigma$ with $E \subseteq A$ with $\mu^*(A) \leq \mu^*(E) + \epsilon$.
+
+        \item If $\mu^*(E) < \infty$, then $E$ is $\mu^*$-measurable iff there exists $B \in \calA_{\sigma\delta}$ with $E \subseteq B$ and $\mu^*(B \setminus E) = 0$.
+
+        \item If $\mu_0$ is $\sigma$-finite, the restriction $\mu^*(E) < \infty$ in (b) is superfluous.
+    \end{enumerate}
+\end{exerciseframed*}
+
+
+\begin{solution}
+	\item Let $E \subseteq X$ and $\epsilon > 0$. The definition of $\mu^*$ yields a sequence $(A_n) \subseteq \calA$ such that $E \subseteq \bigunion_{n\in\naturals} A_n$ and $\sum_{n=1}^\infty \mu_0(A_n) \leq \mu^*(E) + \epsilon$. It follows that
+	%
+	\begin{equation*}
+		\mu^*(E) + \epsilon
+			\geq \sum_{n=1}^\infty \mu_0(A_n)
+			= \sum_{n=1}^\infty \mu^*(A_n)
+			\geq \mu^* \Bigl( \bigunion_{n \in \setN} A_n \Bigr).
+	\end{equation*}
+
+	\item Let $E \subseteq X$. For $n \in \setN$ there is a set $B_n \in \calA_\sigma$ such that $E \subseteq B_n$ and $\mu^*(B_n) \leq \mu^*(E) + 1/n$. Letting $B = \bigintersect_{n \in \setN} B_n \in \calA_{\sigma\delta}$ we get $\mu^*(B) \leq \mu^*(E)$, and since $E \subseteq B$ we also have the opposite inequality, so $\mu^*(B) = \mu^*(E)$.
+	
+	Now assume that $\mu^*(E) < \infty$ and that $E$ is $\mu^*$-measurable. Then
+	%
+	\begin{equation*}
+		\mu^*(B)
+			= \mu^*(B \intersect E) + \mu^*(B \intersect E^c)
+			= \mu^*(E) + \mu^*(B \setminus E),
+	\end{equation*}
+	%
+	from which it follows that $\mu^*(B \setminus E) = 0$.
+
+	Conversely, assume that there is a $B \in \calA_{\sigma\delta}$ with $E \subseteq B$ and $\mu^*(B \setminus E) = 0$. Then $B$ lies in the $\sigma$-algebra generated by $\calA$, so it is $\mu^*$-measurable. Let $A \subseteq X$. Then
+	%
+	\begin{align*}
+		\mu^*(A \intersect E^c)
+			&\leq \mu^*(B \intersect A \intersect E^c) + \mu^*(B^c \intersect A \intersect E^c) \\
+			&= \mu^*(A \intersect (B \union E)^c) \\
+			&= \mu^*(A \intersect B^c),
+	\end{align*}
+	%
+	and so
+	%
+	\begin{equation*}
+		\mu^*(A \intersect E) + \mu^*(A \intersect E^c)
+			\leq \mu^*(A \intersect B) + \mu^*(A \intersect B^c)
+			= \mu^*(A),
+	\end{equation*}
+	%
+	showing that $E$ is $\mu^*$-measurable. (Notice that we haven't used that $\mu^*(E) < \infty$ for the second implication.)
+
+	\item We only need to prove the first implication above. By $\sigma$-finiteness of $\mu_0$, let $(E_n)$ be a sequence of subsets of $X$ such that $\mu^*(E_n) < \infty$ and $E = \bigunion_{n \in \setN} E_n$. Let $\epsilon > 0$. Then there are sets $A_n \in \calA_\sigma$ such that $\mu^*(A_n) \leq \mu^*(E_n) + \epsilon/2^n$. Letting $B_\epsilon = \bigunion_{n \in \setN} A_n \in \calA_\sigma$ we get
+	%
+	\begin{equation*}
+		\mu^*(B_\epsilon \setminus E)
+			= \mu^* \Bigl( \bigunion_{n \in \setN} (A_n \intersect E^c) \Bigr)
+			\leq \mu^* \Bigl( \bigunion_{n \in \setN} (A_n \intersect E_n^c) \Bigr)
+			\leq \sum_{n=1}^\infty \mu^*(A_n \setminus E_n)
+			\leq \epsilon.
+	\end{equation*}
+	%
+	Finally we let $B = \bigintersect_{k \in \setN} B_{1/k} \in \calA_{\sigma\delta}$, and we get $\mu^*(B \setminus E) = 0$ as desired.
+\end{solution}
+
+\begin{remark*}
+    Notice that (b) and (c) in particular show that any Lebesgue measurable set $E$, and therefore any Borel set, is the union of a $G_\delta$ set $B$ and a Lebesgue null set $B \setminus E$.
+\end{remark*}
+
+
+\begin{exerciseframed*}[20]
+    Let $\mu^*$ be an outer measure on $X$, $\calM^*$ the $\sigma$-algebra of $\mu^*$-measurable sets, $\overline\mu = \mu^*|_{\calM^*}$, and $\mu^+$ the outer measure induced by $\overline\mu$ as in (1.12) (with $\overline\mu$ and $\calM^*$ replacing $\mu_0$ and $\calA$).
+    %
+    \begin{enumerate}
+        \item If $E \subseteq X$, we have $\mu^*(E) \leq \mu^+(E)$, with equality iff there exists $A \in \calM^*$ with $A \supseteq E$ and $\mu^*(A) = \mu^*(E)$.
+
+        \item If $\mu^*$ is induced from a premeasure, then $\mu^* = \mu^+$.
+
+        \item If $X = \{0,1\}$, there exists an outer measure $\mu^*$ on $X$ such that $\mu^* \neq \mu^+$.
+    \end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+    \item Recall that the definition of $\mu^+$ means that
+    %
+    \begin{equation*}
+        \mu^+(E)
+            = \inf \set[\bigg]{ \sum_{n=1}^\infty \overline\mu(A_n) }{ A_n \in \calM^*, E \subseteq \bigunion_{n\in\naturals} A_n },
+    \end{equation*}
+    %
+    and that we by definition of $\overline\mu$ can replace $\overline\mu$ with $\mu^*$. For any such sequence $(A_n)$ we have
+    %
+    \begin{equation*}
+        \mu^*(E)
+            \leq \mu^* \Bigl( \bigunion_{n\in\naturals} A_n \Bigr)
+            \leq \sum_{n=1}^\infty \mu^*(A_n)
+            = \sum_{n=1}^\infty \overline\mu(A_n).
+    \end{equation*}
+    %
+    And since $\mu^+(E)$ is the infimum of all such sums, we have $\mu^*(E) \leq \mu^+(E)$.
+
+    Next assume that there is an $A \in \calM^*$ with $E \subseteq A$ such that $\mu^*(A) = \mu^*(E)$. Using the sequence $A_1 = A$ and $A_n = \emptyset$ for $n > 1$ in the definition of $\mu^+$ yields
+    %
+    \begin{equation*}
+        \mu^+(E)
+            \leq \overline\mu(A)
+            = \mu^*(A)
+            = \mu^*(E).
+    \end{equation*}
+    %
+    Hence $\mu^+(E) = \mu^*(E)$ as desired.
+
+    Conversely, assuming that $\mu^*(E) = \mu^+(E)$ we have
+    %
+    \begin{equation*}
+        \mu^*(E)
+            = \inf \set[\bigg]{ \sum_{n=1}^\infty \mu^*(A_n) }{ A_n \in \calM^*, E \subseteq \bigunion_{n\in\naturals} A_n }.
+    \end{equation*}
+    %
+    Given $\epsilon > 0$, choose a sequence $(A_n)$ such that
+    %
+    \begin{equation*}
+        \mu^* \Bigl( \bigunion_{n\in\naturals} A_n \Bigr)
+            \leq \sum_{n=1}^\infty \mu^*(A_n)
+            \leq \mu^*(E) + \epsilon,
+    \end{equation*}
+    %
+    and let $B_\epsilon = \bigunion_{n\in\naturals} A_n$. Letting $A = \bigintersect_{k\in\naturals} B_{1/k} \in \calM^*$ we thus have $\mu^*(A) \leq \mu^*(E)$.
+
+    \item Assume that $\mu^*$ is induced from a premeasure on an algebra $\calA$, and let $E \subseteq X$. Recall that $\calA$ consists of $\mu^*$-measurable sets, so $\sigma(\calA) \subseteq \calM^*$. For $n \in \naturals$ choose, in accordance with Exercise~1.18(a), a set $A_n \in \calA_\sigma$ with $E \subseteq A_n$ such that $\mu^*(A_n) \leq \mu^*(E) + 1/n$. Letting $A = \bigintersect_{n\in\naturals} A_n$ we have $E \subseteq A$ and $\mu^*(A) \leq \mu^*(E)$. The other inequality is obvious, so $\mu^*(A) = \mu^*(E)$, and part (a) implies that $\mu^*(E) = \mu^+(E)$ as desired.
+\end{solution}
+
+
+\begin{exerciseframed*}[21]
+    Let $\mu^*$ be an outer measure induced from a premeasure and $\overline\mu$ the restriction of $\mu^*$ to the $\mu^*$-measurable sets. Then $\overline\mu$ is saturated.
+\end{exerciseframed*}
+%
+Let $\calA$ denote the algebra on which the premeasure in question is defined, and denote by $\calM^*$ the $\sigma$-algebra of $\mu^*$-measurable sets. Recall that $\calA \subseteq \calM^*$.
+
+Let $E \subseteq X$ be locally measurable. It suffices to show that
+%
+\begin{equation*}
+    \mu^*(F)
+        \geq \mu^*(F \intersect E) + \mu^*(F \intersect E^c)
+\end{equation*}
+%
+for all $F \subseteq X$ with $\mu^*(F) < \infty$. Given $\epsilon   > 0$, Exercise~1.18(a) yields a set $A \in \calA_\sigma$ such that $\mu^*(A) \leq \mu^*(F) + \epsilon$. Then $\mu^*(A) < \infty$, and so $E \intersect A \in \calM^*$. It follows that
+%
+\begin{align*}
+    \mu^*(F) + \epsilon
+        \geq \mu^*(A)
+        &= \mu^*(A \intersect (E \intersect A))
+          + \mu^*(A \intersect (E \intersect A)^c) \\
+        &= \mu^*(A \intersect E) + \mu^*(A \intersect E^c) \\
+        &\geq \mu^*(F \intersect E) + \mu^*(F \intersect E^c),
+\end{align*}
+%
+and hence $E \in \calM^*$. Thus $\overline\mu$ is saturated.
+
+
+\begin{exerciseframed*}[22]
+    Let $(X,\calM,\mu)$ be a measure space, $\mu^*$ the outer measure induced b $\mu$ according to (1.12), $\calM^*$ the $\sigma$-algebra of $\mu^*$-measurable sets, and $\overline\mu = \mu^*|_{\calM^*}$.
+    %
+    \begin{enumerate}
+        \item If $\mu$ is $\sigma$-finite, then $\overline\mu$ is the completion of $\mu$.
+        \item In general, $\overline\mu$ is the saturation of the completion of $\mu$.
+    \end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+    \item Let $\overline\calM$ be the $\sigma$-algebra from Theorem~1.9 (namely, the $\sigma$-algebra generated by the sets in $\calM$ along with all $\mu$-null sets). This is clearly the smallest $\sigma$-algebra on which there can exist a complete extension of $\mu$, so since $\overline\mu$ is also a complete extension of $\mu$, we must have $\overline\calM \subseteq \calM^*$. Theorem~1.9 yields the uniqueness of a complete extension of $\mu$ on $\overline\calM$, so it suffices to show that $\calM^* \subseteq \overline\calM$.
+    
+    Now assume that $\mu$ is $\sigma$-finite, and let $E \in \calM^*$. Then also $E^c \in \calM^*$, and Exercise~1.18(c) ensures the existence of sets $B,D \in \calM_{\sigma\delta} = \calM$ with $E \subseteq B$ and $E^c \subseteq D$ such that
+    %
+    \begin{equation*}
+        \mu^*(B \setminus E) = 0
+        \quad \text{and} \quad
+        \mu^*(E \setminus D^c) = \mu^*(D \setminus E^c) = 0.
+    \end{equation*}
+    %
+    It follows that
+    %
+    \begin{equation*}
+        \mu(B \setminus D^c)
+            \leq \mu^*(B \setminus E) + \mu^*(E \setminus D^c)
+            = 0,
+    \end{equation*}
+    %
+    so $E \setminus D^c$ is a $\mu$-null set. Thus $E = D^c \union (E \setminus D^c)$ is a union of a set in $\calM$ and a $\mu$-null set, and hence $E \in \overline\calM$.
+
+    \item Let $\hat\mu$ denote the completion of $\mu$ on $\overline\calM$, and let $\widetilde\calM$ denote the $\sigma$-algebra of locally $\hat\mu$-measurable sets. First we show that $\widetilde\calM = \calM^*$, so let $E \in \widetilde\calM$. To show that $E$ is $\mu^*$-measurable it suffices to show that
+    %
+    \begin{equation*}
+        \mu^*(F)
+            \geq \mu^*(F \intersect E) + \mu^*(F \intersect E^c)
+    \end{equation*}
+    %
+    for all $F \subseteq X$ with $\mu^*(F) < \infty$. Calculations identical to the ones in the solution to Exercise~1.21 show this.
+
+    Conversely, let $E \in \calM^*$ and consider $A \in \overline\calM$ with $\hat\mu(A) < \infty$. Then also $A \in \calM^*$, so $E \intersect A \in \calM^*$. The argument at the beginning of part (a) showed that $\overline\mu$ is an extension of $\hat\mu$, so $\mu^*(E \intersect A) = \hat\mu(E \intersect A) < \infty$. The same argument as in part (a), only now using Exercise~1.18(b) instead of (c), shows that $E \intersect A \in \overline\calM$, and so $E \in \widetilde\calM$.
+
+    Finally, let $\tilde\mu$ denote the saturation of $\hat\mu$. We show that $\overline\mu = \tilde\mu$. Since the completion of $\mu$ on $\overline\calM$ is unique, the two measures must agree here. Instead let $E \in \widetilde\calM \setminus \overline\calM$. By definition of $\tilde\mu$ we must then have $\tilde\mu(E) = \infty$. On the other hand, we just showed (for $E \intersect A$ instead of $E$) that $\mu^*(E) < \infty$ implies $E \in \overline\calM$. Since we have assumed that this is not the case, we must have $\overline\mu(E) = \mu^*(E) = \infty$. Thus $\overline\mu = \tilde\mu$.
+\end{solution}
+
+
+\chapter{Integration}
+
+
+\chapter{Signed Measures and Differentiation}
+
+\section{Signed Measures}
+
+\subsection{Exercise 2}
+
+Assume that $E$ is $\nu$-null, and let $P \union N$ be a Hahn decomposition for $\nu$. Then
+%
+\begin{equation*}
+	\nu^+(E) = \nu(E \intersect P) = 0,
+\end{equation*}
+%
+since $E \intersect P \subseteq E$. Similarly we get $\nu^-(E) = 0$, so $\abs{\nu}(E) = 0$.
+
+Conversely, assume that $\abs{\nu}(E) = 0$. Then $\nu^\pm(F) = 0$ for all measurable $F \subseteq E$, and so $\nu(F) = 0$.
+
+The other claims follow directly from the above.
+
+
+\subsection{Exercise 3}
+
+\begin{enumerate}[label=(\alph*)]
+	\item This follows directly from the definition of $L^1(\nu)$.
+	
+	\item This is a simple application of the triangle inequality.
+
+	\item If $\abs{f} \leq 1$, then
+	%
+	\begin{equation*}
+		\abs[\bigg]{ \int_E f \dif\nu }
+			\leq \int_E \abs{f} \dif\abs{\nu}
+			\leq \abs{\nu}(E),
+	\end{equation*}
+	%
+	showing one inequality. For the other inequality, let $P \union N$ be a Hahn decomposition of $\nu$, and let $f = \indicator{P} - \indicator{N}$. Then $\int_E f \dif\nu = \abs{\nu}(E)$.
+\end{enumerate}
+
+
+\subsection{Exercise 4}
+
+Let $P \union N$ be a Hahn decomposition for $\nu$. Then
+%
+\begin{equation*}
+	\nu^+(E)
+		= \nu(E \intersect P)
+		\leq \lambda(E \intersect P)
+		\leq \lambda(E),
+\end{equation*}
+%
+and similarly for $\nu^-$.
+
+
+\subsection{Exercise 5}
+
+First notice that
+%
+\begin{equation*}
+	\nu_1 + \nu_2
+		= (\nu_1^+ + \nu_2^+) - (\nu_1^- + \nu_2^-),
+\end{equation*}
+%
+so by the previous exercise we have
+%
+\begin{equation*}
+	\abs{\nu_1 + \nu_2}
+		= (\nu_1 + \nu_2)^+ + (\nu_1 + \nu_2)^+
+		\leq (\nu_1^+ + \nu_2^+) + (\nu_1^- + \nu_2^-)
+		= \abs{\nu_1} + \abs{\nu_2}.
+\end{equation*}
+
+\end{document}

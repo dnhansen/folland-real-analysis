@@ -1,0 +1,3 @@
+[submodule "latex-sty"]
+	path = latex-sty
+	url = https://github.com/dnhansen/latex-sty.git
