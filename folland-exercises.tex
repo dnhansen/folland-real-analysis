@@ -83,118 +83,10 @@
 \DeclarePairedDelimiter{\net}{\langle}{\rangle}
 \newcommand{\strucS}{\mathfrak{S}}
 \DeclarePairedDelimiter{\gen}{\langle}{\rangle} % Generating set
-\newcommand{\powerset}[1]{2^{#1}}
 \newcommand{\frakL}{\mathfrak{L}}
-
-\DeclarePairedDelimiter{\card}{\lvert}{\rvert}
-
-
-% Section style -- add to section style .sty?
-\setsubsecheadstyle{\normalfont\itshape}
-
-
-% Preimage -- to be added to mathcommands .sty
-\newcommand{\preim}{^{-1}}
 
 
 %% Framed exercise environment
-
-\makeatletter
-% Fixed bug in mdtheorem
-% https://tex.stackexchange.com/questions/179790/mdframed-how-to-change-the-separator-between-the-label-and-the-title-of-a-non-n
-% I also fixed a bug in theoremtitlefont using the starred versions
-\DeclareDocumentCommand{\mdtheorem}{ O{} m o m o }%
- {\ifcsdef{#2}%
-   {\mdf@PackageWarning{Environment #2 already exits\MessageBreak}}%
-   {%
-    \IfNoValueTF {#3}%
-     {%#3 not given -- number relationship
-      \IfNoValueTF {#5}%
-        {%#3+#5 not given
-        \@definecounter{#2}%
-        \expandafter\xdef\csname the#2\endcsname{\@thmcounter{#2}}%
-        \newenvironment{#2}[1][]{%
-          \refstepcounter{#2}%
-          \ifstrempty{##1}%
-            {\let\@temptitle\relax}%
-            {%
-             \def\@temptitle{\mdf@theoremseparator%
-                             \mdf@theoremspace%
-                             \mdf@theoremtitlefont%
-                             ##1}%
-             \mdf@thm@caption{#2}{{#4}{\csname the#2\endcsname}{##1}}%
-             }%
-          \begin{mdframed}[#1,frametitle={\strut#4\ \csname the#2\endcsname%
-                                          \@temptitle}]}%
-          {\end{mdframed}}%
-        \newenvironment{#2*}[1][]{%
-          \ifstrempty{##1}
-            {\let\@temptitle\relax}%
-            {%
-             \def\@temptitle{\mdf@theoremseparator%
-                             \mdf@theoremspace%
-                             \mdf@theoremtitlefont%
-                             ##1}}%
-          \begin{mdframed}[#1,frametitle={\strut#4\@temptitle}]}%
-          {\end{mdframed}}%
-        }%
-        {%#5 given -- reset counter
-        \@definecounter{#2}\@newctr{#2}[#5]%
-        \expandafter\xdef\csname the#2\endcsname{\@thmcounter{#2}}%
-        \expandafter\xdef\csname the#2\endcsname{%
-               \expandafter\noexpand\csname the#5\endcsname \@thmcountersep%
-                  \@thmcounter{#2}}%
-        \newenvironment{#2}[1][]{%
-          \refstepcounter{#2}%
-          \ifstrempty{##1}%
-            {\let\@temptitle\relax}%
-            {%
-             \def\@temptitle{\mdf@theoremseparator%
-                             \mdf@theoremspace%
-                             \mdf@theoremtitlefont%
-                             ##1}%
-             \mdf@thm@caption{#2}{{#4}{\csname the#2\endcsname}{##1}}%
-             }
-          \begin{mdframed}[#1,frametitle={\strut#4\ \csname the#2\endcsname%
-                                          \@temptitle}]}%
-          {\end{mdframed}}%
-        \newenvironment{#2*}[1][]{%
-          \ifstrempty{##1}%
-            {\let\@temptitle\relax}%
-            {%
-             \def\@temptitle{\mdf@theoremseparator%
-                             \mdf@theoremspace%
-                             \mdf@theoremtitlefont%
-                             ##1}%
-             \mdf@thm@caption{#2}{{#4}{\csname the#2\endcsname}{##1}}%
-             }%
-          \begin{mdframed}[#1,frametitle={\strut#4\@temptitle}]}%
-          {\end{mdframed}}%
-        }%
-     }%
-     {%#3 given -- number relationship
-        \global\@namedef{the#2}{\@nameuse{the#3}}%
-        \newenvironment{#2}[1][]{%
-          \refstepcounter{#3}%
-          \ifstrempty{##1}%
-            {\let\@temptitle\relax}%
-            {%
-             \def\@temptitle{\mdf@theoremseparator%
-                             \mdf@theoremspace%
-                             \mdf@theoremtitlefont%
-                             ##1}%
-             \mdf@thm@caption{#2}{{#4}{\csname the#2\endcsname}{##1}}%
-             }
-          \begin{mdframed}[#1,frametitle={\strut#4\ \csname the#2\endcsname%
-                                          \@temptitle}]}%
-          {\end{mdframed}}%
-        \newenvironment{#2*}[1][]{%
-          \ifstrempty{##1}{\let\@temptitle\relax}{\def\@temptitle{:\ ##1}}%
-          \begin{mdframed}[#1,frametitle={\strut#4\@temptitle}]}%
-          {\end{mdframed}}%
-     }%
-   }%
- }
 
 \mdfdefinestyle{swannexercise}{%
     skipabove=0.5em plus 0.4em minus 0.2em,
@@ -226,9 +118,9 @@
 
 \makeatother
 
-\newcommand{\mylistlabelfont}[1]{{\normalfont\color{linkcolor}#1}}
+\newcommand{\solutionlabelfont}[1]{{\normalfont\color{linkcolor}#1}}
 \newlist{solution}{enumerate}{1}
-\setlist[solution]{leftmargin=0pt, parsep=0pt, listparindent=\parindent, font=\mylistlabelfont, label=(\alph*), labelsep=0pt, labelwidth=20pt, itemindent=20pt, align=left, itemsep=10pt}
+\setlist[solution]{leftmargin=0pt, parsep=0pt, listparindent=\parindent, font=\solutionlabelfont, label=(\alph*), labelsep=0pt, labelwidth=20pt, itemindent=20pt, align=left, itemsep=10pt}
 
 
 \begin{document}
@@ -637,7 +529,48 @@ and hence $E \in \calM^*$. Thus $\overline\mu$ is saturated.
 \end{solution}
 
 
+\begin{exerciseframed*}[25]
+    If $E \subseteq \reals$, the following are equivalent.
+    %
+    \begin{enumerate}
+        \item $E \in \calM_\mu$.
+        \item $E = V \setminus N_1$ where $V$ is a $G_\delta$ set and $\mu(N_1) = 0$.
+        \item $E = H \union N_2$ where $H$ is an $F_\sigma$ set and $\mu(N_2) = 0$.
+    \end{enumerate}
+\end{exerciseframed*}
+%
+Folland proves this claim when $\mu(E) < \infty$, so assume that $\mu(E) = \infty$. Since $\mu$ is $\sigma$-finite, there is a sequence $(E_n)_{n\in\naturals}$ in $\calM_\mu$ with $\mu(E_n) < \infty$ for all $n \in \naturals$ and $E = \bigunion_{n\in\naturals} E_n$. Then there are sequences $(H_n)$ of $F_\sigma$ sets and $(N_n)$ of null sets such that $E_n = H_n \union N_n$. Then $H = \bigunion_{n\in\naturals} H_n$ is also an $F_\sigma$ set and $N = \bigunion_{n\in\naturals} N_n$ a null set, and $E = H \union N$.
+
+Applying this to $E^c$ yields a similar decomposition $E^c = H \union N$. But then $E = H^c \setminus N$, and $H^c$ is a $G_\delta$ set.
+
+
 \chapter{Integration}
+
+\begin{exerciseframed*}[10]
+    The following implications are valid iff the measure $\mu$ is complete:
+    %
+    \begin{enumerate}
+        \item If $f$ is measurable and $f = g$ $\mu$-a.e., then $g$ is measurable.
+        \item If $f_n$ is measurable for $n \in \naturals$ and $f_n \to f$ $\mu$-a.e., then $f$ is measurable.
+    \end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+    \item Let $f,g \colon (X,\calE,\mu) \to (Y,\calF)$ be functions from a measure space to a measurable space where $f$ is $(\calE,\calF)$-measurable. Let $N = \{f \neq g\}$ and assume that $\mu(N) = 0$. Given $B \in \calF$ we must show that $g\preim(B) \in \calE$. But notice that
+    %
+    \begin{equation*}
+        g\preim(B)
+            = f\preim(B) \union \{ f \not\in B, g \in B \} \setminus \{ f \in B, g \not\in B \},
+    \end{equation*}
+    %
+    and that the latter two sets are subsets of $N$, hence measurable. Thus $g\preim(B)$ is also measurable.
+
+    Conversely, let $\mu$ be a measure on a measurable space $(X,\calE)$ that is not complete, and let $N \subseteq X$ be a non-measurable $\mu$-null set. Then $\indicator{N} = 0$ $\mu$-a.e., but $\indicator{N}$ is not measurable.
+
+    \item Consider the set $A$ of points $x \in X$ such that $f_n(x)$ does not converge to $f(x)$. Then $f_n \indicator{A^c} \to f \indicator{A^c}$ pointwise everywhere, so Proposition~2.7 (or Corollary~2.9) implies that $f \indicator{A^c}$ is measurable. By assumption $\mu(A) = 0$, so $f \indicator{A^c} = f$ $\mu$-a.e., so part (a) implies that $f$ is measurable.
+    
+    Conversely
+\end{solution}
 
 
 \chapter{Signed Measures and Differentiation}
