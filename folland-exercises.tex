@@ -118,9 +118,20 @@
 
 \makeatother
 
+
+
+\theoremstyle{nonumberplain}
+\theoremsymbol{\ensuremath{\square}}
+\newtheorem{solution}{Solution}
+
+\let\oldsolution\solution
+\renewcommand{\solution}{%
+  \crefalias{theorem}{solution}%
+  \oldsolution}
+
 \newcommand{\solutionlabelfont}[1]{{\normalfont\color{linkcolor}#1}}
-\newlist{solution}{enumerate}{1}
-\setlist[solution]{leftmargin=0pt, parsep=0pt, listparindent=\parindent, font=\solutionlabelfont, label=(\alph*), labelsep=0pt, labelwidth=20pt, itemindent=20pt, align=left, itemsep=10pt}
+\newlist{solutionsec}{enumerate}{1}
+\setlist[solutionsec]{leftmargin=0pt, parsep=0pt, listparindent=\parindent, font=\solutionlabelfont, label=(\alph*), labelsep=0pt, labelwidth=20pt, itemindent=20pt, align=left, itemsep=10pt}
 
 
 \begin{document}
@@ -130,7 +141,7 @@
 \chapter{Measures}
 
 \addtocounter{section}{1}
-\section[sigma-algebras][$\sigma$-algebras]{$\sigma$-algebras}
+\section[Sigma-algebras][$\sigma$-algebras]{$\sigma$-algebras}
 
 \begin{exerciseframed*}[1]
     Let $\calM$ be an infinite $\sigma$-algebra.
@@ -140,9 +151,12 @@
         \item $\card{\calM} \geq \mathfrak{c}$.
     \end{enumerate}
 \end{exerciseframed*}
+%
+Of course part (a) is trivial unless we require the sets to be nonempty.
 
 \begin{solution}
-	\item We show by contraposition that there exists an $A \in \calM$ such that the restriction of $\calM$ to $A^c$ is infinite. That is, assuming that no such set exists, we show that $\calM$ is finite. Pick any nonempty $A \in \calM$. Then the restriction of $\calM$ to $A$ and $A^c$ respectively are both finite. For any $B \in \calM$ we can write
+\begin{solutionsec}
+	\item We show by contraposition that there exists a nonempty set $A \in \calM$ such that the restriction of $\calM$ to $A^c$ is infinite. That is, assuming that no such set exists, we show that $\calM$ is finite. Pick any nonempty $A \in \calM$. Then the restriction of $\calM$ to $A$ and $A^c$ respectively are both finite. For any $B \in \calM$ we can write
 	%
 	\begin{equation*}
 		B = (B \intersect A) \union (B \intersect A^c).
@@ -153,6 +167,7 @@
 	Now construct the sequence: Pick $A \in \calM$ as above, restrict $\calM$ to $A^c$, and continue recursively.
 	
 	\item Let $(A_n)$ be the sequence constructed above. There is an injection $\phi\colon 2^\naturals \to \calM$ given by $\phi(I) = \bigunion_{i \in I} A_i$ (injectivity follows since the sets in the sequence are disjoint). Hence $\card{\calM} \geq \card{\powerset\naturals} = \mathfrak{c}$.
+\end{solutionsec}
 \end{solution}
 
 
@@ -165,35 +180,36 @@
 \begin{exerciseframed*}[14]
     If $\mu$ is a semifinite measure and $\mu(E) = \infty$, for any $C > 0$ there exists $F \subseteq E$ with $C < \mu(F) < \infty$.
 \end{exerciseframed*}
-%
-Consider
-%
-\begin{equation*}
-	S = \sup \set{ \mu(F) }{ F \subseteq E, \mu(F) < \infty }.
-\end{equation*}
-%
-If $S = \infty$, then the result is obvious. So assume towards a contradiction that $S < \infty$. For $n \in \naturals$ choose $F_n \subseteq E$ with $\mu(F_n) < \infty$ such that
-%
-\begin{equation*}
-	S - \frac{1}{n} \leq \mu(F_n) \leq S.
-\end{equation*}
-%
-Put $G_k = \bigunion_{n=1}^k F_n$. Then $G_k \subseteq E$ and $\mu(G_k) < \infty$, so the same inequality holds with $F_n$ replaced by $G_k$. Now putting $G = \bigunion_{k \in \naturals} G_k$, continuity of $\mu$ gives
-%
-\begin{equation*}
-	S - \frac{1}{n} \leq \mu(G) \leq S
-\end{equation*}
-%
-for all $n \in \naturals$, so $\mu(G) = S$.
 
-By assumption $\mu(E \setminus G) = \infty$, so $E \setminus G$ contains a set $G' \in \calM$ such that $0 < \mu(G') < \infty$. But then
-%
-\begin{equation*}
-	\mu(G \union G') = \mu(G) + \mu(G') > S,
-\end{equation*}
-%
-a contradiction.
-
+\begin{solution}
+	Consider
+	%
+	\begin{equation*}
+		S = \sup \set{ \mu(F) }{ F \subseteq E, \mu(F) < \infty }.
+	\end{equation*}
+	%
+	If $S = \infty$, then the result is obvious. So assume towards a contradiction that $S < \infty$. For $n \in \naturals$ choose $F_n \subseteq E$ with $\mu(F_n) < \infty$ such that
+	%
+	\begin{equation*}
+		S - \frac{1}{n} \leq \mu(F_n) \leq S.
+	\end{equation*}
+	%
+	Put $G_k = \bigunion_{n=1}^k F_n$. Then $G_k \subseteq E$ and $\mu(G_k) < \infty$, so the same inequality holds with $F_n$ replaced by $G_k$. Now putting $G = \bigunion_{k \in \naturals} G_k$, continuity of $\mu$ gives
+	%
+	\begin{equation*}
+		S - \frac{1}{n} \leq \mu(G) \leq S
+	\end{equation*}
+	%
+	for all $n \in \naturals$, so $\mu(G) = S$.
+	
+	By assumption $\mu(E \setminus G) = \infty$, so $E \setminus G$ contains a set $G' \in \calM$ such that $0 < \mu(G') < \infty$. But then
+	%
+	\begin{equation*}
+		\mu(G \union G') = \mu(G) + \mu(G') > S,
+	\end{equation*}
+	%
+	a contradiction.
+\end{solution}
 
 
 \begin{exerciseframed*}[16]
@@ -217,7 +233,8 @@ a contradiction.
     \end{enumerate}
 \end{exerciseframed*}
 
-\begin{solution}%[label=(\alph*)]
+\begin{solution}
+\begin{solutionsec}
 	\item Assume that $\mu$ is $\sigma$-finite, and let $E \subseteq X$ be locally measurable. Let $(A_n) \subseteq \calM$ be such that $X = \bigunion_{n \in \setN} A_n$ and $\mu(A_n) < \infty$. Then $E \intersect A_n \in \calM$, and so $E = \bigunion_{n \in \setN} (E \intersect A_n) \in \calM$.
 	
 	\item Clearly we have $X \in \widetilde\calM$. Then let $(E_n) \subseteq \widetilde\calM$, and let $A \in \calM$ with $\mu(A) < \infty$. Then
@@ -303,23 +320,24 @@ a contradiction.
 	\item It is pretty obvious that $\mu$ is a measure on $\calM$. Then let $E \subseteq X$ and $A \in \calM$ with $\mu(A) < \infty$. Then $A \intersect X_1$ must be finite, and so $A$ is not co-countable. But then it is countable, and so is $E \intersect A$, hence $E \intersect A \in \calM$. Thus every subset of $X$ is locally measurable.
 	
 	Notice that $\mu$ is semifinite. We have $\tilde\mu(X_2) = \infty$ since $X_2 \not\in \calM$, but $\underline\mu(X_2) = 0$ since every subset of $X_2$ is disjoint from $X_1$, and so is has measure zero.
+\end{solutionsec}
 \end{solution}
 
 
 \section{Outer Measures}
 
-\subsection{Exercise 17}
+% \subsection{Exercise 17}
 
-The inequality $\leq$ holds by definition. For the other inequality, notice that
-%
-\begin{align*}
-	\mu^* \bigl( E \intersect \bigunion_{j \in \setN} A_j \bigr)
-		&= \mu^*(E \intersect A_1) + \mu^* \bigl( E \intersect \bigunion_{j=2}^\infty A_j \bigr) \\
-		&= \sum_{j=1}^n \mu^*(E \intersect A_j) + \mu^* \bigl( E \intersect \bigunion_{j=n+1}^\infty A_j \bigr) \\
-		&\geq \sum_{j=1}^n \mu^*(E \intersect A_j)
-\end{align*}
-%
-for all $n \in \setN$. Letting $n \to \infty$ proves the inequality.
+% The inequality $\leq$ holds by definition. For the other inequality, notice that
+% %
+% \begin{align*}
+% 	\mu^* \bigl( E \intersect \bigunion_{j \in \setN} A_j \bigr)
+% 		&= \mu^*(E \intersect A_1) + \mu^* \bigl( E \intersect \bigunion_{j=2}^\infty A_j \bigr) \\
+% 		&= \sum_{j=1}^n \mu^*(E \intersect A_j) + \mu^* \bigl( E \intersect \bigunion_{j=n+1}^\infty A_j \bigr) \\
+% 		&\geq \sum_{j=1}^n \mu^*(E \intersect A_j)
+% \end{align*}
+% %
+% for all $n \in \setN$. Letting $n \to \infty$ proves the inequality.
 
 
 \begin{exerciseframed*}[18]
@@ -336,6 +354,7 @@ for all $n \in \setN$. Letting $n \to \infty$ proves the inequality.
 
 
 \begin{solution}
+\begin{solutionsec}
 	\item Let $E \subseteq X$ and $\epsilon > 0$. The definition of $\mu^*$ yields a sequence $(A_n) \subseteq \calA$ such that $E \subseteq \bigunion_{n\in\naturals} A_n$ and $\sum_{n=1}^\infty \mu_0(A_n) \leq \mu^*(E) + \epsilon$. It follows that
 	%
 	\begin{equation*}
@@ -361,7 +380,7 @@ for all $n \in \setN$. Letting $n \to \infty$ proves the inequality.
 	%
 	\begin{align*}
 		\mu^*(A \intersect E^c)
-			&\leq \mu^*(B \intersect A \intersect E^c) + \mu^*(B^c \intersect A \intersect E^c) \\
+			&\leq \mu^*(A \intersect E^c \intersect B) + \mu^*(A \intersect E^c \intersect B^c) \\
 			&= \mu^*(A \intersect (B \union E)^c) \\
 			&= \mu^*(A \intersect B^c),
 	\end{align*}
@@ -387,6 +406,7 @@ for all $n \in \setN$. Letting $n \to \infty$ proves the inequality.
 	\end{equation*}
 	%
 	Finally we let $B = \bigintersect_{k \in \setN} B_{1/k} \in \calA_{\sigma\delta}$, and we get $\mu^*(B \setminus E) = 0$ as desired.
+\end{solutionsec}
 \end{solution}
 
 \begin{remark*}
@@ -407,6 +427,7 @@ for all $n \in \setN$. Letting $n \to \infty$ proves the inequality.
 \end{exerciseframed*}
 
 \begin{solution}
+\begin{solutionsec}
     \item Recall that the definition of $\mu^+$ means that
     %
     \begin{equation*}
@@ -454,38 +475,41 @@ for all $n \in \setN$. Letting $n \to \infty$ proves the inequality.
     and let $B_\epsilon = \bigunion_{n\in\naturals} A_n$. Letting $A = \bigintersect_{k\in\naturals} B_{1/k} \in \calM^*$ we thus have $\mu^*(A) \leq \mu^*(E)$.
 
     \item Assume that $\mu^*$ is induced from a premeasure on an algebra $\calA$, and let $E \subseteq X$. Recall that $\calA$ consists of $\mu^*$-measurable sets, so $\sigma(\calA) \subseteq \calM^*$. For $n \in \naturals$ choose, in accordance with Exercise~1.18(a), a set $A_n \in \calA_\sigma$ with $E \subseteq A_n$ such that $\mu^*(A_n) \leq \mu^*(E) + 1/n$. Letting $A = \bigintersect_{n\in\naturals} A_n$ we have $E \subseteq A$ and $\mu^*(A) \leq \mu^*(E)$. The other inequality is obvious, so $\mu^*(A) = \mu^*(E)$, and part (a) implies that $\mu^*(E) = \mu^+(E)$ as desired.
+\end{solutionsec}
 \end{solution}
 
 
 \begin{exerciseframed*}[21]
     Let $\mu^*$ be an outer measure induced from a premeasure and $\overline\mu$ the restriction of $\mu^*$ to the $\mu^*$-measurable sets. Then $\overline\mu$ is saturated.
 \end{exerciseframed*}
-%
-Let $\calA$ denote the algebra on which the premeasure in question is defined, and denote by $\calM^*$ the $\sigma$-algebra of $\mu^*$-measurable sets. Recall that $\calA \subseteq \calM^*$.
 
-Let $E \subseteq X$ be locally measurable. It suffices to show that
-%
-\begin{equation*}
-    \mu^*(F)
+\begin{solution}
+	Let $\calA$ denote the algebra on which the premeasure in question is defined, and denote by $\calM^*$ the $\sigma$-algebra of $\mu^*$-measurable sets. Recall that $\calA \subseteq \calM^*$.
+	
+	Let $E \subseteq X$ be locally measurable. It suffices to show that
+	%
+	\begin{equation*}
+		\mu^*(F)
         \geq \mu^*(F \intersect E) + \mu^*(F \intersect E^c)
-\end{equation*}
-%
-for all $F \subseteq X$ with $\mu^*(F) < \infty$. Given $\epsilon   > 0$, Exercise~1.18(a) yields a set $A \in \calA_\sigma$ such that $\mu^*(A) \leq \mu^*(F) + \epsilon$. Then $\mu^*(A) < \infty$, and so $E \intersect A \in \calM^*$. It follows that
-%
-\begin{align*}
-    \mu^*(F) + \epsilon
+	\end{equation*}
+	%
+	for all $F \subseteq X$ with $\mu^*(F) < \infty$. Given $\epsilon   > 0$, Exercise~1.18(a) yields a set $A \in \calA_\sigma$ such that $\mu^*(A) \leq \mu^*(F) + \epsilon$. Then $\mu^*(A) < \infty$, and so $E \intersect A \in \calM^*$. It follows that
+	%
+	\begin{align*}
+		\mu^*(F) + \epsilon
         \geq \mu^*(A)
         &= \mu^*(A \intersect (E \intersect A))
-          + \mu^*(A \intersect (E \intersect A)^c) \\
+		+ \mu^*(A \intersect (E \intersect A)^c) \\
         &= \mu^*(A \intersect E) + \mu^*(A \intersect E^c) \\
         &\geq \mu^*(F \intersect E) + \mu^*(F \intersect E^c),
-\end{align*}
-%
-and hence $E \in \calM^*$. Thus $\overline\mu$ is saturated.
+	\end{align*}
+	%
+	and hence $E \in \calM^*$. Thus $\overline\mu$ is saturated.
+\end{solution}
 
 
 \begin{exerciseframed*}[22]
-    Let $(X,\calM,\mu)$ be a measure space, $\mu^*$ the outer measure induced b $\mu$ according to (1.12), $\calM^*$ the $\sigma$-algebra of $\mu^*$-measurable sets, and $\overline\mu = \mu^*|_{\calM^*}$.
+    Let $(X,\calM,\mu)$ be a measure space, $\mu^*$ the outer measure induced by $\mu$ according to (1.12), $\calM^*$ the $\sigma$-algebra of $\mu^*$-measurable sets, and $\overline\mu = \mu^*|_{\calM^*}$.
     %
     \begin{enumerate}
         \item If $\mu$ is $\sigma$-finite, then $\overline\mu$ is the completion of $\mu$.
@@ -494,6 +518,7 @@ and hence $E \in \calM^*$. Thus $\overline\mu$ is saturated.
 \end{exerciseframed*}
 
 \begin{solution}
+\begin{solutionsec}
     \item Let $\overline\calM$ be the $\sigma$-algebra from Theorem~1.9 (namely, the $\sigma$-algebra generated by the sets in $\calM$ along with all $\mu$-null sets). This is clearly the smallest $\sigma$-algebra on which there can exist a complete extension of $\mu$, so since $\overline\mu$ is also a complete extension of $\mu$, we must have $\overline\calM \subseteq \calM^*$. Theorem~1.9 yields the uniqueness of a complete extension of $\mu$ on $\overline\calM$, so it suffices to show that $\calM^* \subseteq \overline\calM$.
     
     Now assume that $\mu$ is $\sigma$-finite, and let $E \in \calM^*$. Then also $E^c \in \calM^*$, and Exercise~1.18(c) ensures the existence of sets $B,D \in \calM_{\sigma\delta} = \calM$ with $E \subseteq B$ and $E^c \subseteq D$ such that
@@ -526,6 +551,7 @@ and hence $E \in \calM^*$. Thus $\overline\mu$ is saturated.
     Conversely, let $E \in \calM^*$ and consider $A \in \overline\calM$ with $\hat\mu(A) < \infty$. Then also $A \in \calM^*$, so $E \intersect A \in \calM^*$. The argument at the beginning of part (a) showed that $\overline\mu$ is an extension of $\hat\mu$, so $\mu^*(E \intersect A) = \hat\mu(E \intersect A) < \infty$. The same argument as in part (a), only now using Exercise~1.18(b) instead of (c), shows that $E \intersect A \in \overline\calM$, and so $E \in \widetilde\calM$.
 
     Finally, let $\tilde\mu$ denote the saturation of $\hat\mu$. We show that $\overline\mu = \tilde\mu$. Since the completion of $\mu$ on $\overline\calM$ is unique, the two measures must agree here. Instead let $E \in \widetilde\calM \setminus \overline\calM$. By definition of $\tilde\mu$ we must then have $\tilde\mu(E) = \infty$. On the other hand, we just showed (for $E \intersect A$ instead of $E$) that $\mu^*(E) < \infty$ implies $E \in \overline\calM$. Since we have assumed that this is not the case, we must have $\overline\mu(E) = \mu^*(E) = \infty$. Thus $\overline\mu = \tilde\mu$.
+\end{solutionsec}
 \end{solution}
 
 
@@ -538,13 +564,17 @@ and hence $E \in \calM^*$. Thus $\overline\mu$ is saturated.
         \item $E = H \union N_2$ where $H$ is an $F_\sigma$ set and $\mu(N_2) = 0$.
     \end{enumerate}
 \end{exerciseframed*}
-%
-Folland proves this claim when $\mu(E) < \infty$, so assume that $\mu(E) = \infty$. Since $\mu$ is $\sigma$-finite, there is a sequence $(E_n)_{n\in\naturals}$ in $\calM_\mu$ with $\mu(E_n) < \infty$ for all $n \in \naturals$ and $E = \bigunion_{n\in\naturals} E_n$. Then there are sequences $(H_n)$ of $F_\sigma$ sets and $(N_n)$ of null sets such that $E_n = H_n \union N_n$. Then $H = \bigunion_{n\in\naturals} H_n$ is also an $F_\sigma$ set and $N = \bigunion_{n\in\naturals} N_n$ a null set, and $E = H \union N$.
 
-Applying this to $E^c$ yields a similar decomposition $E^c = H \union N$. But then $E = H^c \setminus N$, and $H^c$ is a $G_\delta$ set.
+\begin{solution}
+	Folland proves this claim when $\mu(E) < \infty$, so assume that $\mu(E) = \infty$. Since $\mu$ is $\sigma$-finite, there is a sequence $(E_n)_{n\in\naturals}$ in $\calM_\mu$ with $\mu(E_n) < \infty$ for all $n \in \naturals$ and $E = \bigunion_{n\in\naturals} E_n$. Then there are sequences $(H_n)$ of $F_\sigma$ sets and $(N_n)$ of null sets such that $E_n = H_n \union N_n$. Then $H = \bigunion_{n\in\naturals} H_n$ is also an $F_\sigma$ set and $N = \bigunion_{n\in\naturals} N_n$ a null set, and $E = H \union N$.
+
+	Applying this to $E^c$ yields a similar decomposition $E^c = H \union N$. But then $E = H^c \setminus N$, and $H^c$ is a $G_\delta$ set.
+\end{solution}
 
 
 \chapter{Integration}
+
+\section{Measurable Functions}
 
 \begin{exerciseframed*}[10]
     The following implications are valid iff the measure $\mu$ is complete:
@@ -556,6 +586,7 @@ Applying this to $E^c$ yields a similar decomposition $E^c = H \union N$. But th
 \end{exerciseframed*}
 
 \begin{solution}
+\begin{solutionsec}
     \item Let $f,g \colon (X,\calE,\mu) \to (Y,\calF)$ be functions from a measure space to a measurable space where $f$ is $(\calE,\calF)$-measurable. Let $N = \{f \neq g\}$ and assume that $\mu(N) = 0$. Given $B \in \calF$ we must show that $g\preim(B) \in \calE$. But notice that
     %
     \begin{equation*}
@@ -567,9 +598,10 @@ Applying this to $E^c$ yields a similar decomposition $E^c = H \union N$. But th
 
     Conversely, let $\mu$ be a measure on a measurable space $(X,\calE)$ that is not complete, and let $N \subseteq X$ be a non-measurable $\mu$-null set. Then $\indicator{N} = 0$ $\mu$-a.e., but $\indicator{N}$ is not measurable.
 
-    \item Consider the set $A$ of points $x \in X$ such that $f_n(x)$ does not converge to $f(x)$. Then $f_n \indicator{A^c} \to f \indicator{A^c}$ pointwise everywhere, so Proposition~2.7 (or Corollary~2.9) implies that $f \indicator{A^c}$ is measurable. By assumption $\mu(A) = 0$, so $f \indicator{A^c} = f$ $\mu$-a.e., so part (a) implies that $f$ is measurable.
+    \item Consider the set $A$ of points $x \in X$ such that $f_n(x)$ does not converge to $f(x)$. Then $f_n \indicator{A^c} \to f \indicator{A^c}$ pointwise everywhere, so Proposition~2.7 (or Corollary~2.9) implies that $f \indicator{A^c}$ is measurable. By assumption $\mu(A) = 0$, so $f \indicator{A^c} = f$ $\mu$-a.e. and part (a) implies that $f$ is measurable.
     
     Conversely
+\end{solutionsec}
 \end{solution}
 
 
@@ -577,27 +609,58 @@ Applying this to $E^c$ yields a similar decomposition $E^c = H \union N$. But th
 
 \section{Signed Measures}
 
-\subsection{Exercise 2}
+\begin{exerciseframed*}[2]
+	If $\nu$ is a signed measure, $E$ is $\nu$-null iff $\abs\nu(E) = 0$. Also, if $\nu$ and $\mu$ are signed measures, $\nu \perp \mu$ iff $\abs\nu \perp \mu$ iff $\nu^+ \perp \mu$ and $\nu^- \perp \mu$.
+\end{exerciseframed*}
 
-Assume that $E$ is $\nu$-null, and let $P \union N$ be a Hahn decomposition for $\nu$. Then
-%
-\begin{equation*}
-	\nu^+(E) = \nu(E \intersect P) = 0,
-\end{equation*}
-%
-since $E \intersect P \subseteq E$. Similarly we get $\nu^-(E) = 0$, so $\abs{\nu}(E) = 0$.
+\begin{solution}
+	Assume that $E$ is $\nu$-null, and let $P \union N$ be a Hahn decomposition for $\nu$. Then
+	%
+	\begin{equation*}
+		\nu^+(E) = \nu(E \intersect P) = 0,
+	\end{equation*}
+	%
+	since $E \intersect P \subseteq E$. Similarly we get $\nu^-(E) = 0$, so $\abs{\nu}(E) = 0$. Conversely, assume that $\abs{\nu}(E) = 0$. Then $\nu^\pm(F) = 0$ for all measurable $F \subseteq E$, and so $\nu(F) = 0$.
 
-Conversely, assume that $\abs{\nu}(E) = 0$. Then $\nu^\pm(F) = 0$ for all measurable $F \subseteq E$, and so $\nu(F) = 0$.
+	The other claims follow directly from the above.
+\end{solution}
 
-The other claims follow directly from the above.
 
+\begin{exerciseframed*}[3]
+	Let $\nu$ be a signed measure on $(X,\calM)$.
+	%
+	\begin{enumerate}
+		\item $L^1(\nu) = L^1(\abs\nu)$.
+		\item If $f \in L^1(\nu)$,
+		%
+		\begin{equation*}
+			\abs[\bigg]{ \int f \dif\nu }
+				\leq \int \abs{f} \dif\abs\nu.
+		\end{equation*}
+		
+		\item If $E \in \calM$,
+		%
+		\begin{equation*}
+			\abs\nu(E)
+				= \sup\set[\bigg]{ \abs[\bigg]{\int_E f \dif\nu} }{ \abs{f} \leq 1 }
+		\end{equation*}
+	\end{enumerate}
+\end{exerciseframed*}
 
-\subsection{Exercise 3}
-
-\begin{enumerate}[label=(\alph*)]
+\begin{solution}
+\begin{solutionsec}
 	\item This follows directly from the definition of $L^1(\nu)$.
 	
-	\item This is a simple application of the triangle inequality.
+	\item For $f \in L^1(\nu)$ we have
+	%
+	\begin{equation*}
+		\abs[\bigg]{ \int f \dif\nu }
+			= \abs[\bigg]{ \int f \dif\nu^+ - \int f \dif\nu^- }
+			\leq \int \abs{f} \dif\nu^+ + \int \abs{f} \dif\nu^-
+			= \int \abs{f} \dif\abs\nu,
+	\end{equation*}
+	%
+	since $\abs{\nu} = \nu^+ + \nu^-$.
 
 	\item If $\abs{f} \leq 1$, then
 	%
@@ -607,40 +670,128 @@ The other claims follow directly from the above.
 			\leq \abs{\nu}(E),
 	\end{equation*}
 	%
-	showing one inequality. For the other inequality, let $P \union N$ be a Hahn decomposition of $\nu$, and let $f = \indicator{P} - \indicator{N}$. Then $\int_E f \dif\nu = \abs{\nu}(E)$.
-\end{enumerate}
+	showing one inequality. For the other inequality, let $P \union N$ be a Hahn decomposition for $\nu$, and let $f = \indicator{P} - \indicator{N}$. Then
+	%
+	\begin{align*}
+		\int_E f \dif\nu
+			&= \int_E (\indicator{P} - \indicator{N}) \dif\nu^+
+			   - \int_E (\indicator{P} - \indicator{N}) \dif\nu^- \\
+			&= \nu^+(E \intersect P) - \nu^+(E \intersect N)
+			   - \nu^-(E \intersect P) + \nu^-(E \intersect N) \\
+			&= \nu^+(E) + \nu^-(E)
+			 = \abs\nu(E).
+	\end{align*}
+\end{solutionsec}
+\end{solution}
 
 
-\subsection{Exercise 4}
+\begin{exerciseframed*}[4]
+	If $\nu$ is a signed measure and $\lambda, \mu$ are positive measures such that $\nu = \lambda - \mu$, then $\lambda \geq \nu^+$ and $\mu \geq \nu^-$.
+\end{exerciseframed*}
 
-Let $P \union N$ be a Hahn decomposition for $\nu$. Then
-%
-\begin{equation*}
-	\nu^+(E)
-		= \nu(E \intersect P)
-		\leq \lambda(E \intersect P)
-		\leq \lambda(E),
-\end{equation*}
-%
-and similarly for $\nu^-$.
+\begin{solution}
+	Let $P \union N$ be a Hahn decomposition for $\nu$. Then
+	%
+	\begin{equation*}
+		\nu^+(E)
+			= \nu(E \intersect P)
+			= \lambda(E \intersect P) - \mu(E \intersect P)
+			\leq \lambda(E \intersect P)
+			\leq \lambda(E),
+	\end{equation*}
+	%
+	and similarly for $\nu^-$.
+\end{solution}
 
 
-\subsection{Exercise 5}
+\begin{exerciseframed*}[5]
+	If $\nu_1, \nu_2$ are signed measures that both omit the value $\infty$ or $-\infty$, then $\abs{\nu_1 + \nu_2} \leq \abs{\nu_1} + \abs{\nu_2}$.
+\end{exerciseframed*}
 
-First notice that
-%
-\begin{equation*}
-	\nu_1 + \nu_2
-		= (\nu_1^+ + \nu_2^+) - (\nu_1^- + \nu_2^-),
-\end{equation*}
-%
-so by the previous exercise we have
-%
-\begin{equation*}
-	\abs{\nu_1 + \nu_2}
-		= (\nu_1 + \nu_2)^+ + (\nu_1 + \nu_2)^+
-		\leq (\nu_1^+ + \nu_2^+) + (\nu_1^- + \nu_2^-)
-		= \abs{\nu_1} + \abs{\nu_2}.
-\end{equation*}
+\begin{solution}
+	First notice that
+	%
+	\begin{equation*}
+		\nu_1 + \nu_2
+			= (\nu_1^+ + \nu_2^+) - (\nu_1^- + \nu_2^-),
+	\end{equation*}
+	%
+	so by the previous exercise we have
+	%
+	\begin{equation*}
+		\abs{\nu_1 + \nu_2}
+			= (\nu_1 + \nu_2)^+ + (\nu_1 + \nu_2)^+
+			\leq (\nu_1^+ + \nu_2^+) + (\nu_1^- + \nu_2^-)
+			= \abs{\nu_1} + \abs{\nu_2}.
+	\end{equation*}
+\end{solution}
+
+
+\begin{exerciseframed*}[7]
+	Suppose that $\nu$ is a signed measure on $(X,\calM)$ and $E \in \calM$.
+	%
+	\begin{enumerate}
+		\item $\nu^+(E) = \sup\set{\nu(F)}{F \in \calM, F \subseteq E}$ and $\nu^-(E) = -\inf\set{\nu(F)}{F \in \calM, F \subseteq E}$.
+
+		\item We have
+		%
+		\begin{equation*}
+			\abs\nu(E)
+				= \sup\set[\bigg]{ \sum_{i=1}^n \abs{\nu(E_i)} }
+				        { n \in \naturals, \text{$E_1, \ldots, E_n$ disjoint}, \bigunion_{i=1}^n E_i = E }.
+		\end{equation*}
+	\end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{solutionsec}
+	\item We prove the first identity, the second is proved similarly. Denote the supremum on the right-hand side by $\mu(E)$, and let $P \union N$ be a Hahn decomposition for $\nu$. Since $E \intersect P \subseteq E$ we have
+	%
+	\begin{equation*}
+		\nu^+(E)
+			= \nu(E \intersect P)
+			\leq \mu(E).
+	\end{equation*}
+	%
+	Furthermore, for $F \in \calM$ with $F \subseteq E$ notice that
+	%
+	\begin{equation*}
+		\nu(F)
+			= \nu^+(F) - \nu^-(F)
+			\leq \nu^+(F)
+			\leq \nu^+(E),
+	\end{equation*}
+	%
+	showing that $\mu(E) \leq \nu^+(E)$.
+
+	\item Denote the quantity on the right-hand side by $\rho(E)$, and let $P \union N$ be a Hahn decomposition for $\nu$. The disjoint union $E = (E \intersect P) \union (E \intersect N)$ yields
+	%
+	\begin{equation*}
+		\rho(E)
+			\geq \abs{\nu(E \intersect P)} + \abs{\nu(E \intersect N)}
+			= \nu^+(E) + \nu^-(E)
+			= \abs\nu(E). 
+	\end{equation*}
+	%
+	Conversely, let $E_1, \ldots, E_n$ be disjoint sets in $\calM$ such that $\bigunion_{i=1}^n E_i = E$. For $i = 1, \ldots, n$ we have
+	%
+	\begin{equation*}
+		\abs{\nu(E_i)}
+			= \abs{ \nu^+(E_i) - \nu^-(E_i) }
+			\leq \nu^+(E_i) + \nu^-(E_i)
+			= \abs\nu(E_i),
+	\end{equation*}
+	%
+	implying that
+	%
+	\begin{equation*}
+		\sum_{i=1}^n \abs{\nu(E_i)}
+			\leq \sum_{i=1}^n \abs\nu(E_i)
+			= \abs\nu(E).
+	\end{equation*}
+	%
+	It follows that $\rho(E) \leq \abs\nu(E)$.
+\end{solutionsec}
+\end{solution}
 
 \end{document}
