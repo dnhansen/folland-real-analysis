@@ -10,6 +10,7 @@
 
 % Formatting and layout
 \usepackage[autostyle]{csquotes}
+\renewcommand{\mktextelp}{(\textellipsis\unkern)}
 \usepackage[final]{microtype}
 \usepackage{xcolor}
 \frenchspacing
@@ -17,13 +18,16 @@
 \usepackage{latex-sty/articlesectionstyle}
 
 % Fonts
-\usepackage[largesmallcaps]{kpfonts}
+\usepackage{amssymb}
+\usepackage[largesmallcaps,partialup]{kpfonts}
 \DeclareSymbolFontAlphabet{\mathrm}{operators} % https://tex.stackexchange.com/questions/40874/kpfonts-siunitx-and-math-alphabets
 \linespread{1.06}
-\let\mathfrak\undefined
-\usepackage{eufrak}
+% \let\mathfrak\undefined
+% \usepackage{eufrak}
+\DeclareMathAlphabet\mathfrak{U}{euf}{m}{n}
+\SetMathAlphabet\mathfrak{bold}{U}{euf}{b}{n}
+% https://tex.stackexchange.com/questions/13815/kpfonts-with-eufrak
 \usepackage{inconsolata}
-\usepackage{amssymb}
 
 % Hyperlinks
 \usepackage{hyperref}
@@ -49,6 +53,7 @@
 \usepackage{latex-sty/framedtheorems}
 \usepackage{latex-sty/topologycommands}
 \usepackage{tikz-cd}
+\tikzcdset{arrow style=math font} % https://tex.stackexchange.com/questions/300352/equalities-look-broken-with-tikz-cd-and-math-font
 \usetikzlibrary{babel}
 
 % Lists
@@ -74,6 +79,7 @@
 \newcommand{\calF}{\mathcal{F}}
 \newcommand{\calG}{\mathcal{G}}
 \newcommand{\calM}{\mathcal{M}}
+\newcommand{\calN}{\mathcal{N}}
 \newcommand{\calA}{\mathcal{A}}
 \newcommand{\calP}{\mathcal{P}}
 \newcommand{\calR}{\mathcal{R}}
@@ -249,6 +255,8 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	%
 	\begin{equation*}
 		E^c \intersect A
+			= A \setminus E
+			= A \setminus (E \intersect A)
 			= (E \intersect A)^c \intersect A
 			\in \calM
 	\end{equation*}
@@ -410,7 +418,7 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \end{solution}
 
 \begin{remark*}
-    Notice that (b) and (c) in particular show that any Lebesgue measurable set $E$, and therefore any Borel set, is the union of a $G_\delta$ set $B$ and a Lebesgue null set $B \setminus E$.
+    Notice that (b) and (c) in particular show that any Lebesgue measurable set $E$, and therefore any Borel set, is the intersection of a $G_\delta$ set $B$ and a Lebesgue null set $B \setminus E$.
 \end{remark*}
 
 
@@ -791,6 +799,633 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	\end{equation*}
 	%
 	It follows that $\rho(E) \leq \abs\nu(E)$.
+\end{solutionsec}
+\end{solution}
+
+
+\chapter{Point Set Topology}
+
+\setcounter{section}{6}
+\section{The Stone--Weierstrass Theorem}
+
+\begin{remark}
+	Notice that we never use the Hausdorff assumption in the proof of the Stone--Weierstrass theorem. However, if $X$ is a topological space and there exists a family $\calF$ of functions in $C(X)$ or $C(X,\reals)$ that separates points in $X$, then $X$ is automatically Hausdorff: For let $x \neq y$ be points in $X$, and let $f \in \calF$ be such that $f(x) \neq f(y)$. Choosing disjoint neighbourhoods $U_x$ and $U_y$ of $x$ and $y$ respectively, $f\preim(U_x)$ and $f\preim(U_y)$ are disjoint neighbourhoods of $x$ and $y$ in $X$. Hence $X$ is Hausdorff.
+
+	In other words, Hausdorff is not a necessary condition in the statement of the theorem, but rather follows from the hypotheses.
+
+	In contrast, the compactness hypothesis is used very explicitly in the proof of Lemma~4.49.
+\end{remark}
+
+\begin{exerciseframed*}[66]
+	Let $1 - \sum_{n=1}^\infty c_n t^n$ be the Maclaurin series for $(1 - t)^{1/2}$.
+	%
+	\begin{enumerate}
+		\item The series converges absolutely and uniformly on compact subsets of $(-1,1)$, as does the termwise differentiated series $- \sum_{n=1}^\infty n c_n t^{n-1}$. Thus, if $f(t) = 1 - \sum_{n=1}^\infty c_n t^n$, then $f'(t) = - \sum_{n=1}^\infty n c_n t^{n-1}$.
+
+		\item By explicit calculation, $f(t) = -2(1-t) f'(t)$, from which it follows that $(1-t)^{-1/2} f(t)$ is constant. Since $f(0) = 1$, $f(t) = (1-t)^{1/2}$.
+	\end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{solutionsec}
+	\item We first compute the coefficients $c_n$. If $g(t) = (1 - t)^{1/2}$, then we claim that
+	%
+	\begin{equation*}
+		g^{(n)}(t)
+			= - \frac{(2n-3)(2n-5) \cdots (3)(1)}{2^n} (1-t)^{-(2n-1)/2}
+	\end{equation*}
+	%
+	for $n \in \naturals$ and $t \in (-1,1)$. Indeed, this follows easily by induction. Hence
+	%
+	\begin{equation*}
+		c_n
+			= \frac{1}{n!} g^{(n)}(0)
+			= - \frac{1}{n!} \frac{(2n-3)(2n-5) \cdots (3)(1)}{2^n}.
+	\end{equation*}
+	%
+	Now let $\rho \in (0,1)$. Then
+	%
+	\begin{equation*}
+		\abs[\bigg]{\frac{c_{n+1}\rho^{n+1}}{c_n \rho^n}}
+			= \frac{n!}{(n+1)!} \frac{2n-1}{2} \rho
+			= \frac{2n-1}{2n} \rho
+			\xrightarrow[n \to \infty]{} \rho
+			< 1.
+	\end{equation*}
+	%
+	The ratio test then implies that the series $\sum_{n=1}^\infty c_n \rho^n$ converges, so it follows from the Weierstrass M-test that the series $1 - \sum_{n=1}^\infty c_n t^n$ converges absolutely and uniformly on the interval $[-\rho,\rho]$, and hence on all compact subsets of $(-1,1)$. We similarly find that
+	%
+	\begin{equation*}
+		\abs[\bigg]{\frac{(n+1)c_{n+1}\rho^n}{nc_n \rho^{n-1}}}
+			= \frac{n!}{(n+1)!} \frac{n+1}{n} \frac{2n-1}{2} \rho
+			= \frac{n+1}{n} \frac{2n-1}{2n} \rho
+			\xrightarrow[n \to \infty]{} \rho
+			< 1,
+	\end{equation*}
+	%
+	so the series $- \sum_{n=1}^\infty n c_n t^{n-1}$ also converges as claimed.
+
+	\item Notice that
+	%
+	\begin{align*}
+		-2(1-t) f'(t)
+			&= 2(1-t) \sum_{n=1}^\infty n c_n t^{n-1}
+			 = 2 \sum_{n=1}^\infty n c_n t^{n-1} - 2 \sum_{n=1}^\infty n c_n t^n \\
+			&= 2 \sum_{n=0}^\infty (n+1) c_{n+1} t^n - 2 \sum_{n=1}^\infty n c_n t^n \\
+			&= 2 \sum_{n=0}^\infty \bigl( (n+1) c_{n+1} - n c_n \bigr) t^n.
+	\end{align*}
+	%
+	A short calculation shows that $(n+1) c_{n+1} - n c_n = c_n/2$, so the above equals $f(t)$ as claimed. Thus we have
+	%
+	\begin{equation*}
+		\frac{\dif}{\dif t} (1-t)^{-1/2} f(t)
+			= (1-t)^{-1/2} f'(t) + \frac{1}{2} (1-t)^{-3/2} f(t)
+			= 0,
+	\end{equation*}
+	%
+	showing that $(1-t)^{-1/2} f(t)$ is constant. But $f(0) = 1$, so it follows that $f(t) = (1-t)^{1/2} = g(t)$.
+\end{solutionsec}
+\end{solution}
+
+
+\chapter{Elements of Functional Analysis}
+
+\section{Normed Vector Spaces}
+
+\begin{remark}
+	We give a slightly different proof of Proposition~5.2.
+
+	Clearly if $T \colon X \to Y$ is continuous, then it is continuous at $0$. And if this is so, then there is a $\delta > 0$ such that $\norm{h} < \delta$ implies $\norm{Th} \leq 1$, for $h \in X$. For all $x \in X$ we thus have
+	%
+	\begin{equation*}
+		\norm{Tx}
+			= \frac{\norm{x}}{\delta} \norm[\bigg]{T \biggl( \delta \frac{x}{\norm{x}} \biggr) }
+			\leq \delta\inv \norm{x},
+	\end{equation*}
+	%
+	so $T$ is bounded.
+
+	We let
+	%
+	\begin{equation*}
+		\norm{T}
+			= \sup \set[\big]{\norm{Tx}}{x \in X, \norm{x} \leq 1}
+	\end{equation*}
+	%
+	If $T$ is bounded, then clearly $\norm{T} < \infty$. If conversely $\norm{T} < \infty$, then
+	%
+	\begin{equation*}
+		\norm[\bigg]{T \frac{x}{\norm{x}} }
+			\leq \norm{T}
+	\end{equation*}
+	%
+	for all $x \neq 0$, which implies that $\norm{Tx} \leq \norm{T} \, \norm{x}$. Furthermore, if $K > 0$ is such that $\norm{Tx} \leq K \norm{x}$ for all $x \in X$, then $\norm{Tx} \leq K$ whenever $\norm{x} \leq x$. But then $\norm{T} \leq K$.
+\end{remark}
+
+
+\begin{exerciseframed*}[3]
+	If $Y$ is complete, so is $\calB(X,Y)$.
+\end{exerciseframed*}
+
+\begin{solution}
+	Let $(T_n)_{n\in\naturals}$ be a Cauchy sequence in $\calB(X,Y)$. For $x \in X$ we have
+	%
+	\begin{equation*}
+		\norm{T_n x - T_m x}
+			\leq \norm{T_n - T_m} \, \norm{x}
+	\end{equation*}
+	%
+	for $m,n \in \naturals$, so $(T_n x)_{n\in\naturals}$ is a Cauchy sequence in $Y$. Define a map $T \colon X \to Y$ by $Tx = \lim_{n\to\infty} T_n x$. This is clearly linear, and we claim that $T \in \calB(X,Y)$ and that $T_n \to T$. Choose $N \in \naturals$ such that $m,n \geq N$ implies that $\norm{T_n - T_m} \leq \epsilon$. For $x \in X$ and $n \leq N$ we then have
+	%
+	\begin{equation*}
+		\norm{(T_n - T)x}
+			= \lim_{m\to\infty} \norm{(T_n - T_m) x}
+			\leq \lim_{m\to\infty} \norm{T_n - T_m} \, \norm{x}
+			\leq \epsilon \norm{x}.
+	\end{equation*}
+	%
+	Hence $T_n - T$ is bounded, but then so is $T$. Furthermore, $\norm{T_n - T} \leq \epsilon$, so $T_n \to T$.
+
+	Finally notice that the reverse triangle inequality implies that
+	%
+	\begin{equation*}
+		\abs[\big]{ \norm{T_n} - \norm{T} }
+			\leq \norm{T_n - T}
+	\end{equation*}
+	%
+	as usual, so also $\norm{T_n} \to \norm{T}$.
+\end{solution}
+
+
+\begin{exerciseframed*}[4]
+	If $X$ and $Y$ are normed spaces, the map $(T,x) \mapsto Tx$ is continuous from $\calB(X,Y) \prod X \to Y$.
+\end{exerciseframed*}
+
+\begin{solution}
+	If $T,S \in \calB(X,Y)$ and $x,y \in X$, then
+	%
+	\begin{equation*}
+		\norm{Tx - Sy}
+			\leq \norm{Tx - Ty} + \norm{Ty - Sy}
+			\leq \norm{T} \, \norm{x - y} + \norm{T - S} \, \norm{y}.
+	\end{equation*}
+	%
+	The claim follows.
+
+	Notice that this proof is identical to the proof that multiplication in a Banach algebra is continuous, but the Banach inequality is replaced with the inequality $\norm{Tx} \leq \norm{T} \, \norm{x}$. The proof is also almost identical to the proof that multiplication on $\reals$ or $\complex$ is continuous, except here we have the \emph{equality} $\abs{xy} = \abs{x} \, \abs{y}$.
+\end{solution}
+
+
+\begin{exerciseframed*}[6]
+	Suppose that $X$ is a finite-dimensional vector space. Let $(e_1, \ldots, e_d)$ be a basis for $X$, and define $\norm{\sum_{i=1}^d a_i e_i}_1 = \sum_{i=1}^d \abs{a_i}$.
+	%
+	\begin{enumerate}
+		\item $\norm{\,\cdot\,}_1$ is a norm on $X$.
+		\item The map $T \colon (a_1, \ldots, a_d) \mapsto \sum_{i=1}^d a_i e_i$ is continuous from $K^d$ with the usual Euclidean topology to $X$ with the topology defined by $\norm{\,\cdot\,}_1$.
+		\item The set $S = \set{x \in X}{\norm{x}_1 = 1}$ is compact in the topology defined by $\norm{\,\cdot\,}_1$.
+		\item All norms on $X$ are equivalent.
+	\end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{solutionsec}
+	\item This is obvious.
+	
+	\item If we equip $K^d$ with the $1$-norm, then $T$ is an isometry and thus continuous (in fact a homeomorphism since it is surjective).
+
+	\item Since the $1$-sphere in $K^d$ is compact and $T$ is a homeomorphism, then $S$ is also compact.
+
+	\item If $\norm{\,\cdot\,}$ is any norm on $X$, we need to find $C_1,C_2 > 0$ such that
+	%
+	\begin{equation}
+		\label{eq:norm-equivalence}
+		C_1 \norm{x}_1
+			\leq \norm{x}
+			\leq C_2 \norm{x}_1
+	\end{equation}
+	%
+	for all $x \in X$. This is obvious for $x = 0$, and if $x \neq 0$ we may divide through by $\norm{x}_1$. The claim is then that
+	%
+	\begin{equation*}
+		C_1
+			\leq \norm{x}
+			\leq C_2
+	\end{equation*}
+	%
+	for all $x \in X$ with $\norm{x}_1 = 1$, i.e. all $x \in S$. We first show that $\norm{\,\cdot\,}$ is continuous with respect to $\norm{\,\cdot\,}_1$. For $x = \sum_{i=1}^d a_i e_i$ and $y = \sum_{i=1}^d b_i e_i$ in $X$ we have
+	%
+	\begin{equation*}
+		\norm{x-y}
+			= \norm[\bigg]{ \sum_{i=1}^d (a_i - b_i) e_i }
+			\leq \sum_{i=1}^d \abs{a_i - b_i} \, \norm{e_i}
+			\leq \norm{x-y}_1 \max_{1 \leq i \leq d} \norm{e_i}.
+	\end{equation*}
+	%
+	Continuity of $\norm{\,\cdot\,}$ now follows from the reverse triangle inequality. (In fact, this calculation also proves the second inequality of \cref{eq:norm-equivalence}, but we give a second argument below.)
+
+	Since $\norm{\,\cdot\,}$ is continuous and $S$ is compact with respect to $\norm{\,\cdot\,}_1$, there exist $x_0, x_1 \in S$ such that
+	%
+	\begin{equation*}
+		\norm{x_0}_1
+			\leq \norm{x}
+			\leq \norm{x_1}_1
+	\end{equation*}
+	%
+	for all $x \in S$. And since both of $x_0$ and $x_1$ are nonzero then so are their norms, proving the claim.
+\end{solutionsec}
+\end{solution}
+
+
+\begin{exerciseframed*}[9]
+	Let $C^k([0,1])$ be space of functions on $[0,1]$ possessing continuous derivatives up to order $k$ on $[0,1]$, including onesided derivatives at the endpoints.
+	%
+	\begin{enumerate}
+		\item If $f \in C([0,1])$, then $f \in C^k([0,1])$ iff $f$ is $k$ times continuously differentiable on $(0,1)$ and $f^{(j)}(0+) = \lim_{x \downarrow 0} f^{(j)}(x)$ and $f^{(j)}(1-) = \lim_{x \uparrow 1} f^{(j)}(x)$ exist for $j \leq k$.
+		\item $\norm{f} = \sum_{j=0}^k \norm{f^{(j)}}_\infty$ is a norm on $C^k([0,1])$ that makes $C^k([0,1])$ into a Banach space.
+	\end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{solutionsec}
+	\item The \enquote{only if} part is obvious. Conversely, we show by induction in $j$ that $f \in C^j([0,1])$ for $j = 0, \ldots, k$. This is true for $j = 0$ by assumption, so assume that it is true for some $j$. For $x \in (0,1)$ there is a $\xi \in (0,x)$ such that $f^{(j)}(x) - f^{(j)}(0) = f^{(j+1)}(\xi)(x-0)$. It follows that
+	%
+	\begin{equation*}
+		\frac{ f^{(j)}(x) - f^{(j)}(0) }{x-0}
+			= f^{(j+1)}(\xi)
+			\xrightarrow[x \downarrow 0]{} f^{(j+1)}(0+).
+	\end{equation*}
+	%
+	Thus $f^{(j)}$ has a one-sided derivative at $0$, and since the derivative is precisely the limit $f^{(j+1)}(0+)$, this also shows that $f^{(j+1)}$ is continuous at $0$. Similarly at $1$, so $f \in C^{j+1}([0,1])$ as desired.
+
+	\item Let $(f_n)_{n\in\naturals}$ be a sequence in $C^1([0,1])$ converging to a function $f$, such that the sequence $(f_n')$ converges uniformly in $C([0,1])$ to a function $g$. Let $\epsilon > 0$, and choose $N \in \naturals$ such that $n \geq N$ implies that $\norm{f_n' - g}_\infty < \epsilon$. For $n \geq N$ and fixed $x \in [0,1]$ we then have
+	%
+	\begin{equation*}
+		\abs[\bigg]{ \int_0^x f_n'(t) \dif t - \int_0^x g(t) \dif t }
+			\leq \int_0^x \abs{f_n'(t) - g(t)} \dif t
+			\leq \epsilon x.
+	\end{equation*}
+	%
+	It follows that
+	%
+	\begin{equation*}
+		f(x) - f(0)
+			= \lim_{n\to\infty} \bigl( f_n(x) - f_n(0) \bigr)
+			= \lim_{n\to\infty} \int_0^x f'(t) \dif t
+			= \int_0^x g(t) \dif t.
+	\end{equation*}
+	%
+	Thus we see that $f \in C^1([0,1])$ with $f' = g$.
+
+	Now let $(f_n)_{n\in\naturals}$ be a Cauchy sequence in $C^k([0,1])$. Then the sequences $(f_n^{(j)})$ are Cauchy sequences in $C([0,1])$ for $j = 0, \ldots, k$, and so the sequences have uniform limits. But then we are in the situation above, so it follows by induction that $f_n^{(j)} \to f^{(j)}$ uniformly for all $j$. Hence $f_n \to f$ in $C^k([0,1])$, so this is a Banach space.
+\end{solutionsec}
+\end{solution}
+
+
+\begin{remark}
+	As an application of the above we consider the following: Let $D \colon C^k([0,1]) \to C^{k-1}([0,1])$ be the differential operator $f \mapsto f'$. We claim that this is bounded with respect to the above norm. For $f \in C^k([0,1])$ we have
+	%
+	\begin{equation*}
+		\norm{Df}
+			= \sum_{j=0}^{k-1} \norm{(Df)^{(j)}}_\infty
+			= \sum_{j=0}^{k-1} \norm{f^{(j+1)}}_\infty
+			= \sum_{j=1}^k \norm{f^{(j)}}_\infty
+			\leq \norm{f}.
+	\end{equation*}
+	%
+	The usual counterexamples to the boundedness of $D$ on e.g. $(C^1([0,1]), \norm{\,\cdot\,}_\infty)$ do not work here. The norm $\norm{\,\cdot\,}$ in effect takes into account the fact that functions that take on similar values may have derivatives that vary wildly.
+\end{remark}
+
+
+\begin{remarkbreak}[Riesz' lemma]
+	The statement of the lemma is as follows:
+	%
+	\begin{displayquote} % TODO: Better way to make theorems inside remarks
+		\itshape
+		Let $X$ be a normed vector space and $M$ a proper closed subspace of $X$. For $\alpha \in (0,1)$ there exists an $x \in X$ with $\norm{x} = 1$ such that
+		%
+		\begin{equation*}
+			\inf_{m \in M} \norm{x - m} \geq \alpha.
+		\end{equation*}
+	\end{displayquote}
+	%
+	Since the quotient norm on $X/M$ is given by $\norm{x+M} = \inf_{m \in M} \norm{x-m}$, this is precisely the statement of Exercise~5.12(b) [TODO: reference].
+
+	In Exercise~5.19(b) [TODO: reference] we use this to show that an infinite-dimensional normed vector space is not locally compact. It is easy to show that this is equivalent to the closed unit ball $\closure{B}_1(0)$ being compact.
+	
+	Conversely, every normed space $(X, \norm{\,\cdot\,})$ of dimension $d < \infty$ is locally compact: Choose a linear isomorphism $T \colon \complex^d \to X$ and let it induce a norm $\norm{\,\cdot\,}_1$ on $X$. With this norm $T$ is an isometry, hence a homeomorphism, so the local compactness of $\complex^d$ is transferred to $(X, \norm{\,\cdot\,}_1)$. But all norms on finite-dimensional vector spaces are equivalent, so $(X, \norm{\,\cdot\,})$ is also locally compact.
+
+	This equivalence of local compactness and finite-dimensionality generalises to Hausdorff topological vector spaces. This is known as F.\,Riesz' theorem.
+\end{remarkbreak}
+
+\begin{exerciseframed*}[12]
+	Let $X$ be a normed vector space and $M$ a proper closed subspace of $X$.
+	%
+	\begin{enumerate}
+		\item a
+		\item For any $\epsilon > 0$ there exists $x \in X$ such that $\norm{x} = 1$ and $\norm{x + M} \geq 1 - \epsilon$.
+		\item The projection map $\pi \colon X \to X/M$ has norm $1$.
+		\item d
+		\item e
+	\end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{solutionsec}
+	\item a
+	
+	\item Let $\epsilon > 0$, and pick some $y \in X \setminus M$. By definition of the quotient norm there exists an $m \in M$ such that
+	%
+	\begin{equation*}
+		\frac{\norm{y+M}}{\norm{y-m}}
+			\geq 1 - \epsilon.
+	\end{equation*}
+	%
+	Letting $x = (y-m)/\norm{y-m}$ we have $\norm{x} = 1$ and
+	%
+	\begin{equation*}
+		\norm{x + M}
+			= \norm[\bigg]{ \frac{y-m}{\norm{y-m}} + M }
+			= \frac{\norm{y + M}}{\norm{y-m}}
+			\geq 1 - \epsilon
+	\end{equation*}
+	%
+	as desired.
+	
+	\item For any $x \in X$ we have $\norm{x + M} \leq \norm{x + 0}$, so $\norm{\pi} \leq 1$. But given $\epsilon > 0$, (b) shows that $\norm{x + M} \geq 1 - \epsilon$ for some $x \in X$ with $\norm{x} = 1$, so $\norm{\pi} \geq 1 - \epsilon$. Since $\epsilon$ was arbitrary, $\norm{\pi} \geq 1$.
+
+	\item d
+	\item e
+\end{solutionsec}
+\end{solution}
+
+
+\section{Linear Functionals}
+
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\scat}[1]{\mathbf{#1}} % category supposed to be small
+\newcommand{\ncat}[1]{\mathbf{#1}} % named categories like Set, Top
+
+\newcommand{\catNor}{\ncat{Nor}}
+\newcommand{\catSet}{\ncat{Set}}
+
+\begin{remarkbreak}[The categories $\catNor$ and $\catNor_1$ of normed spaces]
+	A map $f \colon (S,\rho) \to (T,\delta)$ between metric spaces having the property that
+	%
+	\begin{equation*}
+		\delta(f(x), f(y))
+			\leq \rho(x, y)
+	\end{equation*}
+	%
+	for all $x,y \in S$ is variously called a \emph{short map}, a \emph{metric map}, \emph{nonexpansive} or \emph{-expanding}, a \emph{weak contraction}, or just a Lipschitz function with Lipschitz constant $1$. We consider the category $\catNor_1$ whose objects are normed spaces and whose arrows are linear maps that are also short maps. Notice that a linear map $T \colon X \to Y$ between normed spaces is short just when $\norm{T} \leq 1$. Hence $\catNor_1$ is a subcategory of the category $\catNor$ of normed spaces and bounded linear maps. It is easy to see that the isomorphisms in $\catNor_1$ are precisely the isometries. (In fact, this is one of the main reasons for restricting to $\catNor_1$.)
+
+	If $X$ and $Y$ are normed spaces we may equip the Cartesian product $X \prod Y$ with different norms, two of which are of particular importance here, namely the norms $(x,y) \mapsto \max\{ \norm{x}, \norm{y} \}$ and $(x,y) \mapsto \norm{x} + \norm{y}$. We reserve the notation $X \prod Y$ for the Cartesian product equipped with the former norm, and we use the notation $X \oplus Y$ when we equip the Cartesian product with the latter.
+
+	We claim that $X \prod Y$ is a categorical product of $X$ and $Y$. First notice that the projections $\pi_X \colon X \prod Y \to X$ and $\pi_Y \colon X \prod Y \to Y$ are indeed short maps. For instance,
+	%
+	\begin{equation*}
+		\norm{\pi_X(x,y)}
+			= \norm{x}
+			\leq \max\{ \norm{x}, \norm{y} \}.
+	\end{equation*}
+	%
+	Given short linear maps $T_X \colon Z \to X$ and $T_Y \colon Z \to Y$, the map $T \colon Z \to X \prod Y$ given by $Tz = (T_X z, T_Y z)$ is certainly linear. It is also short, for
+	%
+	\begin{equation*}
+		\norm{Tz}
+			= \norm{(T_X z, T_Y z)}
+			= \max\{ \norm{T_X z}, \norm{T_Y z} \}
+			\leq \norm{z}.
+	\end{equation*}
+	%
+	Furthermore, it clearly makes the diagram
+	%
+	\begin{equation*}
+        \begin{tikzcd}
+            && X \\
+            Z
+                \ar[r, "T"]
+                \ar[urr, "T_X", bend left]
+                \ar[drr, "T_Y", bend right, swap]
+            & X \prod Y
+                \ar[ur, "\pi_X", swap]
+                \ar[dr, "\pi_Y"] \\
+            && Y
+        \end{tikzcd}
+    \end{equation*}
+	%
+	commute, and it is (even in $\catSet$) unique with this property, so $X \prod Y$ is indeed a product of $X$ and $Y$.
+
+	Next we claim that $X \oplus Y$ is a coproduct of $X$ and $Y$. The inclusion maps $i_X \colon X \to X \oplus Y$ and $i_Y \colon Y \to X \oplus Y$ are given by $i_X(x) = (x,0)$ and $i_Y(0,y)$. Notice that e.g.
+	%
+	\begin{equation*}
+		\norm{i_X(x)}
+			= \norm{(x,0)}
+			= \norm{x} + \norm{0}
+			= \norm{x},
+	\end{equation*}
+	%
+	so the inclusion maps are isometries, in particular short maps. Furthermore, if $S_X \colon X \to W$ and $S_Y \colon Y \to W$ are short linear maps, we define a map $S \colon X \oplus Y \to W$ by $S(x,y) = S_X x + S_Y y$. This is then clearly linear, and it is also short since
+	%
+	\begin{equation*}
+		\norm{S(x,y)}
+			= \norm{S_X x + S_Y y}
+			\leq \norm{S_X x} + \norm{S_Y y}
+			\leq \norm{x} + \norm{y}
+			= \norm{(x,y)}.
+	\end{equation*}
+	%
+	Finally, it clearly makes the diagram
+	%
+	\begin{equation*}
+        \begin{tikzcd}
+            X
+                \ar[dr, "i_X"]
+                \ar[drr, "S_X", bend left] \\
+            & X \oplus Y
+                \ar[r, "S"]
+            & W \\
+            Y
+                \ar[ur, "i_Y", swap]
+                \ar[urr, "S_Y", bend right, swap]
+        \end{tikzcd}
+    \end{equation*}
+	%
+	commute, and so $X \oplus Y$ is a coproduct of $X$ and $Y$ as claimed.
+\end{remarkbreak}
+
+
+\begin{exerciseframed*}[18]
+	Let $X$ be a normed vector space.
+	%
+	\begin{enumerate}
+		\item If $M$ is a closed subspace and $x \in X \setminus M$, then $M + \complex x$ is closed.
+		\item Every finite-dimensional subspace of $X$ is closed.
+	\end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{solutionsec}
+	\item Let $(y_n)_{n\in\naturals}$ and $(\lambda_n)_{n\in\naturals}$ be sequences in $M$ and $\complex$ respectively such that $y_n + \lambda_n x$ converges to some $z \in X$. By Theorem~5.8(b) there is a $\phi \in X^*$ such that $\phi(x) \neq 0$ and $\phi|_M = 0$. Applying $\phi$ to the above sequence yields
+	%
+	\begin{equation*}
+		\phi(z)
+			= \lim_{n\to\infty} \bigl( \phi(y_n) + \lambda_n \phi(x) \bigr)
+			= \bigl( \lim_{n\to\infty} \lambda_n \bigr) \phi(x),
+	\end{equation*}
+	%
+	which implies that $\lambda_n$ converges to $\phi(z) / \phi(x)$. The sequence $(y_n)$ is then also convergent with limit in $M$, and so
+	%
+	\begin{equation*}
+		\lim_{n\to\infty} \bigl( y_n + \lambda_n x \bigr)
+			= \lim_{n\to\infty} \biggl( y_n + \frac{\phi(z)}{\phi(x)} x \biggr)
+			= \lim_{n\to\infty} y_n + \frac{\phi(z)}{\phi(x)} x,
+	\end{equation*}
+	%
+	which lies in $M + \complex x$ as desired.
+
+	\item We give two different arguments. If $U$ is a finite-dimensional subspace of $X$ and $(e_1, \ldots, e_d)$ is a basis for $U$, then $U = \sum_{i=1}^d \complex e_i$. Since $\{0\}$ is a closed subspace of $X$, the desired result follows from the above by induction.
+	
+	We may also argue as follows: It suffices to show that $U$ is complete. To this end, let $(x_n)_{n\in\naturals}$ be a Cauchy sequence in $U$ and write $x_n = \lambda_{n1} e_1 + \cdots + \lambda_{nd} e_d$. We claim that the sequence $(\lambda_{ni})_{n\in\naturals}$ is a Cauchy sequence for all $i$. For the norm $\norm{\,\cdot\,}$ on $U$ inherited from $X$ is equivalent to the $1$-norm $\norm{\,\cdot\,}_1$, so
+	%
+	\begin{equation*}
+		\norm{x_m - x_n}
+			\geq C \norm{x_m - x_n}_1
+			\geq C \abs{\lambda_{mi} - \lambda_{ni}}
+	\end{equation*}
+	%
+	for some $C > 0$. Since $\complex$ is complete, the sequence $(\lambda_{ni})_{n\in\naturals}$ converges to some $\lambda_i \in \complex$. Letting $x = \lambda_1 e_1 + \cdots + \lambda_d e_d$, we claim that $x_n \to x$ as $n \to \infty$. This follows since (choosing the $e_i$ to be unit vectors)
+	%
+	\begin{align*}
+		\norm{x_n - x}
+			&= \norm{(\lambda_{n1} - \lambda_1)e_1 + \cdots + (\lambda_{nd} - \lambda_d)e_d} \\
+			&\leq \abs{\lambda_{n1} - \lambda_1} + \cdots + \abs{\lambda_{nd} - \lambda_d},
+	\end{align*}
+	%
+	and the right-hand side converges to zero.
+\end{solutionsec}
+\end{solution}
+
+
+\begin{exerciseframed*}[19]
+	Let $X$ be an infinite-dimensional normed vector space.
+	%
+	\begin{enumerate}
+		\item There is a sequence $(x_n)_{n\in\naturals}$ in $X$ such that $\norm{x_n} = 1$ for all $n \in \naturals$ and $\norm{x_n - x_m} \geq 1/2$ for $m \neq n$.
+		\item $X$ is not locally compact.
+	\end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{solutionsec}
+	\item First pick any unit vector $x_1 \in X$. By Exercise~5.18 the subspace $M_1 = \complex x_1$ is closed, so Exercise~5.12(b) yields a unit vector $x_2 \not\in M_1$ such that $\norm{x_2 + M_1} \geq 1/2$. Since $x_1 \in M_1$ we in particular have $\norm{x_2 - x_1} \geq 1/2$. Similarly, letting $M_2 = M_1 + \complex x_2$ we get a unit vector $x_3 \not\in M_2$ with $\norm{x_3 + M_2} \geq 1/2$. Single both $x_1$ and $x_2$ lie in $M_2$ we have $\norm{x_3 - x_1} \geq 1/2$ and $\norm{x_3 - x_2} \geq 1/2$. Continuing this process yields the desired sequence. [TODO: Exercise references]
+	
+	\item Assume towards a contradiction that $X$ is locally compact. Then $0 \in X$ has a compact neighbourhood $K$, and by multiplying with an appropriate scalar we may assume that $K$ contains the closed unit ball $\closure{B}_1(0)$. Thus $K$ contains the sequence $(x_n)$ constructed in part (a). Now Theorem~0.25 implies that $K$ is sequentially compact, so $(x_n)$ has a convergent subsequence. But this is impossible since $\norm{x_n - x_m} \geq 1/2$ for $m \neq n$, so $X$ is not locally compact.
+\end{solutionsec}
+\end{solution}
+
+
+\begin{exerciseframed*}[21]
+	If $X$ and $Y$ are normed vector spaces, define $\alpha \colon X^* \oplus Y^* \to (X \prod Y)^*$ by
+	%
+	\begin{equation*}
+		\alpha(\phi,\psi)(x,y) = \phi(x) + \psi(y).
+	\end{equation*}
+	%
+	Then $\alpha$ is an isometric isomorphism.
+\end{exerciseframed*}
+%
+This says that the dual functor $(-)^* \colon \catNor \to \catNor$ sends products to coproducts. [TODO: Is this more properly a functor on $\catNor_1$? And what about the dual space, can it contain functionals with norm $>1$?]
+
+\begin{solution}
+	We first show that $\alpha$ is surjective, so let $\chi \in (X \prod Y)^*$ and define $\phi(x) = \chi(x,0)$ and $\psi(y) = \chi(0,y)$. These are then bounded linear functionals: e.g.,
+	%
+	\begin{equation*}
+		\abs{ \phi(x) }
+			= \abs{ \chi(x,0) }
+			\leq \norm{\chi} \, \norm{(x,0)}
+			= \norm{\chi} \, \norm{x},
+	\end{equation*}
+	%
+	and $\alpha(\phi,\psi) = \phi(x) + \psi(y) = \chi(x,y)$, so $\alpha$ is surjective.
+
+	Next we show that $\alpha$ is an isometry. We have
+	%
+	\begin{align*}
+		\abs{ \alpha(\phi,\psi)(x,y) }
+			&= \abs{ \phi(x) + \psi(y) } \\
+			&\leq \abs{\phi(x)} + \abs{\psi(y)} \\
+			&\leq \norm{\phi} \, \norm{x} + \norm{\psi} \, \norm{y} \\
+			&\leq \bigl( \norm{\phi} + \norm{\psi} \bigr) \max \bigl\{ \norm{x}, \norm{y} \bigr\} \\
+			&= \norm{(\phi,\psi)} \, \norm{(x,y)},
+	\end{align*}
+	%
+	so $\norm{\alpha(\phi,\psi)} \leq \norm{(\phi,\psi)}$. Next, let $x \in X$ and $y \in Y$ be unit vectors. Theorem~5.8(b) then furnishes $\phi \in X^*$ and $\psi \in Y^*$ with $\norm{\phi} = \norm{\psi} = 1$, $\phi(x) = \norm{x} = 1$ and $\psi(y) = \norm{y} = 1$. We thus have
+	%
+	\begin{align*}
+		\abs{ \alpha(\phi,\psi)(x,y) }
+			&= \abs{ \phi(x) + \psi(y) } \\
+			&= \norm{x} + \norm{y} \\
+			&= 2 \cdot 1 \\
+			&= \bigl( \norm{\phi} + \norm{\psi} \bigr) \max \bigl\{ \norm{x}, \norm{y} \bigr\} \\
+			&= \norm{(\phi,\psi)} \, \norm{(x,y)},
+	\end{align*}
+	%
+	showing that $\norm{\alpha(\phi,\psi)} \geq \norm{(\phi,\psi)}$. In total, $\alpha$ is an isometry. Hence it is also injective and thus an isomorphism.
+\end{solution}
+
+
+\begin{exerciseframed*}[15]
+	Suppose that $X$ and $Y$ are normed vector spaces and $T \in \calB(X,Y)$. Let $\calN(T) = \set{x \in X}{Tx = 0}$.
+	%
+	\begin{enumerate}
+		\item $\calN(T)$ is a closed subspace of $X$
+		\item There is a unique bounded $\tilde{T} \colon X/\calN(T) \to Y$ such that $T = \tilde{T} \circ \pi$, where $\pi \colon X \to X/\calN(T)$ is the projection. Moreover, $\norm{\tilde{T}} = \norm{T}$.
+	\end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{solutionsec}
+	\item This is obvious since $T$ is continuous.
+	
+	\item Basic linear algebra yields a unique (not necessarily bounded) linear map $\tilde{T} \colon X/\calN(T) \to Y$ such that $T = \tilde{T} \circ \pi$. To compute its norm we begin with a lemma:
+	%
+	\begin{displayquote} % TODO: theorem inside proofs.
+		\itshape
+		Let $X$ be a normed vector space and $M$ a closed subset of $X$. Define $B = \set{x \in X}{ \norm{x} < 1 }$ and $\tilde{B} = \set{x + M \in X/M}{ \norm{x+M} < 1 }$. Then $\pi(B) = \tilde{B}$.
+	\end{displayquote}
+	%
+	The inclusion $\pi(B) \subseteq \tilde{B}$ is obvious since $\norm{\pi} = 1$. For the opposite inclusion, let $x + M \in \tilde{B}$. By definition of the quotient norm there exists an $m \in M$ such that $\norm{x - m} < 1$, since $\norm{x + M} < 1$. But then $x - m \in \tilde{B}$, and so
+	%
+	\begin{equation*}
+		x + M
+			= \pi(x)
+			= \pi(x - m)
+			\in \pi(U),
+	\end{equation*}
+	%
+	proving the second inclusion.
+
+	Returning to the solution of the exercise, notice the following:
+	%
+	\begin{align*}
+		\norm{\tilde{T}}
+			&= \sup\set[\big]{ \norm{\tilde{T}\xi} }{\xi \in \tilde{B}} \\
+			&= \sup\set[\big]{ \norm{\tilde{T}\xi} }{\xi \in \pi(U)} \\
+			&= \sup\set[\big]{ \norm{\tilde{T}(\pi(x))} }{x \in B} \\
+			&= \sup\set[\big]{ \norm{Tx} }{x \in B} \\
+			&= \norm{T}.
+	\end{align*}
+	%
+	Here we use the fact that for an operator $T \colon X \to Y$ it suffices to consider $x \in X$ with $\norm{x} < 1$ in computing its norm: For if $\norm{x} = 1$, let $\epsilon_n = 1 - 1/n$. Then $\norm{\epsilon_n x} < 1$, and
+	%
+	\begin{equation*}
+		\norm{Tx}
+			= \frac{1}{\epsilon_n} \norm{T(\epsilon_n x)}
+			\leq \frac{1}{\epsilon_n} \sup\set[\big]{ \norm{Ty} }{y \in B}
+			\xrightarrow[n\to\infty]{} \sup\set[\big]{ \norm{Ty} }{y \in B}.
+	\end{equation*}
+	%
+	Hence $\norm{T} \leq \sup\set{ \norm{Ty} }{y \in B}$, and the opposite equality is obvious.
 \end{solutionsec}
 \end{solution}
 
