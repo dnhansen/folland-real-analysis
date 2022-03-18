@@ -284,7 +284,9 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	%
 	And since this is true for all $A \in \calM$ with $\mu(A) < \infty$, it follows that $E \in \widetilde{\calM}$.
 
-	\item Assume that $\mu$ is complete. Let $F \subseteq X$ be such that there is a set $E \in \widetilde{\calM}$ with $F \subseteq E$ and $\tilde\mu(E) = 0$. Then also $E \in \calM$, and since $\mu$ is complete we have $F \in \calM \subseteq \widetilde{\calM}$ as desired.
+	In some sense, the fact that $\tilde{\mu}$ is saturated is obvious: The more sets of finite measure, the harder it is to be saturated, and vice-versa. On the other hand, the sets of infinite measure are irrelevant, so since the only new sets in $\widetilde\calM$ have infinite measure, they cannot affect whether the measure is saturated or not.
+
+	\item Assume that $\mu$ is complete. Let $F \subseteq X$ be such that there is a set $E \in \widetilde{\calM}$ with $F \subseteq E$ and $\tilde\mu(E) = 0$. Then also $E \in \calM$, and since $\mu$ is complete we have $F \in \calM \subseteq \widetilde{\calM}$ as desired. Or more succinctly: Saturating a measure only introduces sets of infinite measure, so it does not introduce any null-sets.
 
 	\item Assume that $\mu$ is semifinite. We first show that $\underline\mu$ is a measure. Clearly $\underline\mu(\emptyset) = 0$, so let $(E_n) \subseteq \widetilde{\calM}$ be a sequence of disjoint sets. Clearly $\underline\mu$ is increasing, so sigma-additivity is obvious if any of the sets $E_n$ have infinite measure. Assume then that $\underline\mu(E_n) < \infty$ for all $n \in \setN$. Let $\epsilon > 0$, and choose $A_n \in \calM$ such that $A_n \subseteq E_n$ and $\underline\mu(E_n) \leq \mu(A_n) + \epsilon/2^n$. Then
 	%
@@ -958,7 +960,7 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 
 
 \begin{exerciseframed*}[4]
-	If $X$ and $Y$ are normed spaces, the map $(T,x) \mapsto Tx$ is continuous from $\calB(X,Y) \prod X \to Y$.
+	If $X$ and $Y$ are normed spaces, the map $(T,x) \mapsto Tx$ is continuous from $\calB(X,Y) \prod X$ to $Y$.
 \end{exerciseframed*}
 
 \begin{solution}
@@ -993,7 +995,7 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	
 	\item If we equip $K^d$ with the $1$-norm, then $T$ is an isometry and thus continuous (in fact a homeomorphism since it is surjective).
 
-	\item Since the $1$-sphere in $K^d$ is compact and $T$ is a homeomorphism, then $S$ is also compact.
+	\item Since the unit sphere $K^d$ (with respect to the $1$-norm) is compact and $T$ is a homeomorphism, $S$ is also compact.
 
 	\item If $\norm{\,\cdot\,}$ is any norm on $X$, we need to find $C_1,C_2 > 0$ such that
 	%
@@ -1159,6 +1161,62 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \end{solution}
 
 
+\begin{exerciseframed*}[15]
+	Suppose that $X$ and $Y$ are normed vector spaces and $T \in \calB(X,Y)$. Let $\calN(T) = \set{x \in X}{Tx = 0}$.
+	%
+	\begin{enumerate}
+		\item $\calN(T)$ is a closed subspace of $X$
+		\item There is a unique bounded $\tilde{T} \colon X/\calN(T) \to Y$ such that $T = \tilde{T} \circ \pi$, where $\pi \colon X \to X/\calN(T)$ is the projection. Moreover, $\norm{\tilde{T}} = \norm{T}$.
+	\end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{solutionsec}
+	\item This is obvious since $T$ is continuous.
+	
+	\item Basic linear algebra yields a unique (not necessarily bounded) linear map $\tilde{T} \colon X/\calN(T) \to Y$ such that $T = \tilde{T} \circ \pi$. To compute its norm we begin with a lemma:
+	%
+	\begin{displayquote} % TODO: theorem inside proofs.
+		\itshape
+		Let $X$ be a normed vector space and $M$ a closed subset of $X$. Define $B = \set{x \in X}{ \norm{x} < 1 }$ and $\tilde{B} = \set{x + M \in X/M}{ \norm{x+M} < 1 }$. Then $\pi(B) = \tilde{B}$.
+	\end{displayquote}
+	%
+	The inclusion $\pi(B) \subseteq \tilde{B}$ is obvious since $\norm{\pi} = 1$. For the opposite inclusion, let $x + M \in \tilde{B}$. By definition of the quotient norm there exists an $m \in M$ such that $\norm{x - m} < 1$, since $\norm{x + M} < 1$. But then $x - m \in \tilde{B}$, and so
+	%
+	\begin{equation*}
+		x + M
+			= \pi(x)
+			= \pi(x - m)
+			\in \pi(U),
+	\end{equation*}
+	%
+	proving the second inclusion.
+
+	Returning to the solution of the exercise, notice the following:
+	%
+	\begin{align*}
+		\norm{\tilde{T}}
+			&= \sup\set[\big]{ \norm{\tilde{T}\xi} }{\xi \in \tilde{B}} \\
+			&= \sup\set[\big]{ \norm{\tilde{T}\xi} }{\xi \in \pi(U)} \\
+			&= \sup\set[\big]{ \norm{\tilde{T}(\pi(x))} }{x \in B} \\
+			&= \sup\set[\big]{ \norm{Tx} }{x \in B} \\
+			&= \norm{T}.
+	\end{align*}
+	%
+	Here we use the fact that for an operator $T \colon X \to Y$ it suffices to consider $x \in X$ with $\norm{x} < 1$ in computing its norm: For if $\norm{x} = 1$, let $\epsilon_n = 1 - 1/n$. Then $\norm{\epsilon_n x} < 1$, and
+	%
+	\begin{equation*}
+		\norm{Tx}
+			= \frac{1}{\epsilon_n} \norm{T(\epsilon_n x)}
+			\leq \frac{1}{\epsilon_n} \sup\set[\big]{ \norm{Ty} }{y \in B}
+			\xrightarrow[n\to\infty]{} \sup\set[\big]{ \norm{Ty} }{y \in B}.
+	\end{equation*}
+	%
+	Hence $\norm{T} \leq \sup\set{ \norm{Ty} }{y \in B}$, and the opposite equality is obvious.
+\end{solutionsec}
+\end{solution}
+
+
 \section{Linear Functionals}
 
 \newcommand{\cat}[1]{\mathcal{#1}}
@@ -1166,92 +1224,8 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \newcommand{\ncat}[1]{\mathbf{#1}} % named categories like Set, Top
 
 \newcommand{\catNor}{\ncat{Nor}}
+\newcommand{\catBan}{\ncat{Ban}}
 \newcommand{\catSet}{\ncat{Set}}
-
-\begin{remarkbreak}[The categories $\catNor$ and $\catNor_1$ of normed spaces]
-	A map $f \colon (S,\rho) \to (T,\delta)$ between metric spaces having the property that
-	%
-	\begin{equation*}
-		\delta(f(x), f(y))
-			\leq \rho(x, y)
-	\end{equation*}
-	%
-	for all $x,y \in S$ is variously called a \emph{short map}, a \emph{metric map}, \emph{nonexpansive} or \emph{-expanding}, a \emph{weak contraction}, or just a Lipschitz function with Lipschitz constant $1$. We consider the category $\catNor_1$ whose objects are normed spaces and whose arrows are linear maps that are also short maps. Notice that a linear map $T \colon X \to Y$ between normed spaces is short just when $\norm{T} \leq 1$. Hence $\catNor_1$ is a subcategory of the category $\catNor$ of normed spaces and bounded linear maps. It is easy to see that the isomorphisms in $\catNor_1$ are precisely the isometries. (In fact, this is one of the main reasons for restricting to $\catNor_1$.)
-
-	If $X$ and $Y$ are normed spaces we may equip the Cartesian product $X \prod Y$ with different norms, two of which are of particular importance here, namely the norms $(x,y) \mapsto \max\{ \norm{x}, \norm{y} \}$ and $(x,y) \mapsto \norm{x} + \norm{y}$. We reserve the notation $X \prod Y$ for the Cartesian product equipped with the former norm, and we use the notation $X \oplus Y$ when we equip the Cartesian product with the latter.
-
-	We claim that $X \prod Y$ is a categorical product of $X$ and $Y$. First notice that the projections $\pi_X \colon X \prod Y \to X$ and $\pi_Y \colon X \prod Y \to Y$ are indeed short maps. For instance,
-	%
-	\begin{equation*}
-		\norm{\pi_X(x,y)}
-			= \norm{x}
-			\leq \max\{ \norm{x}, \norm{y} \}.
-	\end{equation*}
-	%
-	Given short linear maps $T_X \colon Z \to X$ and $T_Y \colon Z \to Y$, the map $T \colon Z \to X \prod Y$ given by $Tz = (T_X z, T_Y z)$ is certainly linear. It is also short, for
-	%
-	\begin{equation*}
-		\norm{Tz}
-			= \norm{(T_X z, T_Y z)}
-			= \max\{ \norm{T_X z}, \norm{T_Y z} \}
-			\leq \norm{z}.
-	\end{equation*}
-	%
-	Furthermore, it clearly makes the diagram
-	%
-	\begin{equation*}
-        \begin{tikzcd}
-            && X \\
-            Z
-                \ar[r, "T"]
-                \ar[urr, "T_X", bend left]
-                \ar[drr, "T_Y", bend right, swap]
-            & X \prod Y
-                \ar[ur, "\pi_X", swap]
-                \ar[dr, "\pi_Y"] \\
-            && Y
-        \end{tikzcd}
-    \end{equation*}
-	%
-	commute, and it is (even in $\catSet$) unique with this property, so $X \prod Y$ is indeed a product of $X$ and $Y$.
-
-	Next we claim that $X \oplus Y$ is a coproduct of $X$ and $Y$. The inclusion maps $i_X \colon X \to X \oplus Y$ and $i_Y \colon Y \to X \oplus Y$ are given by $i_X(x) = (x,0)$ and $i_Y(0,y)$. Notice that e.g.
-	%
-	\begin{equation*}
-		\norm{i_X(x)}
-			= \norm{(x,0)}
-			= \norm{x} + \norm{0}
-			= \norm{x},
-	\end{equation*}
-	%
-	so the inclusion maps are isometries, in particular short maps. Furthermore, if $S_X \colon X \to W$ and $S_Y \colon Y \to W$ are short linear maps, we define a map $S \colon X \oplus Y \to W$ by $S(x,y) = S_X x + S_Y y$. This is then clearly linear, and it is also short since
-	%
-	\begin{equation*}
-		\norm{S(x,y)}
-			= \norm{S_X x + S_Y y}
-			\leq \norm{S_X x} + \norm{S_Y y}
-			\leq \norm{x} + \norm{y}
-			= \norm{(x,y)}.
-	\end{equation*}
-	%
-	Finally, it clearly makes the diagram
-	%
-	\begin{equation*}
-        \begin{tikzcd}
-            X
-                \ar[dr, "i_X"]
-                \ar[drr, "S_X", bend left] \\
-            & X \oplus Y
-                \ar[r, "S"]
-            & W \\
-            Y
-                \ar[ur, "i_Y", swap]
-                \ar[urr, "S_Y", bend right, swap]
-        \end{tikzcd}
-    \end{equation*}
-	%
-	commute, and so $X \oplus Y$ is a coproduct of $X$ and $Y$ as claimed.
-\end{remarkbreak}
 
 
 \begin{exerciseframed*}[18]
@@ -1324,6 +1298,110 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \end{solution}
 
 
+\begin{remarkbreak}[The categories $\catNor$ and $\catNor_1$ of normed spaces]
+	A map $f \colon (S,\rho) \to (T,\delta)$ between metric spaces having the property that
+	%
+	\begin{equation*}
+		\delta(f(x), f(y))
+			\leq \rho(x, y)
+	\end{equation*}
+	%
+	for all $x,y \in S$ is variously called a \emph{short map}, a \emph{metric map}, \emph{nonexpansive} or \emph{-expanding}, a \emph{weak contraction}, or just a Lipschitz function with Lipschitz constant $1$. We consider the category $\catNor_1$ whose objects are normed spaces and whose arrows are linear maps that are also short maps. Notice that a linear map $T \colon X \to Y$ between normed spaces is short just when $\norm{T} \leq 1$. Hence $\catNor_1$ is a subcategory of the category $\catNor$ of normed spaces and bounded linear maps. It is easy to see that the isomorphisms in $\catNor_1$ are precisely the isometries. (In fact, this is one of the main reasons for restricting to $\catNor_1$.)
+
+	If $X$ and $Y$ are normed spaces (whose norms are both denoted $\norm{\,\cdot\,}$, relying on context to distinguish) we may equip the Cartesian product $X \prod Y$ with different norms, two of which are of particular importance here, namely the supremum norm $\norm{(x,y)}_\infty = \max\{ \norm{x}, \norm{y} \}$ and the $1$-norm $\norm{(x,y)}_1 = \norm{x} + \norm{y}$. We reserve the notation $X \prod Y$ for the Cartesian product equipped with the supremum norm, and we use the notation $X \oplus Y$ when we equip the Cartesian product with the $1$-norm.
+
+	We claim that $X \prod Y$ is a categorical product of $X$ and $Y$. First notice that the projections $\pi_X \colon X \prod Y \to X$ and $\pi_Y \colon X \prod Y \to Y$ are indeed short maps. For instance,
+	%
+	\begin{equation*}
+		\norm{\pi_X(x,y)}
+			= \norm{x}
+			\leq \max \bigl\{ \norm{x}, \norm{y} \bigr\}
+			= \norm{(x,y)}_\infty.
+	\end{equation*}
+	%
+	Given short linear maps $T_X \colon Z \to X$ and $T_Y \colon Z \to Y$, the map $T \colon Z \to X \prod Y$ given by $Tz = (T_X z, T_Y z)$ is certainly linear. It is also short, for
+	%
+	\begin{equation*}
+		\norm{Tz}_\infty
+			= \norm{(T_X z, T_Y z)}_\infty
+			= \max \bigl\{ \norm{T_X z}_\infty, \norm{T_Y z}_\infty \bigr\}
+			\leq \norm{z}.
+	\end{equation*}
+	%
+	Notice that the $1$-norm would not in general make $T$ into a short map, but that the supremum norm is in some sense natural: Bounding a pair $(x,y)$ just means bounding \emph{both} $x$ and $y$ separately. Furthermore, it clearly makes the diagram
+	%
+	\begin{equation*}
+        \begin{tikzcd}
+            && X \\
+            Z
+                \ar[r, "T"]
+                \ar[urr, "T_X", bend left]
+                \ar[drr, "T_Y", bend right, swap]
+            & X \prod Y
+                \ar[ur, "\pi_X", swap]
+                \ar[dr, "\pi_Y"] \\
+            && Y
+        \end{tikzcd}
+    \end{equation*}
+	%
+	commute, and it is (even in $\catSet$) unique with this property, so $X \prod Y$ is indeed a product of $X$ and $Y$.
+
+	Next we claim that $X \oplus Y$ is a coproduct of $X$ and $Y$. The inclusion maps $i_X \colon X \to X \oplus Y$ and $i_Y \colon Y \to X \oplus Y$ are given by $i_X(x) = (x,0)$ and $i_Y(0,y)$. Notice that e.g.
+	%
+	\begin{equation*}
+		\norm{i_X(x)}_1
+			= \norm{(x,0)}_1
+			= \norm{x} + \norm{0}
+			= \norm{x},
+	\end{equation*}
+	%
+	so the inclusion maps are isometries, in particular short maps. Furthermore, if $S_X \colon X \to W$ and $S_Y \colon Y \to W$ are short linear maps, we define a map $S \colon X \oplus Y \to W$ by $S(x,y) = S_X x + S_Y y$. This is then clearly linear, and it is also short since
+	%
+	\begin{equation*}
+		\norm{S(x,y)}
+			= \norm{S_X x + S_Y y}
+			\leq \norm{S_X x} + \norm{S_Y y}
+			\leq \norm{x} + \norm{y}
+			= \norm{(x,y)}_1.
+	\end{equation*}
+	%
+	Again notice that the supremum norm would not make $S$ into a short map. But the $1$-norm is natural in the sense that elements of $X \oplus Y$ are to be thought of, in some sense, \emph{sums} of elements in $X$ and $Y$. Hence the norm of such a sum is (naturally) the sum of the norms. Finally, it clearly makes the diagram
+	%
+	\begin{equation*}
+        \begin{tikzcd}
+            X
+                \ar[dr, "i_X"]
+                \ar[drr, "S_X", bend left] \\
+            & X \oplus Y
+                \ar[r, "S"]
+            & W \\
+            Y
+                \ar[ur, "i_Y", swap]
+                \ar[urr, "S_Y", bend right, swap]
+        \end{tikzcd}
+    \end{equation*}
+	%
+	commute, and so $X \oplus Y$ is a coproduct of $X$ and $Y$ as claimed.
+
+	For completeness we note that the categories $\catBan$ and $\catBan_1$ of Banach spaces and, respectively, bounded and short linear maps are full subcategories of $\catNor$ and $\catNor_1$. If $X$ and $Y$ are Banach spaces, then so are $X \times Y$ and $X \oplus Y$: If $((x_n,y_n))_{n\in\naturals}$ is a Cauchy sequence in either, then $(x_n)$ and $(y_n)$ are Cauchy in $X$ and $Y$ respectively, converging to $x \in X$ and $y \in X$. We then have
+	%
+	\begin{equation*}
+		\norm{(x_n,y_n) - (x,y)}_\infty
+			= \norm{(x_n - x, y_n - y)}_\infty
+			= \max \bigl\{ \norm{x_n - x}, \norm{y_n - y} \bigr\},
+	\end{equation*}
+	%
+	which goes to zero as $n \to \infty$. We similarly have
+	%
+	\begin{equation*}
+		\norm{(x_n,y_n) - (x,y)}_1
+			= \norm{x_n - x} + \norm{y_n - y},
+	\end{equation*}
+	%
+	which similarly goes to zero. In either case $(x_n,y_n)$ converges to $(x,y)$. Thus $X \times Y$ and $X \oplus Y$ are also a product and coproduct in $\catBan$ and $\catBan_1$.
+\end{remarkbreak}
+
+
 \begin{exerciseframed*}[21]
 	If $X$ and $Y$ are normed vector spaces, define $\alpha \colon X^* \oplus Y^* \to (X \prod Y)^*$ by
 	%
@@ -1371,62 +1449,6 @@ This says that the dual functor $(-)^* \colon \catNor \to \catNor$ sends product
 	\end{align*}
 	%
 	showing that $\norm{\alpha(\phi,\psi)} \geq \norm{(\phi,\psi)}$. In total, $\alpha$ is an isometry. Hence it is also injective and thus an isomorphism.
-\end{solution}
-
-
-\begin{exerciseframed*}[15]
-	Suppose that $X$ and $Y$ are normed vector spaces and $T \in \calB(X,Y)$. Let $\calN(T) = \set{x \in X}{Tx = 0}$.
-	%
-	\begin{enumerate}
-		\item $\calN(T)$ is a closed subspace of $X$
-		\item There is a unique bounded $\tilde{T} \colon X/\calN(T) \to Y$ such that $T = \tilde{T} \circ \pi$, where $\pi \colon X \to X/\calN(T)$ is the projection. Moreover, $\norm{\tilde{T}} = \norm{T}$.
-	\end{enumerate}
-\end{exerciseframed*}
-
-\begin{solution}
-\begin{solutionsec}
-	\item This is obvious since $T$ is continuous.
-	
-	\item Basic linear algebra yields a unique (not necessarily bounded) linear map $\tilde{T} \colon X/\calN(T) \to Y$ such that $T = \tilde{T} \circ \pi$. To compute its norm we begin with a lemma:
-	%
-	\begin{displayquote} % TODO: theorem inside proofs.
-		\itshape
-		Let $X$ be a normed vector space and $M$ a closed subset of $X$. Define $B = \set{x \in X}{ \norm{x} < 1 }$ and $\tilde{B} = \set{x + M \in X/M}{ \norm{x+M} < 1 }$. Then $\pi(B) = \tilde{B}$.
-	\end{displayquote}
-	%
-	The inclusion $\pi(B) \subseteq \tilde{B}$ is obvious since $\norm{\pi} = 1$. For the opposite inclusion, let $x + M \in \tilde{B}$. By definition of the quotient norm there exists an $m \in M$ such that $\norm{x - m} < 1$, since $\norm{x + M} < 1$. But then $x - m \in \tilde{B}$, and so
-	%
-	\begin{equation*}
-		x + M
-			= \pi(x)
-			= \pi(x - m)
-			\in \pi(U),
-	\end{equation*}
-	%
-	proving the second inclusion.
-
-	Returning to the solution of the exercise, notice the following:
-	%
-	\begin{align*}
-		\norm{\tilde{T}}
-			&= \sup\set[\big]{ \norm{\tilde{T}\xi} }{\xi \in \tilde{B}} \\
-			&= \sup\set[\big]{ \norm{\tilde{T}\xi} }{\xi \in \pi(U)} \\
-			&= \sup\set[\big]{ \norm{\tilde{T}(\pi(x))} }{x \in B} \\
-			&= \sup\set[\big]{ \norm{Tx} }{x \in B} \\
-			&= \norm{T}.
-	\end{align*}
-	%
-	Here we use the fact that for an operator $T \colon X \to Y$ it suffices to consider $x \in X$ with $\norm{x} < 1$ in computing its norm: For if $\norm{x} = 1$, let $\epsilon_n = 1 - 1/n$. Then $\norm{\epsilon_n x} < 1$, and
-	%
-	\begin{equation*}
-		\norm{Tx}
-			= \frac{1}{\epsilon_n} \norm{T(\epsilon_n x)}
-			\leq \frac{1}{\epsilon_n} \sup\set[\big]{ \norm{Ty} }{y \in B}
-			\xrightarrow[n\to\infty]{} \sup\set[\big]{ \norm{Ty} }{y \in B}.
-	\end{equation*}
-	%
-	Hence $\norm{T} \leq \sup\set{ \norm{Ty} }{y \in B}$, and the opposite equality is obvious.
-\end{solutionsec}
 \end{solution}
 
 \end{document}
