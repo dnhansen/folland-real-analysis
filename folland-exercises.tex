@@ -824,6 +824,49 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \setcounter{section}{4}
 \section{Locally Compact Hausdorff Spaces}
 
+\begin{exerciseframed*}[49]
+	Let $X$ be a compact Hausdorff space and $E \subseteq X$.
+	%
+	\begin{enumerate}
+		\item If $E$ is open, then $E$ is locally compact in the relative topology.
+		\item b
+		\item c
+	\end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{solutionsec}
+	\item Since every point in $X$ has a compact neighbourhood (namely $X$ itself), $X$ is locally compact. So if $x \in E$ and $E$ is open, then Proposition~4.30 yields a compact neighbourhood $K \subseteq E$ of $x$. But then $K$ is also a compact neighbourhood of $x$ in $E$, showing that $E$ is locally compact.
+	
+	\item b
+	\item c
+\end{solutionsec}
+\end{solution}
+
+
+\begin{remark}
+	\label{rem:one-point-compactification}
+	Let $X$ be a compact Hausdorff space, and let $x_0 \in X$ be any point in $X$. Exercise~4.49(a) then shows that $X \setminus \{x_0\}$ is locally compact, so we may consider the one-point compactification $(X \setminus \{x_0\})^*$. We claim that $(X \setminus \{x_0\})^* \cong X$.
+	
+	Denote the adjoined point by $\infty$ and consider the inclusion map $i \colon X \setminus \{x_0\} \to X$ extended to $(X \setminus \{x_0\})^*$ by letting $i(\infty) = x_0$. This is a bijection, and restricted to $X \setminus \{x_0\}$ it is a homeomorphism onto its image. We claim that $i$ is itself a homeomorphism, and since both its domain and codomain are compact Hausdorff it suffices to show that it is continuous. So let $U \subseteq X$ be open. If $x_0 \not\in U$ then $i\preim(U) = (i|_{X \setminus \{x_0\}})\preim(U)$, which is open in $X \setminus \{x_0\}$, hence open in $(X \setminus \{x_0\})^*$. Otherwise of $x_0 \in U$ then $\infty \in i\preim(U)$, and we need to show that $i\preim(U)^c = i\preim(U^c)$ is compact. But $U^c$ is a closed, hence compact, subset of $X \setminus \{0\}$, so its preimage under the homeomorphism $i|_{X \setminus \{x_0\}}$ is also compact.
+\end{remark}
+
+
+\begin{exerciseframed}[52]
+	The one-point compactification of $\reals^n$ is homeomorphic to the sphere $\sphere^n$.
+\end{exerciseframed}
+
+\begin{solution}
+	Let $x_0 \in \sphere^n$ be any point on the sphere. By stereographic projection, $\sphere^n \setminus \{x_0\}$ and $\reals^n$ are homeomorphic. But then \cref{rem:one-point-compactification} shows that
+	%
+	\begin{equation*}
+		(\reals^n)^*
+			\cong (\sphere^n \setminus \{x_0\})^*
+			\cong \sphere
+	\end{equation*}
+	%
+	as desired.
+\end{solution}
 
 
 \addtocounter{section}{1}
@@ -832,7 +875,7 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \begin{remark}
 	Notice that we never use the Hausdorff assumption in the proof of the Stone--Weierstrass theorem. However, if $X$ is a topological space and there exists a family $\calF$ of functions in $C(X)$ or $C(X,\reals)$ that separates points in $X$, then $X$ is automatically Hausdorff: For let $x \neq y$ be points in $X$, and let $f \in \calF$ be such that $f(x) \neq f(y)$. Choosing disjoint neighbourhoods $U_x$ and $U_y$ of $x$ and $y$ respectively, $f\preim(U_x)$ and $f\preim(U_y)$ are disjoint neighbourhoods of $x$ and $y$ in $X$. Hence $X$ is Hausdorff.
 
-	In other words, Hausdorff is not a necessary condition in the statement of the theorem, but rather follows from the hypotheses.
+	In other words, Hausdorff is not a necessary condition in the statement of the theorem, but rather follows from the other hypotheses.
 
 	In contrast, the compactness hypothesis is used very explicitly in the proof of Lemma~4.49.
 \end{remark}
