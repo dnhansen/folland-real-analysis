@@ -83,6 +83,8 @@
 \newcommand{\calA}{\mathcal{A}}
 \newcommand{\calP}{\mathcal{P}}
 \newcommand{\calR}{\mathcal{R}}
+\newcommand{\calH}{\mathcal{H}}
+\newcommand{\calL}{\mathcal{L}}
 \newcommand{\borel}{\mathcal{B}}
 \newcommand{\measurable}{\mathcal{M}}
 \newcommand{\wto}{\Rightarrow}
@@ -90,6 +92,16 @@
 \newcommand{\strucS}{\mathfrak{S}}
 \DeclarePairedDelimiter{\gen}{\langle}{\rangle} % Generating set
 \newcommand{\frakL}{\mathfrak{L}}
+
+\newcommand{\bbK}{\mathbb{K}}
+
+\DeclareMathOperator{\Span}{span}
+
+\newenvironment{displaytheorem}{%
+	\begin{displayquote}\itshape%
+}{%
+	\end{displayquote}%
+}
 
 
 %% Framed exercise environment
@@ -565,6 +577,8 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \end{solution}
 
 
+\section{Borel Measures on the Real Line}
+
 \begin{exerciseframed*}[25]
     If $E \subseteq \reals$, the following are equivalent.
     %
@@ -807,7 +821,12 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 
 \chapter{Point Set Topology}
 
-\setcounter{section}{6}
+\setcounter{section}{4}
+\section{Locally Compact Hausdorff Spaces}
+
+
+
+\addtocounter{section}{1}
 \section{The Stone--Weierstrass Theorem}
 
 \begin{remark}
@@ -983,7 +1002,7 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	%
 	\begin{enumerate}
 		\item $\norm{\,\cdot\,}_1$ is a norm on $X$.
-		\item The map $T \colon (a_1, \ldots, a_d) \mapsto \sum_{i=1}^d a_i e_i$ is continuous from $K^d$ with the usual Euclidean topology to $X$ with the topology defined by $\norm{\,\cdot\,}_1$.
+		\item The map $T \colon (a_1, \ldots, a_d) \mapsto \sum_{i=1}^d a_i e_i$ is continuous from $\bbK^d$ with the usual Euclidean topology to $X$ with the topology defined by $\norm{\,\cdot\,}_1$.
 		\item The set $S = \set{x \in X}{\norm{x}_1 = 1}$ is compact in the topology defined by $\norm{\,\cdot\,}_1$.
 		\item All norms on $X$ are equivalent.
 	\end{enumerate}
@@ -993,9 +1012,9 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \begin{solutionsec}
 	\item This is obvious.
 	
-	\item If we equip $K^d$ with the $1$-norm, then $T$ is an isometry and thus continuous (in fact a homeomorphism since it is surjective).
+	\item If we equip $\bbK^d$ with the $1$-norm, then $T$ is an isometry and thus continuous (in fact a homeomorphism since it is surjective).
 
-	\item Since the unit sphere $K^d$ (with respect to the $1$-norm) is compact and $T$ is a homeomorphism, $S$ is also compact.
+	\item Since the unit sphere in $\bbK^d$ (with respect to the $1$-norm) is compact and $T$ is a homeomorphism, $S$ is also compact.
 
 	\item If $\norm{\,\cdot\,}$ is any norm on $X$, we need to find $C_1,C_2 > 0$ such that
 	%
@@ -1101,14 +1120,13 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \begin{remarkbreak}[Riesz' lemma]
 	The statement of the lemma is as follows:
 	%
-	\begin{displayquote} % TODO: Better way to make theorems inside remarks
-		\itshape
+	\begin{displaytheorem}
 		Let $X$ be a normed vector space and $M$ a proper closed subspace of $X$. For $\alpha \in (0,1)$ there exists an $x \in X$ with $\norm{x} = 1$ such that
 		%
 		\begin{equation*}
 			\inf_{m \in M} \norm{x - m} \geq \alpha.
 		\end{equation*}
-	\end{displayquote}
+	\end{displaytheorem}
 	%
 	Since the quotient norm on $X/M$ is given by $\norm{x+M} = \inf_{m \in M} \norm{x-m}$, this is precisely the statement of Exercise~5.12(b) [TODO: reference].
 
@@ -1176,10 +1194,9 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	
 	\item Basic linear algebra yields a unique (not necessarily bounded) linear map $\tilde{T} \colon X/\calN(T) \to Y$ such that $T = \tilde{T} \circ \pi$. To compute its norm we begin with a lemma:
 	%
-	\begin{displayquote} % TODO: theorem inside proofs.
-		\itshape
+	\begin{displaytheorem}
 		Let $X$ be a normed vector space and $M$ a closed subset of $X$. Define $B = \set{x \in X}{ \norm{x} < 1 }$ and $\tilde{B} = \set{x + M \in X/M}{ \norm{x+M} < 1 }$. Then $\pi(B) = \tilde{B}$.
-	\end{displayquote}
+	\end{displaytheorem}
 	%
 	The inclusion $\pi(B) \subseteq \tilde{B}$ is obvious since $\norm{\pi} = 1$. For the opposite inclusion, let $x + M \in \tilde{B}$. By definition of the quotient norm there exists an $m \in M$ such that $\norm{x - m} < 1$, since $\norm{x + M} < 1$. But then $x - m \in \tilde{B}$, and so
 	%
@@ -1298,7 +1315,42 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \end{solution}
 
 
+\begin{remark}
+	\label{rem:isometry-norm}
+	Let $X$ and $Y$ be normed spaces, and let $T \in \calB(X,Y)$. If $T$ is an isometry, then clearly $\norm{T} = 1$. It is easy to think that the converse is also true, perhaps if $T$ is also assumed to be boundedly invertible, but this is not the case: For instance, equip $\reals^2$ with the supremum norm\footnote{In \cref{rem:normed-space-categories} we will see that this makes $\reals^2$ into the categorical product of $\reals$ and $\reals$. This has no relevance to the present discussion, as far as I know.} and consider the operator $S \colon \reals^2 \to \reals^2$ given by $S(x,y) = (x,y/2)$. Then $\norm{S} = 1$, and $S\inv(x,y) = (x,2x)$ is also bounded with $\norm{S\inv} = 2$. But $S$ is clearly not an isometry, since e.g.
+	%
+	\begin{equation*}
+		\norm{S(0,2)}_\infty
+			= \norm{(0,1)}_\infty
+			= 1
+			\neq 2
+			= \norm{(0,2)}_\infty.
+	\end{equation*}
+	%
+	The problem is already apparent, in that the norm of $S\inv$ is \emph{not} $1$, so $S\inv$ cannot be an isometry. This motivates the following result:
+	%
+	\begin{displaytheorem}
+		Let $T \in \calB(X,Y)$ be a boundedly invertible map between normed spaces such that $\norm{T} = \norm{T\inv} = 1$. Then $T$ is an isometry.
+	\end{displaytheorem}
+	%
+	For if $x \in X$ and $y = Tx$, then
+	%
+	\begin{equation*}
+		\norm{Tx}
+			\leq \norm{T} \, \norm{x}
+			= \norm{x}
+			= \norm{T\inv y}
+			\leq \norm{T\inv} \, \norm{y}
+			= \norm{y}
+			= \norm{Tx},
+	\end{equation*}
+	%
+	so $\norm{Tx} = \norm{x}$.
+\end{remark}
+
+
 \begin{remarkbreak}[The categories $\catNor$ and $\catNor_1$ of normed spaces]
+	\label{rem:normed-space-categories}
 	A map $f \colon (S,\rho) \to (T,\delta)$ between metric spaces having the property that
 	%
 	\begin{equation*}
@@ -1306,9 +1358,19 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 			\leq \rho(x, y)
 	\end{equation*}
 	%
-	for all $x,y \in S$ is variously called a \emph{short map}, a \emph{metric map}, \emph{nonexpansive} or \emph{-expanding}, a \emph{weak contraction}, or just a Lipschitz function with Lipschitz constant $1$. We consider the category $\catNor_1$ whose objects are normed spaces and whose arrows are linear maps that are also short maps. Notice that a linear map $T \colon X \to Y$ between normed spaces is short just when $\norm{T} \leq 1$. Hence $\catNor_1$ is a subcategory of the category $\catNor$ of normed spaces and bounded linear maps. It is easy to see that the isomorphisms in $\catNor_1$ are precisely the isometries. (In fact, this is one of the main reasons for restricting to $\catNor_1$.)
+	for all $x,y \in S$ is variously called a \emph{short map}, a \emph{metric map}, \emph{nonexpansive} or \emph{-expanding}, a \emph{weak contraction}, or just a Lipschitz function with Lipschitz constant $1$. We consider the category $\catNor_1$ whose objects are normed spaces and whose arrows are linear maps that are also short maps. Notice that a linear map $T \colon X \to Y$ between normed spaces is short just when $\norm{T} \leq 1$. Hence $\catNor_1$ is a subcategory of the category $\catNor$ of normed spaces and bounded linear maps.
+	
+	A bounded linear map $T \colon X \to Y$ is an isomorphism in $\catNor$ just when it is boundedly invertible. In $\catNor_1$ the situation is slightly more complicated: The map $S$ in \cref{rem:isometry-norm} is a short map but its inverse is not short. Hence the isomorphisms in $\catNor_1$ are the boundedly invertible maps with short inverses, and this latter assumption cannot be removed. Furthermore, we claim that in this case $T$ is in fact an isometry. If $T$ has a bounded inverse $T\inv$, then
+	%
+	\begin{equation*}
+		1 = \norm{\id_X}
+			= \norm{T\inv T}
+			\leq \norm{T\inv} \, \norm{T}.
+	\end{equation*}
+	%
+	Hence if both $T$ and $T\inv$ are short maps, then $\norm{T} = \norm{T\inv} = 1$. But then \cref{rem:isometry-norm} implies that $T$ is an isometry. Conversely, surjective isometries\footnote{An isometry is in particular injective, so surjective isometries are bijective. The inverse is also clearly bounded.} are clearly short maps whose inverses are also short, so any surjective isometry is an isomorphism in $\catNor_1$.
 
-	If $X$ and $Y$ are normed spaces (whose norms are both denoted $\norm{\,\cdot\,}$, relying on context to distinguish) we may equip the Cartesian product $X \prod Y$ with different norms, two of which are of particular importance here, namely the supremum norm $\norm{(x,y)}_\infty = \max\{ \norm{x}, \norm{y} \}$ and the $1$-norm $\norm{(x,y)}_1 = \norm{x} + \norm{y}$. We reserve the notation $X \prod Y$ for the Cartesian product equipped with the supremum norm, and we use the notation $X \oplus Y$ when we equip the Cartesian product with the $1$-norm.
+	If $X$ and $Y$ are normed spaces we may equip the Cartesian product $X \prod Y$ with different norms, two of which are of particular importance here, namely the supremum norm\footnote{We denote any norm on a vector space other than $X \times Y$ by $\norm{\,\cdot\,}$, relying on context to distinguish.} $\norm{(x,y)}_\infty = \max\{ \norm{x}, \norm{y} \}$ and the $1$-norm $\norm{(x,y)}_1 = \norm{x} + \norm{y}$. We reserve the notation $X \prod Y$ for the Cartesian product equipped with the supremum norm, and we use the notation $X \oplus Y$ when we equip the Cartesian product with the $1$-norm.
 
 	We claim that $X \prod Y$ is a categorical product of $X$ and $Y$. First notice that the projections $\pi_X \colon X \prod Y \to X$ and $\pi_Y \colon X \prod Y \to Y$ are indeed short maps. For instance,
 	%
@@ -1324,7 +1386,7 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	\begin{equation*}
 		\norm{Tz}_\infty
 			= \norm{(T_X z, T_Y z)}_\infty
-			= \max \bigl\{ \norm{T_X z}_\infty, \norm{T_Y z}_\infty \bigr\}
+			= \max \bigl\{ \norm{T_X z}, \norm{T_Y z} \bigr\}
 			\leq \norm{z}.
 	\end{equation*}
 	%
@@ -1399,6 +1461,8 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	\end{equation*}
 	%
 	which similarly goes to zero. In either case $(x_n,y_n)$ converges to $(x,y)$. Thus $X \times Y$ and $X \oplus Y$ are also a product and coproduct in $\catBan$ and $\catBan_1$.
+
+	Furthermore, if $X$ and $Y$ are Banach spaces and $T \in \calB(X,Y)$ is bijective, then the Open Mapping Theorem implies that $T\inv$ is bounded. The isomorphisms in $\catBan$ are thus simply the bijections. However, the example in \cref{rem:isometry-norm} shows that an isomorphism in $\catBan$ with norm $1$ might have an inverse with norm greater than $1$. Thus there does not seem to be a simpler characterisation of the isomorphisms of $\catBan_1$ than the bijections $T$ such that both $T$ and $T\inv$ have norm $1$.
 \end{remarkbreak}
 
 
@@ -1450,5 +1514,217 @@ This says that the dual functor $(-)^* \colon \catNor \to \catNor$ sends product
 	%
 	showing that $\norm{\alpha(\phi,\psi)} \geq \norm{(\phi,\psi)}$. In total, $\alpha$ is an isometry. Hence it is also injective and thus an isomorphism.
 \end{solution}
+
+
+\begin{remark}
+	Let $X$ be a vector space over a field $k$, and let $X^*$ be the algebraic dual of $X$. If $U$ is a subspace of $X$, then the \emph{annihilator} of $U$ is the subspace $U^0$ of $X^*$ consisting of those functionals $\phi$ such that $\phi(u)$ for all $u \in U$. We use $U^0$ to describe the algebraic dual $U^*$ of $U$.
+
+	Let $i_U \colon U \to X$ be the inclusion map, and consider its pullback
+	%
+	\begin{equation*}
+		\beta = i_U^* \colon X^* \to U^*
+	\end{equation*}
+	%
+	given by precomposition with $i_U$. This is surjective, since if $\psi \in U^*$ then we may extend this to a linear functional on $X$ by letting $\psi(v) = 0$ for all $v \in V$, where $V$ is any complement of $U$ in $X$. Furthermore, a functional $\phi \in X^*$ lies in the kernel of $\beta$ just if $\phi$ vanishes on $U$, i.e. if $\phi \in U^0$. The first isomorphism theorem then yields a linear isomorphism
+	%
+	\begin{equation*}
+		\tilde{\beta} \colon X^*/U^0 \to U^*.
+	\end{equation*}
+\end{remark}
+
+
+\begin{exerciseframed*}[23]
+	Suppose that $X$ is a Banach space. If $M$ is a closed subspace of $X$ and $N$ is a closed subspace of $X^*$, let $M^0 = \set{\phi \in X^*}{\phi|_M = 0}$ and $N^\perp = \set{x \in X}{\text{$\phi(x) = 0$ for all $\phi \in N$}}$.
+	%
+	\begin{enumerate}
+		\item $M^0$ and $N^\perp$ are closed subspaces of $X^*$ and $X$, respectively.
+		\item $(M^0)^\perp = M$ and $(N^\perp)^0 \supseteq N$. If $X$ is reflexive, $(N^\perp)^0 = N$.
+		\item c
+		\item Define $\beta \colon X^* \to M^*$ by $\beta(\phi) = \phi_M$; then $\beta$ induces a map $\tilde{\beta} \colon X^*/M^0 \to M^*$, and $\tilde{\beta}$ is an isometric isomorphism.
+	\end{enumerate}
+\end{exerciseframed*}
+
+\begin{solution}
+\begin{solutionsec}
+	\item First assume that $X$ is a normed vector space over $\bbK$, and assume that $M$ and $N$ are merely (not necessarily closed) \emph{subsets} of $X$ and $X^*$. Then $M^0$ and $N^\perp$ are clearly subspaces. Consider the inclusion map $i_M \colon M \to X$ and its pullback $\beta = i_M^* \colon X^* \to M^*$. The former clearly has norm $1$, so for $\phi \in X^*$ the composition $\phi \circ i_M$ is bounded. It follows that
+	%
+	\begin{equation*}
+		\norm{\beta(\phi)}
+			= \norm{\phi \circ i_M}
+			\leq \norm{\phi} \, \norm{i_M}
+			= \norm{\phi}
+	\end{equation*}
+	%
+	so $\beta$ is bounded. But notice that $M^0 = \ker\beta$, so $M^0$ is closed. Furthermore, notice that
+	%
+	\begin{equation*}
+		N^\perp
+			= \bigintersect_{\phi \in N} \ker\phi,
+	\end{equation*}
+	%
+	so $N^\perp$ is an intersection of closed sets, hence is closed.
+
+	\item Let $x \in M$. Then $\phi(x) = 0$ for all $\phi \in M^0$, and so $x \in (M^0)^\perp$. Conversely, assume that $M$ is now a closed subspace of $M$, and assume that $x \not\in M$. Theorem~5.8(b) then yields a functional $\phi \in X^*$ such that $\phi_M = 0$ and $\phi(x) \neq 0$. But this means that $\phi \in M^0$ and that $x \not\in (M^0)^\perp$.
+
+	Furthermore, if $\phi \in N$ then clearly $\phi(x)$ for all $x \in N^\perp$, so $\phi \in (N^\perp)^0$ (even if $N$ is neither closed or a subspace).
+	
+	TODO: $X$ reflexive.
+
+	\item c
+
+	\item Since $\ker\beta = M^0$ and $\beta$ is surjective, $\tilde{\beta}$ is a linear isomorphism, and it is bounded since $\beta$ is. It remains to be shown that it is an isometry. First let $\phi \in X^*$ and notice that
+	\begin{equation*}
+		\norm{ \tilde{\beta}(\phi + M^0) }
+			= \norm{\beta(\phi)}
+			= \norm{\phi \circ i_M}
+			\leq \norm{\phi},
+	\end{equation*}
+	%
+	since $\norm{i_M} = 1$ (unless $M = 0$, but in this case the claim is trivial). Since $\norm{\phi + M^0}$ is the infimum of $\norm{\psi}$ over all $\psi \in X^*$ such that $\psi + M^0 = \phi + M^0$, it follows that $\norm{ \tilde{\beta}(\phi + M^0) } \leq \norm{\phi + M^0}$. For the opposite inequality, consider the seminorm
+	%
+	\begin{equation*}
+		p(x) = \norm{\tilde{\beta}(\phi + M^0)} \, \norm{x}
+	\end{equation*}
+	%
+	on $X$. For $x \in M$ we have
+	%
+	\begin{equation*}
+		\abs{\phi(x)}
+			= \abs{\beta(\phi)(x)}
+			= \abs{\tilde{\beta}(\phi + M^0)(x)}
+			\leq p(x),
+	\end{equation*}
+	%
+	so the Hahn--Banach theorem furnishes a $\psi \in X^*$ that extends $\phi|_M$ and satisfies\footnote{In the real case this follows since $p$ is a seminorm.} $\abs{\psi} \leq p$, i.e. $\norm{\psi} \leq \norm{\tilde{\beta}(\phi + M^0)}$. In other words, $\psi|_M = \phi|_M$ or equivalently $\psi + M^0 = \phi + M^0$. It follows that
+	%
+	\begin{equation*}
+		\norm{\phi + M^0}
+			= \norm{\psi + M^0}
+			\leq \norm{\psi}
+			\leq \norm{\tilde{\beta}(\phi + M^0)}.
+	\end{equation*}
+	%
+	In total, $\tilde{\beta}$ is an isometry.
+\end{solutionsec}
+\end{solution}
+
+
+\addtocounter{section}{2}
+\section{Hilbert Spaces}
+
+\begin{remark}
+	We give a different proof of the Cauchy--Schwarz inequality using (very) basic properties of orthogonal projections:
+	%
+	\begin{displaytheorem}
+		If $X$ is a inner product space over $\bbK$, then
+		%
+		\begin{equation}
+			\label{eq:Cauchy-Schwarz}
+			\abs{ \inner{x}{y} }
+				\leq \norm{x} \, \norm{y}
+		\end{equation}
+		%
+		for all $x,y \in X$, with equality if and only if $x$ and $y$ are linearly dependent.
+	\end{displaytheorem}
+	%
+	This is obvious if $y = 0$, so assume not. The \emph{projection} of $x$ on $y$ is the unique vector $p \in \Span(y)$ such that $y \perp x - p$. This exists and is unique, for notice that for $\alpha \in \bbK$ we have
+	%
+	\begin{equation*}
+		0
+			= \inner{x - \alpha y}{y}
+			= \inner{x}{y} - \alpha \inner{y}{y}
+	\end{equation*}
+	%
+	if and only if
+	%
+	\begin{equation*}
+		\alpha
+			= \frac{ \inner{x}{y} }{ \inner{y}{y} },
+	\end{equation*}
+	%
+	so $p = \alpha y$. Notice that $p$ has the property that $x = p$ if and only if $x$ and $y$ are linearly dependent. The \enquote{only if} part is obvious, and the converse follows since if $x = \beta y$ for some $\beta \in \bbK$ then, plugging in above, we find that $\alpha = \beta$.
+
+	Also notice that $p \perp x - p$. Writing $x = p + (x - p)$, Pythagoras' theorem thus implies that
+	%
+	\begin{equation}
+		\label{eq:Cauchy-Schwarz-Pythagoras}
+		\norm{x}^2
+			= \norm{p}^2 + \norm{x - p}^2
+			\geq \norm{p}^2,
+	\end{equation}
+	%
+	with equality just when $x = p$, i.e. when $x$ and $y$ are linearly dependent. Inserting the formula above for $p$, the inequality \cref{eq:Cauchy-Schwarz-Pythagoras} is equivalent to
+	%
+	\begin{equation*}
+		\norm{x}
+			\geq \norm{p}
+			= \frac{ \abs{\inner{x}{y}} }{ \norm{y} }
+			= \frac{ \abs{\inner{x}{y}} }{ \norm{y}^2 } \norm{y}
+	\end{equation*}
+	%
+	which in turn is equivalent to \cref{eq:Cauchy-Schwarz}.
+\end{remark}
+
+
+\addtocounter{chapter}{2}
+\chapter{Elements of Fourier Analysis}
+
+\section{Preliminaries}
+
+\section{Convolutions}
+
+\begin{remarkbreak}[Associativity of convolution]
+	If $f,g,h \in \calM(\borel(\reals^d))$, then we define the function $k \colon \reals^{3d} \to \complex$ by
+	%
+	\begin{equation*}
+		k(x,y,z)
+			= f(y) g(x-y-z) h(z).
+	\end{equation*}
+	%
+	This is clearly measurable, so we may consider the function $K \colon \reals^d \to [0,\infty]$ given by
+	%
+	\begin{equation*}
+		K(x)
+			= \int_{\reals^{2d}} \abs{k(x,\,\cdot\,,\,\cdot\,)} \dif \lambda_{2d}.
+	\end{equation*}
+	%
+	By Tonelli's theorem $K$ is also measurable, so the set
+	%
+	\begin{equation*}
+		\Delta(f,g,h)
+			= \set{x \in \reals^d }{ k(x,\,\cdot\,,\,\cdot\,) \in \calL^1(\lambda_d) }
+			= \set{x \in \reals^d }{ K(x) < \infty }
+	\end{equation*}
+	%
+	is measurable. For $x \in \Delta(f,g,h)$, Fubini's theorem thus implies that
+	%
+	% For $x \in \reals^d$ we have
+	% %
+	% \begin{align*}
+	% 	\int_{\reals^d} \abs{f * g(x-z) h(z)} \dif\lambda_d(z)
+	% 		&= \int_{\reals^d} \abs{g * f(x-z) h(z)} \dif\lambda_d(z) \\
+	% 		&\leq \int_{\reals^d} \biggl( \int_{\reals^d} \abs{f(y) g(x-y-z)} \dif\lambda_d(y) \biggr) \abs{h(z)} \dif\lambda_d(z) \\
+	% 		&= \int_{\reals^d} \biggl( \int_{\reals^d} \abs{f(y) g(x-y-z) h(z)} \dif\lambda_d(y) \biggr) \dif\lambda_d(z) \\
+	% 		&= \int_{\reals^{2d}} \abs{k(x,\,\cdot\,,\,\cdot\,)} \dif\lambda_{2d} \\
+	% 		&= K(x).
+	% \end{align*}
+	% %
+	% Hence if $x \in \Delta(f,g,h)$, then ????
+	%
+	\begin{align*}
+		(f * g) * h(x)
+			&= (g * f) * h(x) \\
+			&= \int_{\reals^d} g * f(x-z) h(z) \dif z \\
+			&= \int_{\reals^d} \biggl( \int_{\reals^d} f(y) g(x-z-y) \dif y \biggr) h(z) \dif z \\
+			&= \int_{\reals^d} \biggl( \int_{\reals^d} f(y) g(x-z-y) h(z) \dif y \biggr) \dif z \\
+			&= \int_{\reals^d} \biggl( \int_{\reals^d} f(y) g(x-y-z) h(z) \dif z \biggr) \dif y \\
+			&= \int_{\reals^d} f(y) \biggl( \int_{\reals^d} g(x-y-z) h(z) \dif z \biggr) \dif y \\
+			&= \int_{\reals^d} f(y) h * g(x-y) \dif y \\
+			&= f * (h * g)(x) \\
+			&= f * (g * h)(x).
+	\end{align*}
+	%
+	Thus convolution is associative on $\Delta(f,g,h)$. If $f,g,h \in \calL^1(\lambda_d)$, then it is easy to show that $\Delta(f,g,h)^c$ is a Lebesgue null-set. However, it is not clear whether (and I don't see why it should be true that) $\Delta(f,g,h)$ is the same as $\Delta(f*g,h)$ or $\Delta(f,g*h)$.
+\end{remarkbreak}
 
 \end{document}
