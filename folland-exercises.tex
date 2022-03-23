@@ -96,6 +96,7 @@
 \newcommand{\bbK}{\mathbb{K}}
 
 \DeclareMathOperator{\Span}{span}
+\DeclareMathOperator*{\slim}{s-lim}
 
 \newenvironment{displaytheorem}{%
 	\begin{displayquote}\itshape%
@@ -155,6 +156,24 @@
 \begin{document}
 
 \maketitle
+
+\setcounter{chapter}{-1}
+\chapter{Introduction}
+
+\begin{itemize}
+	\item We use the letter $d$ to denote vector spaces dimensions, freeing up $n$ to be used as an index, e.g. in sequences. In particular we write $\reals^d$ and $\complex^d$.
+	\item The symbol $\bbK$ denotes either the real or complex numbers.
+	\item The unit sphere in $\reals^{n+1}$ is denoted $\sphere^n$.
+	\item We denote the power set of a set $X$ by $\powerset{X}$.
+	\item The restriction of a function $f \colon X \to Y$ to a subset $A \subseteq X$ is denoted $f|_A$.
+	\item Whenever we need to make the distinction, $\calL^p(\mu)$ refers to the space of $\mu$-$p$-integrable functions, while $L^p(\mu)$ denotes the quotient of $\calL^p(\mu)$ with the subspace of functions that are zero $\mu$-a.e.
+	\item The space of bounded operators between normed spaces $X$ and $Y$ is denoted $\calB(X,Y)$.
+	\item The bounded and continuous complex-valued functions on a topological space $X$ is denoted $C_b(X)$.
+	\item A vector space equipped with an inner product is called an \emph{inner product space}.
+\end{itemize}
+
+
+
 
 \chapter{Measures}
 
@@ -624,7 +643,7 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 
     \item Consider the set $A$ of points $x \in X$ such that $f_n(x)$ does not converge to $f(x)$. Then $f_n \indicator{A^c} \to f \indicator{A^c}$ pointwise everywhere, so Proposition~2.7 (or Corollary~2.9) implies that $f \indicator{A^c}$ is measurable. By assumption $\mu(A) = 0$, so $f \indicator{A^c} = f$ $\mu$-a.e. and part (a) implies that $f$ is measurable.
     
-    Conversely
+    Conversely [TODO]
 \end{solutionsec}
 \end{solution}
 
@@ -666,7 +685,7 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 		%
 		\begin{equation*}
 			\abs\nu(E)
-				= \sup\set[\bigg]{ \abs[\bigg]{\int_E f \dif\nu} }{ \abs{f} \leq 1 }
+				= \sup\set[\bigg]{ \abs[\bigg]{\int_E f \dif\nu} }{ \abs{f} \leq 1 }.
 		\end{equation*}
 	\end{enumerate}
 \end{exerciseframed*}
@@ -979,11 +998,12 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	If $T$ is bounded, then clearly $\norm{T} < \infty$. If conversely $\norm{T} < \infty$, then
 	%
 	\begin{equation*}
-		\norm[\bigg]{T \frac{x}{\norm{x}} }
-			\leq \norm{T}
+		\norm{Tx}
+			= \norm[\bigg]{T \frac{x}{\norm{x}} } \, \norm{x}
+			\leq \norm{T} \, \norm{x}
 	\end{equation*}
 	%
-	for all $x \neq 0$, which implies that $\norm{Tx} \leq \norm{T} \, \norm{x}$. Furthermore, if $K > 0$ is such that $\norm{Tx} \leq K \norm{x}$ for all $x \in X$, then $\norm{Tx} \leq K$ whenever $\norm{x} \leq x$. But then $\norm{T} \leq K$.
+	for all $x \neq 0$, so $T$ is bounded. Furthermore, if $K > 0$ is such that $\norm{Tx} \leq K \norm{x}$ for all $x \in X$, then $\norm{Tx} \leq K$ whenever $\norm{x} \leq 1$. But then $\norm{T} \leq K$.
 \end{remark}
 
 
@@ -992,14 +1012,13 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \end{exerciseframed*}
 
 \begin{solution}
-	Let $(T_n)_{n\in\naturals}$ be a Cauchy sequence in $\calB(X,Y)$. For $x \in X$ we have
+	We prove the following lemma:
 	%
-	\begin{equation*}
-		\norm{T_n x - T_m x}
-			\leq \norm{T_n - T_m} \, \norm{x}
-	\end{equation*}
+	\begin{displaytheorem}
+		Let $X$ and $Y$ be normed spaces, and let $(T_n)_{n\in\naturals}$ be a sequence in $\calB(X,Y)$. If $(T_n)$ is Cauchy in the operator norm and converges to some $T \colon X \to Y$ in the strong operator topology, then $T \in \calB(X,Y)$ and $T_n \to T$ in the operator norm.
+	\end{displaytheorem}
 	%
-	for $m,n \in \naturals$, so $(T_n x)_{n\in\naturals}$ is a Cauchy sequence in $Y$. Define a map $T \colon X \to Y$ by $Tx = \lim_{n\to\infty} T_n x$. This is clearly linear, and we claim that $T \in \calB(X,Y)$ and that $T_n \to T$. Choose $N \in \naturals$ such that $m,n \geq N$ implies that $\norm{T_n - T_m} \leq \epsilon$. For $x \in X$ and $n \leq N$ we then have
+	The map $T$ is clearly linear. Choose $N \in \naturals$ such that $m,n \geq N$ implies that $\norm{T_n - T_m} \leq \epsilon$. For $x \in X$ and $n \geq N$ we then have
 	%
 	\begin{equation*}
 		\norm{(T_n - T)x}
@@ -1008,16 +1027,16 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 			\leq \epsilon \norm{x}.
 	\end{equation*}
 	%
-	Hence $T_n - T$ is bounded, but then so is $T$. Furthermore, $\norm{T_n - T} \leq \epsilon$, so $T_n \to T$.
+	Hence $T_n - T$ is bounded, and then so is $T$. Furthermore, $\norm{T_n - T} \leq \epsilon$, so $T_n \to T$ in the operator norm.
 
-	Finally notice that the reverse triangle inequality implies that
+	To prove the initial claim it thus suffices to produce, given a Cauchy sequence $(T_n)_{n\in\naturals}$, a map $T \colon X \to Y$ such that $\slim_{n\to\infty} T_n = T$. But notice that we for $x \in X$ we have
 	%
 	\begin{equation*}
-		\abs[\big]{ \norm{T_n} - \norm{T} }
-			\leq \norm{T_n - T}
+		\norm{T_n x - T_m x}
+			\leq \norm{T_n - T_m} \, \norm{x}
 	\end{equation*}
 	%
-	as usual, so also $\norm{T_n} \to \norm{T}$.
+	for $m,n \in \naturals$, so $(T_n x)_{n\in\naturals}$ is a Cauchy sequence in $Y$. Defining $T \colon X \to Y$ by $Tx = \lim_{n\to\infty} T_n x$, $T$ is the strong limit of $T_n$ by construction.
 \end{solution}
 
 
@@ -1057,7 +1076,7 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	
 	\item If we equip $\bbK^d$ with the $1$-norm, then $T$ is an isometry and thus continuous (in fact a homeomorphism since it is surjective).
 
-	\item Since the unit sphere in $\bbK^d$ (with respect to the $1$-norm) is compact and $T$ is a homeomorphism, $S$ is also compact.
+	\item Since the unit sphere in $\bbK^d$ (with respect to the $1$-norm) is compact and $T$ is continuous, $S$ is also compact.
 
 	\item If $\norm{\,\cdot\,}$ is any norm on $X$, we need to find $C_1,C_2 > 0$ such that
 	%
@@ -1175,7 +1194,7 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 
 	In Exercise~5.19(b) [TODO: reference] we use this to show that an infinite-dimensional normed vector space is not locally compact. It is easy to show that this is equivalent to the closed unit ball $\closure{B}_1(0)$ being compact.
 	
-	Conversely, every normed space $(X, \norm{\,\cdot\,})$ of dimension $d < \infty$ is locally compact: Choose a linear isomorphism $T \colon \complex^d \to X$ and let it induce a norm $\norm{\,\cdot\,}_1$ on $X$. With this norm $T$ is an isometry, hence a homeomorphism, so the local compactness of $\complex^d$ is transferred to $(X, \norm{\,\cdot\,}_1)$. But all norms on finite-dimensional vector spaces are equivalent, so $(X, \norm{\,\cdot\,})$ is also locally compact.
+	Conversely, every normed space $(X, \norm{\,\cdot\,})$ of dimension $d < \infty$ is locally compact: Choose a linear isomorphism $T \colon \complex^d \to X$ and let it induce a norm $\norm{\,\cdot\,}'$ on $X$. With this norm $T$ is an isometry, hence a homeomorphism, so the local compactness of $\complex^d$ is transferred to $(X, \norm{\,\cdot\,}')$. But all norms on finite-dimensional vector spaces are equivalent, so $(X, \norm{\,\cdot\,})$ is also locally compact.
 
 	This equivalence of local compactness and finite-dimensionality generalises to Hausdorff topological vector spaces. This is known as F.\,Riesz' theorem.
 \end{remarkbreak}
@@ -1713,6 +1732,30 @@ This says that the dual functor $(-)^* \colon \catNor \to \catNor$ sends product
 \chapter{Elements of Fourier Analysis}
 
 \section{Preliminaries}
+
+\newcommand{\calS}{\mathcal{S}}
+\newcommand{\schwartz}{\calS}
+
+\begin{remarkbreak}[Completeness of the Schwartz space]
+	We elaborate on the proof of Proposition~8.2. Let $(f_n)_{n\in\naturals}$ be a Cauchy sequence in $\schwartz$. Then the sequence $(\partial^\alpha \!f_n)_{n\in\naturals}$ is a Cauchy sequence in the uniform norm for all multi-indices $\alpha$, so $\partial^\alpha \!f_n$ converges uniformly to $g_\alpha$. Folland then shows that $g_\alpha = \partial^\alpha \!g_0$. It remains to be shown that $\norm{f_n - g_0}_{(N,\alpha)} \to 0$ for all $\alpha$.
+
+	To this end, let $\epsilon > 0$ and choose $M \in \naturals$ such that $m,n \geq M$ implies that $\norm{f_n - f_m}_{(N,\alpha)} < \epsilon$. For every $x \in \reals^d$ we thus have
+	%
+	\begin{equation*}
+		(1 + \norm{x})^N \abs{\partial^\alpha \!f_n(x) - \partial^\alpha \!f_m(x)}
+			< \epsilon.
+	\end{equation*}
+	%
+	Letting $m \to n$ we get
+	%
+	\begin{equation*}
+		(1 + \norm{x})^N \abs{\partial^\alpha \!f_n(x) - \partial^\alpha \!g_0(x)}
+			\leq \epsilon.
+	\end{equation*}
+	%
+	Taking the supremum we find that $n \geq M$ implies that $\norm{f_n - g_0}_{(N,\alpha)} \leq \epsilon$, showing that $f_n \to g$ in $\schwartz$.
+\end{remarkbreak}
+
 
 \section{Convolutions}
 
