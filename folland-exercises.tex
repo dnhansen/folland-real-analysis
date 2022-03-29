@@ -615,6 +615,9 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \end{solution}
 
 
+
+
+
 \chapter{Integration}
 
 \section{Measurable Functions}
@@ -646,6 +649,34 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
     Conversely [TODO]
 \end{solutionsec}
 \end{solution}
+
+
+\addtocounter{section}{5}
+\section{Integration in Polar Coordinates}
+
+\begin{remark}
+	We give a heuristic derivation of the radial measure $\rho_d$. Let $\dif A$ be an area element in $\reals^2$. In polar coordinates $(r,\theta)$ this has a radial size of $\dif r$ and an angular size of $r \dif\theta$. Notice that since $\theta$ is an angle, we multiply it by the distance $r$ from the origin. Hence
+	%
+	\begin{equation*}
+		\dif A
+			= r \dif\theta \dif r
+			= (r \dif r) \dif\theta.
+	\end{equation*}
+	%
+	Going up one dimension we introduce another angular coordinate $\phi$, which contributes a factor $f(\theta,\phi) r \dif\phi$ to the volume element, where $f$ is some function of the angular coordinates. Similarly when going up yet another dimension: this again introduces a factor $r$, and now $f$ is a function of yet another angular coordinate. In $d$ dimensions we have $d-1$ angular coordinates $\theta_1, \ldots, \theta_{d-1}$, so the volume element is on the form
+	%
+	\begin{equation*}
+		\dif V
+			= f(\theta_1, \ldots, \theta_{d-1}) r^{d-1} \dif r \dif\theta_1 \cdots \dif\theta_{d-1}.
+	\end{equation*}
+	%
+	The radial part is thus $r^{d-1} \dif r$, so it makes sense to define the radial measure $\rho_d$ on $(0,\infty)$ by
+	%
+	\begin{equation*}
+		\rho_d(E)
+			= \int_E r^{d-1} \dif r.
+	\end{equation*}
+\end{remark}
 
 
 \chapter{Signed Measures and Differentiation}
