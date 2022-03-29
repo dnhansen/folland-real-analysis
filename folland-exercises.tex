@@ -162,6 +162,7 @@
 
 \begin{itemize}
 	\item We use the letter $d$ to denote vector spaces dimensions, freeing up $n$ to be used as an index, e.g. in sequences. In particular we write $\reals^d$ and $\complex^d$.
+	\item The Lebesgue measure on $\reals^d$ is denoted $\lambda_d$, and $\lambda = \lambda_1$.
 	\item The symbol $\bbK$ denotes either the real or complex numbers.
 	\item The unit sphere in $\reals^{n+1}$ is denoted $\sphere^n$.
 	\item We denote the power set of a set $X$ by $\powerset{X}$.
@@ -915,9 +916,9 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \end{remark}
 
 
-\begin{exerciseframed}[52]
+\begin{exerciseframed*}[52]
 	The one-point compactification of $\reals^n$ is homeomorphic to the sphere $\sphere^n$.
-\end{exerciseframed}
+\end{exerciseframed*}
 
 \begin{solution}
 	Let $x_0 \in \sphere^n$ be any point on the sphere. By stereographic projection, $\sphere^n \setminus \{x_0\}$ and $\reals^n$ are homeomorphic. But then \cref{rem:one-point-compactification} shows that
@@ -1240,7 +1241,7 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	
 	Conversely, every normed space $(X, \norm{\,\cdot\,})$ of dimension $d < \infty$ is locally compact: Choose a linear isomorphism $T \colon \complex^d \to X$ and let it induce a norm $\norm{\,\cdot\,}'$ on $X$. With this norm $T$ is an isometry, hence a homeomorphism, so the local compactness of $\complex^d$ is transferred to $(X, \norm{\,\cdot\,}')$. But all norms on finite-dimensional vector spaces are equivalent, so $(X, \norm{\,\cdot\,})$ is also locally compact.
 
-	This equivalence of local compactness and finite-dimensionality generalises to Hausdorff topological vector spaces. This is known as F.\,Riesz' theorem.
+	This equivalence of local compactness and finite-dimensionality generalises to Hausdorff topological vector spaces. This is known as \emph{F.\,Riesz' theorem}.
 \end{remarkbreak}
 
 \begin{exerciseframed*}[12]
@@ -1822,7 +1823,7 @@ This says that the dual functor $(-)^* \colon \catNor \to \catNor$ sends product
 	%
 	\begin{equation*}
 		\Delta(f,g,h)
-			= \set{x \in \reals^d }{ k(x,\,\cdot\,,\,\cdot\,) \in \calL^1(\lambda_d) }
+			= \set{x \in \reals^d }{ k(x,\,\cdot\,,\,\cdot\,) \in \calL^1(\lambda_{2d}) }
 			= \set{x \in \reals^d }{ K(x) < \infty }
 	\end{equation*}
 	%
