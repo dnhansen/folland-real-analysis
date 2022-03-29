@@ -871,7 +871,20 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 
 \chapter{Point Set Topology}
 
-\setcounter{section}{4}
+\setcounter{section}{3}
+\section{Compact Spaces}
+
+\begin{exerciseframed*}[38]
+	Suppose that $(X,\calT)$ is a compact Hausdorff space and $\calT'$ is another topology on $X$. If $\calT'$ is strictly stronger than $\calT$, then $(X,\calT')$ is Hausdorff but not compact. If $\calT'$ is strictly weaker than $\calT$, then $(X,\calT')$ is compact but not Hausdorff.
+\end{exerciseframed*}
+
+\begin{solution}
+	First assume that $\calT \subseteq \calT'$, and further assume that $(X,\calT')$ is compact. If $U \in \calT'$ we then must show that $U \in \calT$. Notice that $X \setminus U$ is closed in $\calT'$ and hence compact, so it is also compact in the weaker topology $\calT$. Since $\calT$ is Hausdorff $X \setminus U$ is closed, but then $U \in \calT$.
+
+	Next assume that $\calT' \subseteq \calT$ and that $(X,\calT')$ is Hausdorff. Let $U \in \calT$ and fix $x \in U$. For each $y \not\in U$ there is a pair of disjoint neighbourhoods $V_y$ of $x$ and $W_y$ of $y$ in $\calT'$. The collection $\set{W_y}{y \not\in U}$ is an open cover of $X \setminus U$, and since this is closed in $\calT$ it is also compact, so there is a finite subcover $W_{y_1}, \ldots, W_{y_n}$. Letting $V_x = V_{y_1} \intersect \cdots \intersect V_{y_n}$, the set $V_x$ is completely contained in $U$. But then $U$ is the union of the sets $V_x$ as $x$ ranges over $U$, so $U$ is a union of elements from $\calT'$. Hence it is itself open in $\calT'$.
+\end{solution}
+
+
 \section{Locally Compact Hausdorff Spaces}
 
 \begin{exerciseframed*}[49]
