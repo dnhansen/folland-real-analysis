@@ -634,7 +634,7 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 
 \begin{solution}
 \begin{solutionsec}
-    \item Let $f,g \colon (X,\calE,\mu) \to (Y,\calF)$ be functions from a measure space to a measurable space where $f$ is $(\calE,\calF)$-measurable. Let $N = \{f \neq g\}$ and assume that $\mu(N) = 0$. Given $B \in \calF$ we must show that $g\preim(B) \in \calE$. But notice that
+    \item Assume that $\mu$ is complete, and let $f,g \colon (X,\calE,\mu) \to (Y,\calF)$ be functions from a measure space to a measurable space where $f$ is $(\calE,\calF)$-measurable. Let $N = \{f \neq g\}$ and assume that $\mu(N) = 0$. Given $B \in \calF$ we must show that $g\preim(B) \in \calE$. But notice that
     %
     \begin{equation*}
         g\preim(B)
@@ -643,11 +643,13 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
     %
     and that the latter two sets are subsets of $N$, hence measurable. Thus $g\preim(B)$ is also measurable.
 
-    Conversely, let $\mu$ be a measure on a measurable space $(X,\calE)$ that is not complete, and let $N \subseteq X$ be a non-measurable $\mu$-null set. Then $\indicator{N} = 0$ $\mu$-a.e., but $\indicator{N}$ is not measurable.
+    % Conversely, let $\mu$ be a measure on a measurable space $(X,\calE)$ that is not complete, and let $N \subseteq X$ be a non-measurable $\mu$-null set. Then $\indicator{N} = 0$ $\mu$-a.e., but $\indicator{N}$ is not measurable.
 
-    \item Consider the set $A$ of points $x \in X$ such that $f_n(x)$ does not converge to $f(x)$. Then $f_n \indicator{A^c} \to f \indicator{A^c}$ pointwise everywhere, so Proposition~2.7 (or Corollary~2.9) implies that $f \indicator{A^c}$ is measurable. By assumption $\mu(A) = 0$, so $f \indicator{A^c} = f$ $\mu$-a.e. and part (a) implies that $f$ is measurable.
+	Conversely, let $N \subseteq X$ be a $\mu$-null set. Then $\indicator{N} = 0$ $\mu$-a.e., so $\indicator{N}$ and therefore $N$ is measurable. Hence $\mu$ is complete.
+
+    \item Assume that $\mu$ is complete, and consider the set $A$ of points $x \in X$ such that $f_n(x)$ does not converge to $f(x)$. Then $f_n \indicator{A^c} \to f \indicator{A^c}$ pointwise everywhere, so Proposition~2.7 (or Corollary~2.9) implies that $f \indicator{A^c}$ is measurable. By assumption we have $\mu(A) = 0$, so $f \indicator{A^c} = f$ $\mu$-a.e. and part (a) implies that $f$ is measurable.
     
-    Conversely [TODO]
+    Conversely, let $N \subseteq X$ be a $\mu$-null set and consider the sequence $(f_n)_{n\in\naturals}$ with $f_n = 0$ for all $n \in \naturals$. This converges $\mu$-a.e. to $\indicator{N}$ so $N$ is measurable. Hence $\mu$ is complete.
 \end{solutionsec}
 \end{solution}
 
