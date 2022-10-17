@@ -1059,6 +1059,27 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \end{remark}
 
 
+\begin{remarkbreak}[Riesz' lemma]
+	The statement of the lemma is as follows:
+	%
+	\begin{displaytheorem}
+		Let $X$ be a normed vector space and $M$ a proper closed subspace of $X$. For $\alpha \in (0,1)$ there exists an $x \in X$ with $\norm{x} = 1$ such that
+		%
+		\begin{equation*}
+			\inf_{m \in M} \norm{x - m} \geq \alpha.
+		\end{equation*}
+	\end{displaytheorem}
+	%
+	Since the quotient norm on $X/M$ is given by $\norm{x+M} = \inf_{m \in M} \norm{x-m}$, this is precisely the statement of Exercise~5.12(b) [TODO: reference].
+
+	In Exercise~5.19(b) [TODO: reference] we use this to show that an infinite-dimensional normed vector space is not locally compact. It is easy to show that this is equivalent to the closed unit ball $\closure{B}_1(0)$ being compact.
+	
+	Conversely, every normed space $(X, \norm{\,\cdot\,})$ of dimension $d < \infty$ is locally compact: Choose a linear isomorphism $T \colon \complex^d \to X$ and let it induce a norm $\norm{\,\cdot\,}'$ on $X$. With this norm $T$ is an isometry, hence a homeomorphism, so the local compactness of $\complex^d$ is transferred to $(X, \norm{\,\cdot\,}')$. But all norms on finite-dimensional vector spaces are equivalent, so $(X, \norm{\,\cdot\,})$ is also locally compact.
+
+	This equivalence of local compactness and finite-dimensionality generalises to Hausdorff topological vector spaces. This is known as \emph{F.\,Riesz' theorem}.
+\end{remarkbreak}
+
+
 \begin{exerciseframed*}[3]
 	If $Y$ is complete, so is $\calB(X,Y)$.
 \end{exerciseframed*}
@@ -1075,7 +1096,7 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	\begin{equation*}
 		\norm{(T_n - T)x}
 			= \lim_{m\to\infty} \norm{(T_n - T_m) x}
-			\leq \lim_{m\to\infty} \norm{T_n - T_m} \, \norm{x}
+			\leq \limsup_{m\to\infty} \norm{T_n - T_m} \, \norm{x}
 			\leq \epsilon \norm{x}.
 	\end{equation*}
 	%
@@ -1158,12 +1179,12 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	%
 	Continuity of $\norm{\,\cdot\,}$ now follows from the reverse triangle inequality. (In fact, this calculation also proves the second inequality of \cref{eq:norm-equivalence}, but we give a second argument below.)
 
-	Since $\norm{\,\cdot\,}$ is continuous and $S$ is compact with respect to $\norm{\,\cdot\,}_1$, there exist $x_0, x_1 \in S$ such that
+	Since $\norm{\,\cdot\,}$ is continuous and $S$ is compact with respect to $\norm{\,\cdot\,}_1$, $\norm{\,\cdot\,}$ has a minimum and maximum on $S$. That is, there exist $x_0, x_1 \in S$ such that
 	%
 	\begin{equation*}
-		\norm{x_0}_1
+		\norm{x_0}
 			\leq \norm{x}
-			\leq \norm{x_1}_1
+			\leq \norm{x_1}
 	\end{equation*}
 	%
 	for all $x \in S$. And since both of $x_0$ and $x_1$ are nonzero then so are their norms, proving the claim.
@@ -1231,41 +1252,51 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \end{remark}
 
 
-\begin{remarkbreak}[Riesz' lemma]
-	The statement of the lemma is as follows:
-	%
-	\begin{displaytheorem}
-		Let $X$ be a normed vector space and $M$ a proper closed subspace of $X$. For $\alpha \in (0,1)$ there exists an $x \in X$ with $\norm{x} = 1$ such that
-		%
-		\begin{equation*}
-			\inf_{m \in M} \norm{x - m} \geq \alpha.
-		\end{equation*}
-	\end{displaytheorem}
-	%
-	Since the quotient norm on $X/M$ is given by $\norm{x+M} = \inf_{m \in M} \norm{x-m}$, this is precisely the statement of Exercise~5.12(b) [TODO: reference].
-
-	In Exercise~5.19(b) [TODO: reference] we use this to show that an infinite-dimensional normed vector space is not locally compact. It is easy to show that this is equivalent to the closed unit ball $\closure{B}_1(0)$ being compact.
-	
-	Conversely, every normed space $(X, \norm{\,\cdot\,})$ of dimension $d < \infty$ is locally compact: Choose a linear isomorphism $T \colon \complex^d \to X$ and let it induce a norm $\norm{\,\cdot\,}'$ on $X$. With this norm $T$ is an isometry, hence a homeomorphism, so the local compactness of $\complex^d$ is transferred to $(X, \norm{\,\cdot\,}')$. But all norms on finite-dimensional vector spaces are equivalent, so $(X, \norm{\,\cdot\,})$ is also locally compact.
-
-	This equivalence of local compactness and finite-dimensionality generalises to Hausdorff topological vector spaces. This is known as \emph{F.\,Riesz' theorem}.
-\end{remarkbreak}
-
 \begin{exerciseframed*}[12]
 	Let $X$ be a normed vector space and $M$ a proper closed subspace of $X$.
 	%
 	\begin{enumerate}
-		\item a
+		\item $\norm{x + M} = \inf_{m \in M} \norm{x + m}$ is a norm on $X/M$.
 		\item For any $\epsilon > 0$ there exists $x \in X$ such that $\norm{x} = 1$ and $\norm{x + M} \geq 1 - \epsilon$.
 		\item The projection map $\pi \colon X \to X/M$ has norm $1$.
-		\item d
-		\item e
+		\item If $X$ is complete, so is $X/M$.
+		\item The topology defined by the quotient norm is the quotient topology.
 	\end{enumerate}
 \end{exerciseframed*}
 
 \begin{solution}
 \begin{solutionsec}
-	\item a
+	\item Assume first that $M$ is not necessarily closed. For $x \in X$ and $\alpha \in \bbK \setminus \{0\}$ we have
+	%
+	\begin{equation*}
+		\norm{\alpha(x + M)}
+			= \norm{\alpha x + M}
+			= \inf_{m \in M} \norm{\alpha x + m}
+			= \abs{\alpha} \inf_{m \in M} \norm{x + \alpha\inv m}
+			= \abs{\alpha} \, \norm{x + M},
+	\end{equation*}
+	%
+	where the last equality follows since every element in $M$ is on the form $\alpha\inv m$ for some $m \in M$. Hence the map $\norm{\,\cdot\,}$ on $X/M$ is absolutely homogeneous.
+
+	For the triangle inequality, let $x,y \in X$ and $m,m' \in M$. Then
+	%
+	\begin{equation*}
+		\norm{(x + M) + (y + M)}
+			= \norm{(x + y) + M}
+			\leq \norm{x + y + m + m'}
+			\leq \norm{x + m} + \norm{y + m'},
+	\end{equation*}
+	%
+	which implies that
+	%
+	\begin{equation*}
+		\norm{(x + M) + (y + M)}
+			\leq \norm{x + M} + \norm{y + M}
+	\end{equation*}
+	%
+	as desired. Hence $\norm{\,\cdot\,}$ is a seminorm on $X/M$ for any $M$.
+
+	Finally assume that $M$ is closed, and let $x \in X \setminus M$. Then there exists an $r > 0$ such that $B_r(x) \intersect M = \emptyset$, so $\norm{x - m} \geq r$ for all $m \in M$. Hence $\norm{x + M} \geq r > 0$ as desired.
 	
 	\item Let $\epsilon > 0$, and pick some $y \in X \setminus M$. By definition of the quotient norm there exists an $m \in M$ such that
 	%
@@ -1287,8 +1318,53 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	
 	\item For any $x \in X$ we have $\norm{x + M} \leq \norm{x + 0}$, so $\norm{\pi} \leq 1$. But given $\epsilon > 0$, (b) shows that $\norm{x + M} \geq 1 - \epsilon$ for some $x \in X$ with $\norm{x} = 1$, so $\norm{\pi} \geq 1 - \epsilon$. Since $\epsilon$ was arbitrary, $\norm{\pi} \geq 1$.
 
-	\item d
-	\item e
+	\item We use Theorem~5.1. Let $\sum_{n=1}^\infty \xi_n$ be an absolutely convergent series with terms in $X/M$. For each $n \in \naturals$ there exists an $x_n \in X$ such that $\xi_n = x_n + M$ and such that $\norm{x_n} \leq \norm{\xi_n} + 2^{-n}$. It follows that
+	%
+	\begin{equation*}
+		\sum_{n=1}^\infty \norm{x_n}
+			\leq \sum_{n=1}^\infty \bigl( \norm{\xi_n} + 2^{-n} \bigr)
+			= \sum_{n=1}^\infty \norm{\xi_n} + 1
+			< \infty,
+	\end{equation*}
+	%
+	so by completeness of $X$, Theorem~5.1 implies that the series $\sum_{n=1}^\infty x_n$ converges to some $x \in X$. Since $\norm{\pi} \leq 1$, it follows that $\sum_{n=1}^\infty x_n + M$ converges to $x + M$, so $X/M$ is complete by Theorem~5.1.
+
+	\item The projection map $\pi \colon X \to X/M$ is continuous in the norm topology by (c), so the quotient topology is coarser than the norm topology. To prove the opposite inclusion we show that $\pi$ is a quotient map. It suffices to show that $\pi$ is open. To this end we prove the following lemma:
+	%
+	\begin{displaytheorem}
+		Let $X$ be a (semi)normed vector space and $M$ a subspace of $X$. For $r > 0$ and $x \in X$ we have
+		%
+		\begin{equation*}
+			B_r(\pi(x)) = \pi\bigl( B_r(x) \bigr).
+		\end{equation*}
+	\end{displaytheorem}
+	%
+	By homogeneity it suffices to consider the case $x = 0$. By (b) we have $\norm{\pi} = 1$, so for $y \in B_r(0)$ we have
+	%
+	\begin{equation*}
+		\norm{y + M}
+			\leq \norm{y}
+			< r,
+	\end{equation*}
+	%
+	and so $y + M \in B_r(0 + M)$, proving the inclusion \enquote{$\supseteq$}. For the opposite inclusion, for $y + M \in B_r(0 + M)$ we have
+	%
+	\begin{equation*}
+		\inf_{m \in M} \norm{y + m}
+			= \norm{y + M}
+			< r,
+	\end{equation*}
+	%
+	so there is an $m \in M$ such that $\norm{y+m} < r$. Hence $y+m \in B_r(0)$, and so
+	\begin{equation*}
+		y + M
+			= \pi(y + m)
+			\in \pi\bigl( B_r(0) \bigr),
+	\end{equation*}
+	%
+	proving the inclusion \enquote{$\subseteq$}.
+
+	In particular, the image of an open ball under $\pi$ is an open ball. It now follows that $\pi$ is open, since every open set is a union of open balls.
 \end{solutionsec}
 \end{solution}
 
@@ -1298,43 +1374,28 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	%
 	\begin{enumerate}
 		\item $\calN(T)$ is a closed subspace of $X$
-		\item There is a unique bounded $\tilde{T} \colon X/\calN(T) \to Y$ such that $T = \tilde{T} \circ \pi$, where $\pi \colon X \to X/\calN(T)$ is the projection. Moreover, $\norm{\tilde{T}} = \norm{T}$.
+		\item Let $M$ be a closed subspace of $X$ contained in $\calN(T)$. There is a unique bounded $\tilde{T} \colon X/M \to Y$ such that $T = \tilde{T} \circ \pi$, where $\pi \colon X \to X/M$ is the projection. Moreover, $\norm{\tilde{T}} = \norm{T}$.
 	\end{enumerate}
 \end{exerciseframed*}
+%
+Our version of [TODO: link] (b) is more general than Folland's.
 
 \begin{solution}
 \begin{solutionsec}
 	\item This is obvious since $T$ is continuous.
 	
-	\item Basic linear algebra yields a unique (not necessarily bounded) linear map $\tilde{T} \colon X/\calN(T) \to Y$ such that $T = \tilde{T} \circ \pi$. To compute its norm we begin with a lemma:
-	%
-	\begin{displaytheorem}
-		Let $X$ be a normed vector space and $M$ a closed subset of $X$. Define $B = \set{x \in X}{ \norm{x} < 1 }$ and $\tilde{B} = \set{x + M \in X/M}{ \norm{x+M} < 1 }$. Then $\pi(B) = \tilde{B}$.
-	\end{displaytheorem}
-	%
-	The inclusion $\pi(B) \subseteq \tilde{B}$ is obvious since $\norm{\pi} = 1$. For the opposite inclusion, let $x + M \in \tilde{B}$. By definition of the quotient norm there exists an $m \in M$ such that $\norm{x - m} < 1$, since $\norm{x + M} < 1$. But then $x - m \in \tilde{B}$, and so
-	%
-	\begin{equation*}
-		x + M
-			= \pi(x)
-			= \pi(x - m)
-			\in \pi(U),
-	\end{equation*}
-	%
-	proving the second inclusion.
-
-	Returning to the solution of the exercise, notice the following:
+	\item Basic linear algebra yields a unique (not necessarily bounded) linear map $\tilde{T} \colon X/M \to Y$ such that $T = \tilde{T} \circ \pi$. To compute its norm we use the lemma from the solution to [TODO: Exercise 5.12(e)]. Let $B = B_1(0) \subseteq X$ and $\tilde{B} = \pi(B) = B_1(0 + M) \subseteq X/M$. Then
 	%
 	\begin{align*}
 		\norm{\tilde{T}}
 			&= \sup\set[\big]{ \norm{\tilde{T}\xi} }{\xi \in \tilde{B}} \\
-			&= \sup\set[\big]{ \norm{\tilde{T}\xi} }{\xi \in \pi(U)} \\
+			&= \sup\set[\big]{ \norm{\tilde{T}\xi} }{\xi \in \pi(B)} \\
 			&= \sup\set[\big]{ \norm{\tilde{T}(\pi(x))} }{x \in B} \\
 			&= \sup\set[\big]{ \norm{Tx} }{x \in B} \\
 			&= \norm{T}.
 	\end{align*}
 	%
-	Here we use the fact that for an operator $T \colon X \to Y$ it suffices to consider $x \in X$ with $\norm{x} < 1$ in computing its norm: For if $\norm{x} = 1$, let $\epsilon_n = 1 - 1/n$. Then $\norm{\epsilon_n x} < 1$, and
+	Here we use the fact that for an operator $T \colon X \to Y$ it suffices to consider $x \in X$ with $\norm{x} < 1$ in computing its norm: For assume that $\norm{x} = 1$, and let $\epsilon_n = 1 - 1/n$. Then $\norm{\epsilon_n x} < 1$, and
 	%
 	\begin{equation*}
 		\norm{Tx}
@@ -1729,18 +1790,18 @@ This says that the dual functor $(-)^* \colon \catNor \to \catNor$ sends product
 \begin{remarkbreak}[Induced vector space topologies]
 	Let $X$ be a vector space and $Y$ a normed vector space over $\bbK$, and let $\calL(X,Y)$ be the vector space of all linear maps $X \to Y$. Any collection $\calF \subseteq \calL(X,Y)$ of course induces an initial topology on $X$. On the other hand, each map $T \in \calF$ defines a seminorm $p_T$ on $X$ given by $p_T(x) = \norm{Tx}$. We claim that the initial topology on $X$ induced by $\calF$ is the same as the seminorm topology induced by the family $\{p_T\}_{T \in \calF}$ of seminorms as in Theorem~5.14.
 
-	To see this, notice that, for $x \in X$ and $\epsilon > 0$,
+	To see this, notice that, for $x_0 \in X$ and $\epsilon > 0$,
 	%
 	\begin{align*}
-		U_{x T \epsilon}
-			&= \set{ y \in X }{ p_T(y-x) < \epsilon } \\
-			&= \set[\big]{ y \in X }{ \norm{Ty-Tx} < \epsilon } \\
-			&= T\preim \bigl( B_\epsilon(Tx) \bigr).
+		U_{x_0 T \epsilon}
+			&= \set{ x \in X }{ p_T(x-x_0) < \epsilon } \\
+			&= \set[\big]{ x \in X }{ \norm{Tx-Tx_0} < \epsilon } \\
+			&= T\preim \bigl( B_\epsilon(Tx_0) \bigr).
 	\end{align*}
 	%
 	The initial topology on $X$ induced by $\calF$ is generated by the sets on the right-hand side.\footnote{This is clear if each $T$ is surjective. But $T \colon X \to Y$ is continuous iff the corresponding map with codomain $T(X)$ is continuous, so it suffices to consider balls in $Y$ with centres in $T(X)$.} On the other hand, the seminorm topology induced by $\{p_T\}_{T \in \calF}$ is generated by the sets on the left-hand side. Hence the two topologies agree.
 
-	The most common application of the above is when $U$ is a subspace of $\calL(X,Y)$ and $\calF$ is the set of evaluation maps $\ev_x \colon U \to Y$ given by $\ev_x(T) = Tx$ for $x \in X$. It is easy to show that the evaluation maps are in fact linear. Since the evaluation maps obviously separate points in $\calL(X,Y)$, the resulting topology is Hausdorff (hence $T_3$ since topological groups are automatically regular; in fact they are completely regular, though this is not trivial to prove). We give some examples of this:
+	The most common application of the above is when $U$ is a subspace of $\calL(X,Y)$ and $\calF$ is the set of evaluation maps $\ev_x \colon U \to Y$ given by $\ev_x(T) = Tx$ for $x \in X$. It is easy to show that the evaluation maps are in fact linear. Since the evaluation maps obviously separate points in $\calL(X,Y)$, the resulting topology is Hausdorff (hence $T_3$ since topological groups are automatically regular; in fact they are completely regular, though this is not trivial to prove). Notice also that the product topology on $Y^X$ is precisely induced by the evaluation maps, so $U \subseteq Y^X$ in fact carries the subspace topology and is thus a topology of pointwise convergence. We give some examples of this:
 	%
 	\begin{enumerate}
 		\item Let $X$ be a topological vector space with topological dual $X^*$. Then the \emph{weak$^*$-topology} on $X^*$ is the initial topology induced by the collection of evaluation maps $\ev_x \colon X^* \to \bbK$. Since $\bbK$ is itself a normed space, the above shows that the weak$^*$-topology is a seminorm topology.
