@@ -1030,7 +1030,7 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \begin{remark}
 	We give a slightly different proof of Proposition~5.2.
 
-	Clearly if $T \colon X \to Y$ is continuous, then it is continuous at $0$. And if this is so, then there is a $\delta > 0$ such that $\norm{h} < \delta$ implies $\norm{Th} \leq 1$, for $h \in X$. For all $x \in X$ we thus have
+	Clearly if $T \colon X \to Y$ is continuous, then it is continuous at $0$. And if this is so, then there is a $\delta > 0$ such that $\norm{h} \leq \delta$ implies $\norm{Th} \leq 1$, for $h \in X$. For all $x \in X$ we thus have
 	%
 	\begin{equation*}
 		\norm{Tx}
@@ -1327,7 +1327,7 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 			< \infty,
 	\end{equation*}
 	%
-	so by completeness of $X$, Theorem~5.1 implies that the series $\sum_{n=1}^\infty x_n$ converges to some $x \in X$. Since $\norm{\pi} \leq 1$, it follows that $\sum_{n=1}^\infty x_n + M$ converges to $x + M$, so $X/M$ is complete by Theorem~5.1.
+	so by completeness of $X$, Theorem~5.1 implies that the series $\sum_{n=1}^\infty x_n$ converges to some $x \in X$. Since $\pi$ is continuous, it follows that $\sum_{n=1}^\infty x_n + M$ converges to $x + M$, so $X/M$ is complete by Theorem~5.1.
 
 	\item The projection map $\pi \colon X \to X/M$ is continuous in the norm topology by (c), so the quotient topology is coarser than the norm topology. To prove the opposite inclusion we show that $\pi$ is a quotient map. It suffices to show that $\pi$ is open. To this end we prove the following lemma:
 	%
