@@ -1911,6 +1911,32 @@ This says that the dual functor $(-)^* \colon \catNor \to \catNor$ sends product
 	It might seem possible to alter a function $f$ on a null set and allow it to \emph{attain} its essential supremum. This is only possible if the measure space $(X,\calE,\mu)$ has nonempty null sets. However, consider for instance the space $(\naturals, \powerset{\naturals}, \tau)$, where $\tau$ is the counting measure. On this space the function $f(n) = 1-1/n$ has (essential) supremum $1$, but it does not attain it. It also cannot be altered on a nonempty null set, since there are no such sets.
 \end{remarkbreak}
 
+\addtocounter{section}{1}
+\section{Some Useful Inequalities}
+
+\begin{remarkbreak}[Minkowski's inequality for integrals]
+	We give a different proof of Theorem~6.19 that does not require duality. Assume that $f \geq 0$ and let $H(x) = \int_Y f(x,y) \dif\nu(y)$. Notice that the left-hand side of the inequality is $\norm{H}_p$. Then Tonelli's theorem and Hölder's inequality imply that
+	%
+	\begin{align*}
+		\norm{H}_p^p
+			&= \int_X \int_Y f(x,y) \dif\nu(y) H(x)^{p-1} \dif\mu(x) \\
+			&= \int_Y \int_X f(x,y) H(x)^{p-1} \dif\mu(x) \dif\nu(y) \\
+			&\leq \int_Y \Bigl( \int_X f(x,y)^p \dif\mu(x) \Bigr)^{1/p} \Bigl( \int_X H(x)^{q(p-1)} \dif\mu(x) \Bigr)^{1/q} \dif\nu(y) \\
+			&= \int_Y \Bigl( \int_X f(x,y)^p \dif\mu(x) \Bigr)^{1/p} \norm{H}_p^{p-1} \dif\nu(y).
+	\end{align*}
+	%
+	If $\norm{H}_p < \infty$ then the claim follows, so assume that $\norm{H}_p = \infty$. Choose sequences $(A_n)_{n \in \naturals}$ and $(B_m)_{m \in \naturals}$ of measurable subsets of $X$ and $Y$, respectively, such that $A_n \uparrow X$ and $B_m \uparrow X$, and such that $\mu(A_n) < \infty$ and $\nu(B_m) < \infty$. For $k \in \naturals$ let $f_k = f \meet k$ and notice that replacing $f$ in the definition of $H$ with $\indicator{A_n} \indicator{B_m} f_k$ yields $\norm{H}_p < \infty$, so we may apply Minkowski's inequality to this function:
+	%
+	\begin{equation*}
+		\biggl( \int_{A_n} \Bigl( \int_{B_m} f_k(x,y) \dif\nu(y) \Bigr)^p \dif\mu(x) \biggr)^{1/p}
+			\leq \int_{A_n} \Bigl( \int_{B_m} f_k(x,y)^p \dif\mu(x) \Bigr)^{1/p} \dif\nu(y).
+	\end{equation*}
+	%
+	Letting $n,m,k \to \infty$, monotone convergence yields the theorem.
+
+	TODO second half.
+\end{remarkbreak}
+
 
 
 \addtocounter{chapter}{1}
