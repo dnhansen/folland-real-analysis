@@ -1915,7 +1915,7 @@ This says that the dual functor $(-)^* \colon \catNor \to \catNor$ sends product
 \section{Some Useful Inequalities}
 
 \begin{remarkbreak}[Minkowski's inequality for integrals]
-	We give a different proof of Theorem~6.19 that does not require duality. Assume that $f \geq 0$ and let $H(x) = \int_Y f(x,y) \dif\nu(y)$. Notice that the left-hand side of the inequality is $\norm{H}_p$. Then Tonelli's theorem and Hölder's inequality imply that
+	We give a different proof of Theorem~6.19 that does not require duality. Assume that $f \geq 0$ and let $p \in (1,\infty)$ and $H(x) = \int_Y f(x,y) \dif\nu(y)$. Notice that the left-hand side of the inequality is $\norm{H}_p$. Then Tonelli's theorem and Hölder's inequality imply that
 	%
 	\begin{align*}
 		\norm{H}_p^p
@@ -1929,12 +1929,12 @@ This says that the dual functor $(-)^* \colon \catNor \to \catNor$ sends product
 	%
 	\begin{equation*}
 		\biggl( \int_{A_n} \Bigl( \int_{B_m} f_k(x,y) \dif\nu(y) \Bigr)^p \dif\mu(x) \biggr)^{1/p}
-			\leq \int_{A_n} \Bigl( \int_{B_m} f_k(x,y)^p \dif\mu(x) \Bigr)^{1/p} \dif\nu(y).
+			\leq \int_{B_m} \Bigl( \int_{A_n} f_k(x,y)^p \dif\mu(x) \Bigr)^{1/p} \dif\nu(y).
 	\end{equation*}
 	%
 	Letting $n,m,k \to \infty$, monotone convergence yields the theorem.
 
-	TODO second half.
+	The second part for $p \in [1,\infty)$ follows by applying the first part to $\abs{f}$ and using the triangle inequality for integrals.
 \end{remarkbreak}
 
 
