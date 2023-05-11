@@ -2039,6 +2039,27 @@ This says that the dual functor $(-)^* \colon \catNor \to \catNor$ sends product
 \end{remarkbreak}
 
 
+\begin{remarkbreak}[Approximate identities and pointwise convergence]
+	\label{rem:approx-identity-pointwise}
+	We prove the following version of Theorem~8.15:
+	%
+	\begin{displaytheorem}
+		Let $\phi$ be an approximate identity. If $f \in L^\infty$ and $f$ is continuous at some $x \in \reals^d$, then $f * \phi_t(x) \to f(x)$ as $t \to 0$.
+	\end{displaytheorem}
+	%
+	Since $\phi$ is an approxiate identity, we have
+	%
+	\begin{align*}
+		f * \phi_t(x) - f(x)
+			&= \int_{\reals^d} \bigl( f(x-y) - f(x) \bigr) \phi_t(y) \dif y \\
+			&= \int_{\reals^d} \bigl( f(x-y) - f(x) \bigr) t^{-1} \phi_1(y/t) \dif y \\
+			&= \int_{\reals^d} \bigl( f(x-tz) - f(x) \bigr) \phi_1(z) \dif z.
+	\end{align*}
+	%
+	The last integrand is dominated by $\norm{f}_\infty \phi_1(z)$, so the claim follows from the dominated convergence theorem.
+\end{remarkbreak}
+
+
 \section{The Fourier Transform}
 
 \begin{remarkbreak}[Uniform continuity of Fourier transforms]
@@ -2051,6 +2072,57 @@ This says that the dual functor $(-)^* \colon \catNor \to \catNor$ sends product
 	\end{align*}
 	%
 	Since $2\abs{f}$ is integrable and dominates the integrand, the dominated convergence theorem implies that the above goes to zero as $\xi-\eta \to 0$.
+\end{remarkbreak}
+
+
+\begin{remarkbreak}[The Plancherel theorem]
+	We give a different proof of the Plancherel theorem, based on Rudin.
+	%
+	\begin{displaytheorem}
+		If $f \in L^1 \intersect L^2$, then $\hat{f} \in L^2$ and $\norm{\hat{f}}_2 = \norm{f}_2$.
+	\end{displaytheorem}
+	%
+	Let $\tilde{f}(x) = \overline{f(-x)}$ and define a function $g \colon \reals^d \to \complex$ by $g = f * \tilde{f}$. Then $g \in L^1$ by Young's inequality, and we also have $g(x) = \inner{\tau_{-x}f}{f}$, so $h$ is continuous by Proposition~8.5. Furthermore,
+	%
+	\begin{equation*}
+		\abs{g(x)}
+			\leq \norm{\tau_{-x}f}_2 \norm{f}_2
+			= \norm{f}_2^2
+	\end{equation*}
+	%
+	by the Cauchy--Schwarz inequality so $g$ is bounded. Finally notice that $\hat{g} = \abs{\hat{f}}^2$ by Theorem~8.22(c). Letting $\phi(x) = \e^{-\pi\norm{x}^2}$, \cref{rem:approx-identity-pointwise} implies that
+	%
+	\begin{equation*}
+		\lim_{t \to 0} g * \phi_t(0)
+			= g(0)
+			= \norm{f}_2^2.
+	\end{equation*}
+	%
+	On the other hand, as in the proof of the inversion theorem we have, by the monotone convergence theorem,
+	%
+	\begin{equation*}
+		\lim_{t \to 0} g * \phi_t(0)
+			= \lim_{t \to 0} \int_{\reals^d} \e^{-\pi t^2 \norm{\xi}^2} \hat{g}(\xi) \dif \xi
+			= \int_{\reals^d} \abs{\hat{f}(\xi)}^2 \dif \xi
+			= \norm{\hat{f}}_2^2,
+	\end{equation*}
+	%
+	proving the claim.
+
+	\begin{displaytheorem}
+		Let $Y = \set{\hat{f}}{f \in L^1 \intersect L^2}$. Then $Y$ is dense in $L^2$.
+	\end{displaytheorem}
+	%
+	Notice that $Y \subseteq L^2$ by the above. Let $w \in Y^\perp$, and let $\psi_{t,x}(y) = \phi_t(x-y)$. Then $\psi_{t,x}$ is the Fourier transform of the function $\xi \mapsto \exp(2\pi \iu \inner{\xi}{x} - \pi t^2 \norm{\xi}^2)$ by the proof of the inversion theorem, and this is a function from $L^1 \intersect L^2$ so $\psi_{t,x} \in Y$. Furthermore,
+	%
+	\begin{equation*}
+		\phi_t * \conj{w}(x)
+			= \int_{\reals^d} \phi_t(x-y) \conj{w(y)} \dif y
+			= \inner{\psi_{t,x}}{w}
+			= 0.
+	\end{equation*}
+	%
+	On the other hand, $\phi_t * \conj{w} \to \conj{w}$ in $L^1$ as $t \to 0$, so $w = 0$. This proves the claim.
 \end{remarkbreak}
 
 \end{document}
