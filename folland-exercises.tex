@@ -2125,4 +2125,46 @@ This says that the dual functor $(-)^* \colon \catNor \to \catNor$ sends product
 	On the other hand, $\phi_t * \conj{w} \to \conj{w}$ in $L^1$ as $t \to 0$, so $w = 0$. This proves the claim.
 \end{remarkbreak}
 
+
+\chapter{Elements of Distribution Theory}
+
+\section{Distributions}
+
+\newcommand{\loc}{\mathrm{loc}}
+
+\begin{remarkbreak}[The fundamental lemma of the calculus of variations]
+	We prove the following result:
+	%
+	\begin{displaytheorem}
+		Let $U \subseteq \reals^d$ be open, and let $f \in L^1_{\loc}(U)$. If
+		%
+		\begin{equation*}
+			\int_U f(x) \phi(x) \dif x
+				= 0
+		\end{equation*}
+		%
+		for all $\phi \in C_c^\infty(U)$, then $f = 0$ a.e.
+	\end{displaytheorem}
+	%
+	First assume that $f \in L^1(U)$. Let $\phi \in C_c^\infty(U)$ have unit integral, and notice that the hypothesis implies that
+	%
+	\begin{equation*}
+		f * \phi_t(x)
+			= \int_U f(y) \phi_t(x - y) \dif y
+			= 0
+	\end{equation*}
+	%
+	for all $x \in U$. But Theorem~8.14(a) implies that $f * \phi_t \to f$ in $L^1$ as $t \to 0$, so $f = 0$ a.e.
+
+	Next assume that $f \in L^1_{\loc}(U)$. Since $U$ is $\sigma$-compact there is an increasing sequence $(K_n)_{n \in \naturals}$ of compact subsets of $U$ such that $U = \bigunion_{n \in \naturals} K_n$. By Theorem~8.18, let $\psi_n$ be a smooth Urysohn function supported in $U$ that is $1$ on $K_n$. Then $f \psi_n \in L^1(U)$, and notice that if $\phi \in C_c^\infty(U)$, then also $\psi_n \phi \in C_c^\infty(U)$. It follows that
+	%
+	\begin{equation*}
+		\int_U f(x) \psi_n(x) \phi(x) \dif x
+			= 0
+	\end{equation*}
+	%
+	for all such $\phi$, so the above implies that $f \psi_n = 0$ a.e. But since $\psi_n \uparrow \indicator{U}$, this shows that $f = 0$ a.e.
+\end{remarkbreak}
+
+
 \end{document}
