@@ -76,6 +76,7 @@
 \newcommand{\ev}{\mathrm{ev}}
 \newcommand{\calT}{\mathcal{T}}
 \newcommand{\calU}{\mathcal{U}}
+\newcommand{\calV}{\mathcal{V}}
 \newcommand{\calB}{\mathcal{B}}
 \newcommand{\calE}{\mathcal{E}}
 \newcommand{\calC}{\mathcal{C}}
@@ -937,6 +938,22 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 	\end{equation*}
 	%
 	as desired.
+\end{solution}
+
+
+\begin{exerciseframed*}[55]
+	Every open set in a second countable LCH space is $\sigma$-compact.
+\end{exerciseframed*}
+
+\begin{solution}
+	Let $X$ be a second countable LCH space, and let $U \subseteq X$ be open. By Proposition~4.31, for all $x \in U$ there is a precompact open set $V \subseteq X$ such that $x \in V \subseteq \closure{V} \subseteq U$. The collection of such $V$ is an open cover of $U$, so there is a countable subcover $\calV$ by second countability (inherited to $U$, so $U$ is Lindelöf). But then
+	%
+	\begin{equation*}
+		U
+			= \bigunion_{V \in \calV} \closure{V},
+	\end{equation*}
+	%
+	so $U$ is a countable union of compact sets.
 \end{solution}
 
 
