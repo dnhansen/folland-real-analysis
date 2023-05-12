@@ -2076,7 +2076,7 @@ This says that the dual functor $(-)^* \colon \catNor \to \catNor$ sends product
 
 
 \begin{remarkbreak}[The Plancherel theorem]
-	We give a different proof of the Plancherel theorem, based on Rudin.
+	We give a different proof of the Plancherel theorem, based on Rudin, that does not make use of the Schwartz space.
 	%
 	\begin{displaytheorem}
 		If $f \in L^1 \intersect L^2$, then $\hat{f} \in L^2$ and $\norm{\hat{f}}_2 = \norm{f}_2$.
@@ -2123,6 +2123,30 @@ This says that the dual functor $(-)^* \colon \catNor \to \catNor$ sends product
 	\end{equation*}
 	%
 	On the other hand, $\phi_t * \conj{w} \to \conj{w}$ in $L^1$ as $t \to 0$, so $w = 0$. This proves the claim.
+
+	\begin{displaytheorem}
+		The Fourier transform $\calF|_{L^1 \intersect L^2}$ extends uniquely to a bounded operator $\tilde{\calF}$ on $L^2$, and $\tilde{\calF}$ is a unitary isomorphism on $L^2$.
+	\end{displaytheorem}
+	%
+	The BLT theorem yields a unique bounded operator $\tilde{\calF}$ on $L^2$ that extends $\calF|_{L^1 \intersect L^2}$. This is an isometry, since if $f \in L^2$ and $(f_n)$ is a sequence in $L^1 \intersect L^2$ converging to $f$, then
+	%
+	\begin{equation*}
+		\norm{\tilde{\calF} f}
+			= \lim_{n \to \infty} \norm{\tilde{\calF} f_n}
+			= \lim_{n \to \infty} \norm{f_n}
+			= \norm{f},
+	\end{equation*}
+	%
+	by continuity of the norm. Furthermore, if $g \in L^2$ then there is a sequence $(g_n)$ in $Y$ converging to $g$. But then $g_n = \calF f_n$ for some $f_n \in L^1 \intersect L^2$, and $(f_n)$ is a Cauchy sequence since $\calF$ is an isometry, and hence it converges to some $f \in L^2$. But then
+	%
+	\begin{equation*}
+		g
+			= \lim_{n \to \infty} g_n
+			= \lim_{n \to \infty} \calF f_n
+			= \calF f,
+	\end{equation*}
+	%
+	since $\calF$ is continuous. Thus $\tilde{\calF}$ is surjective.
 \end{remarkbreak}
 
 
