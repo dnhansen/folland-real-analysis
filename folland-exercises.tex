@@ -957,7 +957,32 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \end{solution}
 
 
-\addtocounter{section}{1}
+\section{Two Compactness Theorems}
+
+\begin{remarkbreak}[Completeness of uniform convergence on compact sets]
+	Let $X$ be a $\sigma$-compact LCH space, and let $\rho$ be the metric from Exercise~56d on $\complex^X$ of uniform convergence on compact sets. We claim that $C(X)$ is complete in this metric.
+
+	Let $(f_n)_{n\in\naturals}$ be a Cauchy sequence in $C(X)$, and let $(K_j)_{j\in\naturals}$ be an exhaustion of $X$ by compact sets. For any compact $K \subseteq X$ the sequence $(f_n|_K)$ is then Cauchy in $C(K)$ (equipped with the uniform metric), hence converges to a unique function $f_K$ by Proposition~4.13. Notice that $f_K = f_{K'}$ on $K \intersect K'$ for any other compact set $K'$. The function $f \colon X \to \complex$ given by $f(x) = f_K(x)$ if $x \in K$ is thus well-defined.
+
+	Note that $f$ is continuous on $\interior{K_j}$, so since the $\interior{K_j}$ form an open cover of $X$, $f$ is continuous on $X$. And $f_n$ converges uniformly to $f$ on compact sets since any compact set is covered by finitely many $\interior{K_j}$.
+\end{remarkbreak}
+
+
+\begin{exerciseframed*}[62]
+	Rephrase Theorem~4.44 in a form similar to Theorem~4.43 by using the metric in Exercise~56d.
+\end{exerciseframed*}
+
+\begin{solution}
+	Theorem~4.44 may be phrased as follows:
+	%
+	\begin{displaytheorem}
+		Let $X$ be a $\sigma$-compact LCH space. If $\calF$ is an equicontinuous, pointwise bounded subset of $C(X)$, then $\calF$ is totally bounded in the metric of uniform convergence on compact sets, and the closure of $\calF$ in $C(X)$ is compact.
+	\end{displaytheorem}
+	%
+	Theorem~4.44 says that every sequence in $\calF$ has a subsequence converging to an element in $C(X)$, so $\closure{\calF}$ is sequentially compact, hence compact. Then it is in particular totally bounded, so $\calF$ is also totally bounded.
+\end{solution}
+
+
 \section{The Stone--Weierstrass Theorem}
 
 \begin{remark}
