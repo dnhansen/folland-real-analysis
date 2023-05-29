@@ -960,11 +960,13 @@ Of course part (a) is trivial unless we require the sets to be nonempty.
 \section{Two Compactness Theorems}
 
 \begin{remarkbreak}[Completeness of uniform convergence on compact sets]
-	Let $X$ be a $\sigma$-compact LCH space, and let $\rho$ be the metric from Exercise~56d on $\complex^X$ of uniform convergence on compact sets. We claim that $C(X)$ is complete in this metric.
+	Let $X$ be a $\sigma$-compact LCH space, and consider the metric from Exercise~56d on $\complex^X$ of uniform convergence on compact sets. We claim that $C(X)$ is complete in this metric.
 
-	Let $(f_n)_{n\in\naturals}$ be a Cauchy sequence in $C(X)$, and let $(K_j)_{j\in\naturals}$ be an exhaustion of $X$ by compact sets. For any compact $K \subseteq X$ the sequence $(f_n|_K)$ is then Cauchy in $C(K)$ (equipped with the uniform metric), hence converges to a unique function $f_K$ by Proposition~4.13. Notice that $f_K = f_{K'}$ on $K \intersect K'$ for any other compact set $K'$. The function $f \colon X \to \complex$ given by $f(x) = f_K(x)$ if $x \in K$ is thus well-defined.
+	Let $(f_n)_{n\in\naturals}$ be a Cauchy sequence in $C(X)$. For any compact $K \subseteq X$ the sequence $(f_n|_K)$ is then Cauchy in $C(K)$ (equipped with the uniform metric), hence converges to a unique function $f_K$ by Proposition~4.13. Notice that $f_K = f_{K'}$ on $K \intersect K'$ for any other compact set $K'$. The function $f \colon X \to \complex$ given by $f(x) = f_K(x)$ if $x \in K$ is thus well-defined.
 
-	Note that $f$ is continuous on $\interior{K_j}$, so since the $\interior{K_j}$ form an open cover of $X$, $f$ is continuous on $X$. And $f_n$ converges uniformly to $f$ on compact sets since any compact set is covered by finitely many $\interior{K_j}$.
+	Since $X$ is a $k$-space\footnote{Recall that a topological space $X$ is called a \emph{$k$-space} if its topology is coherent with the set of compact subsets of $X$.} by Lemma~4.37, it follows that $f$ is continuous. Alternatively let $(K_j)_{j\in\naturals}$ be an exhaustion of $X$ by compact sets, and note that $f$ is continuous on $\interior{K_j}$. Since the $\interior{K_j}$ form an open cover of $X$, $f$ is then continuous on $X$. And $f_n$ converges uniformly to $f$ on compact sets since any compact set is covered by finitely many $\interior{K_j}$.
+
+	This result can be generalised to the space $C(X,Y)$, where $X$ is a $k$-space and $Y$ is a complete topological space, in that we note that the assumptions of $\sigma$-compactness (and Hausdorff) and $Y = \reals$ are only required for uniform convergence on compact sets to be given by a metric. See e.g. Theorem~43.11 in Willard.
 \end{remarkbreak}
 
 
